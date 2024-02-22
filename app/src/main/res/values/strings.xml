@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Fleamart</string>
+    <string name="imgLogo">Fleamart Logo</string>
+    <string name="etUsername">Username</string>
+    <string name="etPassword">Password</string>
+    <string name="btnLogin">Login</string>
+    <string name="btnForgotPassword">Forgot Password?</string>
+    <string name="btnSignUp">Sign Up</string>
+</resources>
