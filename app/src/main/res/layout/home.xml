@@ -10,48 +10,60 @@
         android:id="@+id/tvFullName"
         android:layout_width="104dp"
         android:layout_height="36dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="91dp"
         android:text="FullName"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="91dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnBuy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="60dp"
         android:text="Buy"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="150dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFullName" />
 
     <Button
         android:id="@+id/btnSell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="40dp"
         android:text="Sell"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="210dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBuy" />
 
     <Button
         android:id="@+id/btnShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="40dp"
         android:text="Share"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="272dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSell" />
 
     <Button
         android:id="@+id/btnTransactions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="40dp"
         android:text="Transactions"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="320dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnShare" />
 
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="100dp"
         android:text="Logout"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="649dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTransactions" />
 </androidx.constraintlayout.widget.ConstraintLayout>
