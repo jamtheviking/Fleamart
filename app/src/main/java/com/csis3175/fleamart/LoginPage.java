@@ -39,15 +39,23 @@ public class LoginPage extends AppCompatActivity {
 
         String un = username.getText().toString();
         String pw = password.getText().toString();
+
+        User user = usersDB.getUserDetails(un, pw);
         boolean isValidUser = usersDB.isValidUser(un, pw);
         usersDB.close();
 
         if (isValidUser) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
+            showHomePage(user);
         } else {
             // Invalid credentials
             // Display an error message
         }
+    }
+
+    private void showHomePage(User user) {
+        // Example: Pass user details to the home page activity
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.csis3175.fleamart;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -66,6 +67,44 @@ public class Users extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return isValid;
+    }
+
+
+    @SuppressLint("Range")//This suppresses warning that the column index might return -1
+    public User getUserDetails(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                TABLE_USERS,
+                new String[]{COLUMN_ID, COLUMN_FIRST_NAME, COLUMN_LAST_NAME, COLUMN_EMAIL},
+                "username=? AND password=?",
+                new String[]{username, password},
+                null,
+                null,
+                null
+        );
+
+        User user = null;
+
+        try {
+            if (cursor.moveToFirst()) {
+                int idColumnIndex = cursor.getColumnIndex(COLUMN_ID);
+                if (idColumnIndex != -1) {
+                    user = new User();
+                    user.setId(cursor.getInt(idColumnIndex));
+                    user.setFirstName(cursor.getString(cursor.getColumnIndex(COLUMN_FIRST_NAME)));
+                    user.setLastName(cursor.getString(cursor.getColumnIndex(COLUMN_LAST_NAME)));
+                    user.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)));
+                    // Add other user details as needed
+                } else {
+                    // Handle the case where the COLUMN_ID does not exist
+                }
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return user;
     }
 
 }
