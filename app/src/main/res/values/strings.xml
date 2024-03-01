@@ -6,4 +6,11 @@
     <string name="btnLogin">Login</string>
     <string name="btnForgotPassword">Forgot Password?</string>
     <string name="btnSignUp">Sign Up</string>
+    <string name="btnRegister">Register</string>
+    <string name="tvFirstName">First Name</string>
+    <string name="tvLastName">Last Name</string>
+    <string name="tvEmail">Email Address</string>
+    <string name="tvPassword">Password</string>
+    <string name="tvConfirmPassword">Confirm Password</string>
+    <string name="etUsernameSignUp">Username</string>
 </resources>
