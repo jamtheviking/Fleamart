@@ -49,6 +49,7 @@ public class Users extends SQLiteOpenHelper {
     public void insertUser(String firstName, String lastName, String username, String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
         values.put(COLUMN_FIRST_NAME, firstName);
         values.put(COLUMN_LAST_NAME, lastName);
         values.put(COLUMN_USERNAME, username);

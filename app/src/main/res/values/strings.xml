@@ -13,4 +13,14 @@
     <string name="tvPassword">Password</string>
     <string name="tvConfirmPassword">Confirm Password</string>
     <string name="etUsernameSignUp">Username</string>
+
+
+    <string name="tvItemDetails">Item Details</string>
+    <string name="etItemName">Enter Item Name</string>
+    <string name="etItemDescription">Enter Description</string>
+    <string name="etItemCategory">Enter Category</string>
+    <string name="etItemPrice">Enter Price</string>
+    <string name="ivUploadItem">Upload Item</string>
+    <string name="btnUploadImage">Upload Image</string>
+    <string name="btnPostItem">Post Item for Sale</string>
 </resources>
