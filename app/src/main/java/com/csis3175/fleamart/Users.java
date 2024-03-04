@@ -1,11 +1,15 @@
 package com.csis3175.fleamart;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Users extends SQLiteOpenHelper {
 
@@ -19,6 +23,11 @@ public class Users extends SQLiteOpenHelper {
     private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
+    private static final String TABLE_ITEMS = "items";
+    private static final String COLUMN_ITEM_ID = "id";
+    private static final String COLUMN_ITEM_NAME = "name";
+    private static final String COLUMN_ITEM_PRICE = "price";
+    private static final String COLUMN_ITEM_DESCRIPTION = "description";
     public Users(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -33,7 +42,15 @@ public class Users extends SQLiteOpenHelper {
                 + COLUMN_USERNAME + " TEXT,"
                 + COLUMN_PASSWORD + " TEXT"
                 + ")";
+        String CREATE_ITEMS_TABLE = "CREATE TABLE " + TABLE_ITEMS + "("
+                + COLUMN_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_ITEM_NAME + " TEXT,"
+                + COLUMN_ITEM_PRICE + " REAL,"
+                + COLUMN_ITEM_DESCRIPTION + " TEXT"
+                // Add more columns as needed
+                + ")";
         db.execSQL(CREATE_USERS_TABLE);
+        db.execSQL(CREATE_ITEMS_TABLE);
     }
 
     @Override
@@ -42,6 +59,7 @@ public class Users extends SQLiteOpenHelper {
         if (oldVersion < newVersion) {
             // Perform necessary upgrades, e.g., add new columns or update existing ones
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEMS);
             onCreate(db);
         }
     }
@@ -59,6 +77,19 @@ public class Users extends SQLiteOpenHelper {
         db.insert(TABLE_USERS, null, values);
         db.close(); // Closing database connection
     }
+
+    public void insertItem(String name, String price, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ITEM_NAME, name);
+        values.put(COLUMN_ITEM_PRICE, price);
+        values.put(COLUMN_ITEM_DESCRIPTION, description);
+
+        db.insert(TABLE_ITEMS, null, values);
+        db.close();
+    }
+
+
 
     public boolean isValidUser(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
