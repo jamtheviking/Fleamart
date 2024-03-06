@@ -28,6 +28,9 @@ public class Users extends SQLiteOpenHelper {
     private static final String COLUMN_ITEM_NAME = "name";
     private static final String COLUMN_ITEM_PRICE = "price";
     private static final String COLUMN_ITEM_DESCRIPTION = "description";
+    private static final String COLUMN_ITEM_LOCATION = "location";
+    private static final String COLUMN_ITEM_CATEGORY = "category";
+    private static final String COLUMN_ITEM_TAG = "tag";
     public Users(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -46,8 +49,10 @@ public class Users extends SQLiteOpenHelper {
                 + COLUMN_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_ITEM_NAME + " TEXT,"
                 + COLUMN_ITEM_PRICE + " REAL,"
-                + COLUMN_ITEM_DESCRIPTION + " TEXT"
-                // Add more columns as needed
+                + COLUMN_ITEM_DESCRIPTION + " TEXT,"
+                + COLUMN_ITEM_LOCATION + " TEXT,"
+                + COLUMN_ITEM_CATEGORY + " TEXT,"
+                + COLUMN_ITEM_TAG + " TEXT"
                 + ")";
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_ITEMS_TABLE);
@@ -78,12 +83,15 @@ public class Users extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public void insertItem(String name, String price, String description) {
+    public void insertItem(String name, String price, String description, String location, String category, String tag) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_ITEM_NAME, name);
         values.put(COLUMN_ITEM_PRICE, price);
         values.put(COLUMN_ITEM_DESCRIPTION, description);
+        values.put(COLUMN_ITEM_LOCATION, location);
+        values.put(COLUMN_ITEM_CATEGORY, category);
+        values.put(COLUMN_ITEM_TAG, tag);
 
         db.insert(TABLE_ITEMS, null, values);
         db.close();

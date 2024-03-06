@@ -13,4 +13,11 @@
     <string name="tvPassword">Password</string>
     <string name="tvConfirmPassword">Confirm Password</string>
     <string name="etUsernameSignUp">Username</string>
+    <string-array name="itemCategories">
+        <item>Furniture</item>
+        <item>Appliances</item>
+        <item>Home decor</item>
+        <item>Garden and outdoor</item>
+        <item>Electronics</item>
+    </string-array>
 </resources>
