@@ -34,6 +34,8 @@ public class Sell extends AppCompatActivity {
                 String itemCategory = etItemCategory.getSelectedItem().toString();
                 String itemTags = etItemTags.getText().toString();
 
+
+
                 Users dbHelper = new Users(Sell.this);
                 dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags);
 
