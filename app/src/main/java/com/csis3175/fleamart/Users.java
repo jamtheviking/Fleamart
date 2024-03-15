@@ -1,15 +1,11 @@
 package com.csis3175.fleamart;
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Users extends SQLiteOpenHelper {
 
@@ -110,7 +106,7 @@ public class Users extends SQLiteOpenHelper {
 
 
     @SuppressLint("Range")//This suppresses warning that the column index might return -1
-    public User getUserDetails(String username, String password) {
+    public com.csis3175.fleamart.User getUserDetails(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(
                 TABLE_USERS,
