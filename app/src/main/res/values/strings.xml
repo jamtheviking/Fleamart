@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Fleamart</string>
+    <string name="imgLogo">Fleamart Logo</string>
+    <string name="etUsername">Username</string>
+    <string name="etPassword">Password</string>
+    <string name="btnLogin">Login</string>
+    <string name="btnForgotPassword">Forgot Password?</string>
+    <string name="btnSignUp">Sign Up</string>
+    <string name="btnRegister">Register</string>
+    <string name="tvFirstName">First Name</string>
+    <string name="tvLastName">Last Name</string>
+    <string name="tvEmail">Email Address</string>
+    <string name="tvPassword">Password</string>
+    <string name="tvCell">Cell Number</string>
+    <string name="tvConfirmPassword">Confirm Password</string>
+    <string name="etUsernameSignUp">Username</string>
+    <string name="txtRegisterIns">Welcome to Fleamart! We just need to know some information you can get started.</string>
+    <string-array name="itemCategories">
+        <item>Furniture</item>
+        <item>Appliances</item>
+        <item>Home decor</item>
+        <item>Garden and outdoor</item>
+        <item>Electronics</item>
+    </string-array>
+    <string name="txtDesc">Description</string>
+    <string name="btBuy">Buy</string>
+    <string name="edTextSearchBar">Enter Item to Search</string>
+    <string name="btnSearch">Search</string>
+</resources>
