@@ -1,5 +1,5 @@
 package com.csis3175.fleamart;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.transition.*;
 import android.content.Intent;
@@ -8,16 +8,12 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
-
-
 public class Landing extends AppCompatActivity {
-
     private Scene scene1, scene2;
     private Transition slideUpTransition,slideDownTransition;
     Button btnForgotPassword,btnRegister;
     EditText username,password,firstName,
             lastName,confirmPassword,email;
-    ViewGroup viewRoot;
     boolean isRootShowing;
 
     @Override
@@ -26,9 +22,6 @@ public class Landing extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
         transitionConfig();
         isRootShowing = true;
-
-//        onClickSignup();
-//        onClickLogin();
 
     }
 
@@ -40,6 +33,9 @@ public class Landing extends AppCompatActivity {
         slideUpTransition = new Slide(Gravity.BOTTOM);
         slideDownTransition = new Slide(Gravity.TOP);
         slideUpTransition.setDuration(500);
+
+
+        // Force listenerConfig() after transition to fix delayed response
         scene1.setEnterAction(new Runnable() {
             @Override
             public void run() {
@@ -47,52 +43,19 @@ public class Landing extends AppCompatActivity {
                 listenerConfig();
             }
         });
-
         scene2.setEnterAction(new Runnable() {
             @Override
             public void run() {
                 registerUser();
-
             }
         });
-
-//        slideUpTransition.addListener(new Transition.TransitionListener() {
-//            @Override
-//            public void onTransitionStart(@NonNull Transition transition) {
-//
-//            }
-//
-//            @Override
-//            public void onTransitionEnd(@NonNull Transition transition) {
-//                listenerConfig();
-//
-//            }
-//
-//            @Override
-//            public void onTransitionCancel(@NonNull Transition transition) {
-//
-//            }
-//
-//            @Override
-//            public void onTransitionPause(@NonNull Transition transition) {
-//
-//            }
-//
-//            @Override
-//            public void onTransitionResume(@NonNull Transition transition) {
-//
-//            }
-//        });
-
     }
 
+    //Load listeners for buttons
     public void listenerConfig(){
         onClickSignup();
         onClickLogin();
-
-
     }
-
 
     public void onClickSignup() {
         Button btnSignup = findViewById(R.id.btnSignUp);
@@ -101,11 +64,9 @@ public class Landing extends AppCompatActivity {
             public void onClick(View v) {
                 TransitionManager.go(scene2, slideUpTransition);
                 isRootShowing = false;
-
             }
         });
     }
-
     public void registerUser(){
 
         firstName = findViewById(R.id.etFirstNameRegister);
@@ -115,8 +76,6 @@ public class Landing extends AppCompatActivity {
         password = findViewById(R.id.etPasswordRegister);
         confirmPassword = findViewById(R.id.etConfirmPasswordRegister);
         btnRegister = findViewById(R.id.btnRegister);
-
-
             // Set up click listener for registration button
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,36 +85,16 @@ public class Landing extends AppCompatActivity {
                 String un = username.getText().toString();
                 String em = email.getText().toString();
                 String pw = password.getText().toString();
-
                 addUser(fn, ln, un, em, pw);
                 TransitionManager.go(scene1, slideDownTransition);
             }
         });
-
-
-//
-//        String fn = firstName.getText().toString();
-//        String ln = lastName.getText().toString();
-//        String un = username.getText().toString();
-//        String em = email.getText().toString();
-//        String pw = password.getText().toString();
-//
-//        addUser(fn, ln, un, em, pw);
-//        TransitionManager.go(scene1, slideDownTransition);
-
-
-
-
-
     }
-
     private void addUser(String firstName, String lastName, String username, String email, String password){
         ///Needs Try Catch
         Users user = new Users(this);
         user.insertUser(firstName, lastName, username, email, password);
     }
-
-
 
     public void onClickLogin() {
         Button btnLogin = findViewById(R.id.btnLogin);
@@ -171,7 +110,6 @@ public class Landing extends AppCompatActivity {
                     }
                     return;
                 }
-
                 // Transition to the login scene
                 TransitionManager.go(scene1, slideUpTransition);
                 isRootShowing = false;
@@ -186,7 +124,6 @@ public class Landing extends AppCompatActivity {
         finish();
 
     }
-
     public void validateCredential(){
         EditText username, password;
 
@@ -209,5 +146,4 @@ public class Landing extends AppCompatActivity {
             Toast.makeText(this, "Not valid", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

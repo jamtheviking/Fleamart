@@ -32,6 +32,13 @@ public class SearchView extends AppCompatActivity {
         products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
         products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
         products.add(new Product("Dryer Machine",12000,R.drawable.dryer));
+        products.add(new Product("Clock",56,R.drawable.alarm_clock));
+        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
+        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
+        products.add(new Product("Dryer Machine",200,R.drawable.dryer));
+        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
+        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
+        products.add(new Product("Dryer Machine",12000,R.drawable.dryer));
 
 
         return products;
