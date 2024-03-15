@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_marginBottom="15dp"
             android:text="@string/btnLogin"
-            android:onClick="onClickLogin"
+
             android:layout_below="@id/logo"/>
 
         <Button
@@ -74,7 +74,7 @@
             android:layout_marginBottom="15dp"
             android:backgroundTint="@color/black"
             android:text="@string/btnSignUp"
-            android:onClick="onClickSignup"
+
             android:layout_below="@id/btnLogin"/>
 
     </RelativeLayout>
