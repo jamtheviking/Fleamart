@@ -15,6 +15,7 @@
 
         <activity
             android:name=".SearchView"
+            android:theme="@style/AppTheme.TransparentActionBar"
             android:exported="false" />
         <activity
             android:name=".ItemDisplay"
