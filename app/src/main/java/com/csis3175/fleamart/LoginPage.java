@@ -20,19 +20,19 @@ public class LoginPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+//        setContentView(R.layout.login);
 
-        username = findViewById(R.id.etUsernameLogin);
-        password = findViewById(R.id.etPasswordLogin);
-        btnSignUp = findViewById(R.id.btnSignUp);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnForgotPassword = findViewById(R.id.btnForgotPassword);
+//        username = findViewById(R.id.etUsernameLogin);
+//        password = findViewById(R.id.etPasswordLogin);
+//        btnSignUp = findViewById(R.id.btnSignUp);
+//        btnLogin = findViewById(R.id.btnLogin);
+//        btnForgotPassword = findViewById(R.id.btnForgotPassword1);
     }
 
-    public void onClickBtnSignUp(View view) {
-        Intent intent = new Intent(this, SignUp.class);
-        startActivity(intent);
-    }
+//    public void onClickBtnSignUp(View view) {
+//        Intent intent = new Intent(this, SignUp.class);
+//        startActivity(intent);
+//    }
 
     public void onClickBtnLogin(View view){
         Users usersDB = new Users(this);

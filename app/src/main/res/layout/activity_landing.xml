@@ -1,0 +1,123 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scene_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/silver"
+    tools:context=".Landing">
+
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/title_style"
+        android:text="@string/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:src="@drawable/banner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appTitle" />
+
+
+
+    <LinearLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingHorizontal="10dp">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:elevation="10dp"
+            android:src="@drawable/logo"
+            android:layout_centerHorizontal="true"
+            />
+
+        <Button
+            android:id="@+id/btnLogin"
+            style="@style/button_style_gray"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="15dp"
+            android:text="@string/btnLogin"
+            android:onClick="onClickLogin"
+            android:layout_below="@id/logo"/>
+
+        <Button
+            android:id="@+id/btnSignUp"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/black"
+            android:text="@string/btnSignUp"
+            android:onClick="onClickSignup"
+            android:layout_below="@id/btnLogin"/>
+
+    </RelativeLayout>
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:background="@drawable/custom_cardview"-->
+<!--        app:cardBackgroundColor="@color/green"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/topPanel">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="350dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginTop="150dp"-->
+<!--            android:orientation="vertical"-->
+<!--            android:weightSum="5"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent">-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnLogin"-->
+<!--                style="@style/button_style_gray"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_marginBottom="15dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/btnLogin" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnSignUp"-->
+<!--                style="@style/button_style"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_marginBottom="15dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:backgroundTint="@color/black"-->
+<!--                android:text="@string/btnSignUp" />-->
+
+<!--        </LinearLayout>-->
+<!--    </androidx.cardview.widget.CardView>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

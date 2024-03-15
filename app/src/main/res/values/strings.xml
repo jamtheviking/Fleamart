@@ -11,8 +11,10 @@
     <string name="tvLastName">Last Name</string>
     <string name="tvEmail">Email Address</string>
     <string name="tvPassword">Password</string>
+    <string name="tvCell">Cell Number</string>
     <string name="tvConfirmPassword">Confirm Password</string>
     <string name="etUsernameSignUp">Username</string>
+    <string name="txtRegisterIns">Welcome to Fleamart! We just need to know some information you can get started.</string>
     <string-array name="itemCategories">
         <item>Furniture</item>
         <item>Appliances</item>
