@@ -82,7 +82,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/silver"
                 android:text="@string/btnLogin"
-                android:onClick="onClickLogin"/>
+                />
 
             <!--            <Button-->
             <!--                android:id="@+id/btnSignUp"-->
@@ -93,7 +93,8 @@
             <!--                android:text="@string/btnSignUp" />-->
 
             <!--            <Button-->
-            <!--                android:id="@+id/btnForgotPassword"-->
+            <!--                android:id="@+i
+            d/btnForgotPassword"-->
             <!--                style="@style/button_style"-->
             <!--                android:layout_width="match_parent"-->
             <!--                android:layout_weight="1"-->
@@ -114,7 +115,7 @@
                 android:text="@string/btnSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onClickSignup"/>
+                />
 
 
 

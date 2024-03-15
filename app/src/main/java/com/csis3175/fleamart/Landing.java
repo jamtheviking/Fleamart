@@ -1,4 +1,5 @@
 package com.csis3175.fleamart;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.transition.*;
 import android.content.Intent;
@@ -12,44 +13,92 @@ import android.widget.*;
 public class Landing extends AppCompatActivity {
 
     private Scene scene1, scene2;
-    private Transition slideUpTransition;
-    Button btnLogin,btnSignup,btnForgotPassword,btnRegister;
+    private Transition slideUpTransition,slideDownTransition;
+    Button btnForgotPassword,btnRegister;
     EditText username,password,firstName,
             lastName,confirmPassword,email;
     ViewGroup viewRoot;
     boolean isRootShowing;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        TransitionConfig();
+        transitionConfig();
         isRootShowing = true;
 
-
-        //root defined as android.R.id.content (topmost view of this activity)
+//        onClickSignup();
+//        onClickLogin();
 
     }
 
-    public void TransitionConfig(){
-        viewRoot = findViewById(android.R.id.content);
-//        sceneRoot = Scene.getSceneForLayout(viewRoot, R.layout.activity_landing, this);
-        scene1 = Scene.getSceneForLayout(viewRoot,R.layout.login,this);
-        scene2 = Scene.getSceneForLayout(viewRoot,R.layout.sign_up,this);
+    public void transitionConfig() {
+        listenerConfig();
+        ViewGroup viewRoot = findViewById(android.R.id.content);
+        scene1 = Scene.getSceneForLayout(viewRoot, R.layout.login, this);
+        scene2 = Scene.getSceneForLayout(viewRoot, R.layout.sign_up, this);
         slideUpTransition = new Slide(Gravity.BOTTOM);
+        slideDownTransition = new Slide(Gravity.TOP);
         slideUpTransition.setDuration(500);
+        scene1.setEnterAction(new Runnable() {
+            @Override
+            public void run() {
+                // Listener will be invoked when scene1 transition completes
+                listenerConfig();
+            }
+        });
+
+        scene2.setEnterAction(new Runnable() {
+            @Override
+            public void run() {
+                registerUser();
+
+            }
+        });
+
+//        slideUpTransition.addListener(new Transition.TransitionListener() {
+//            @Override
+//            public void onTransitionStart(@NonNull Transition transition) {
+//
+//            }
+//
+//            @Override
+//            public void onTransitionEnd(@NonNull Transition transition) {
+//                listenerConfig();
+//
+//            }
+//
+//            @Override
+//            public void onTransitionCancel(@NonNull Transition transition) {
+//
+//            }
+//
+//            @Override
+//            public void onTransitionPause(@NonNull Transition transition) {
+//
+//            }
+//
+//            @Override
+//            public void onTransitionResume(@NonNull Transition transition) {
+//
+//            }
+//        });
 
     }
 
-    public void onClickSignup(View v) {
-        btnSignup = findViewById(R.id.btnSignUp);
+    public void listenerConfig(){
+        onClickSignup();
+        onClickLogin();
+
+
+    }
+
+
+    public void onClickSignup() {
+        Button btnSignup = findViewById(R.id.btnSignUp);
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 TransitionManager.go(scene2, slideUpTransition);
                 isRootShowing = false;
 
@@ -57,7 +106,7 @@ public class Landing extends AppCompatActivity {
         });
     }
 
-    public void registerUser(View v){
+    public void registerUser(){
 
         firstName = findViewById(R.id.etFirstNameRegister);
         lastName = findViewById(R.id.etLastNameRegister);
@@ -67,45 +116,65 @@ public class Landing extends AppCompatActivity {
         confirmPassword = findViewById(R.id.etConfirmPasswordRegister);
         btnRegister = findViewById(R.id.btnRegister);
 
-        String fn = firstName.getText().toString();
-        String ln = lastName.getText().toString();
-        String un = username.getText().toString();
-        String em = email.getText().toString();
-        String pw = password.getText().toString();
 
-        addUser(fn, ln, un, em, pw);
-        TransitionManager.go(scene1, slideUpTransition);
+            // Set up click listener for registration button
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String fn = firstName.getText().toString();
+                String ln = lastName.getText().toString();
+                String un = username.getText().toString();
+                String em = email.getText().toString();
+                String pw = password.getText().toString();
+
+                addUser(fn, ln, un, em, pw);
+                TransitionManager.go(scene1, slideDownTransition);
+            }
+        });
+
+
+//
+//        String fn = firstName.getText().toString();
+//        String ln = lastName.getText().toString();
+//        String un = username.getText().toString();
+//        String em = email.getText().toString();
+//        String pw = password.getText().toString();
+//
+//        addUser(fn, ln, un, em, pw);
+//        TransitionManager.go(scene1, slideDownTransition);
+
+
+
+
 
     }
 
     private void addUser(String firstName, String lastName, String username, String email, String password){
+        ///Needs Try Catch
         Users user = new Users(this);
         user.insertUser(firstName, lastName, username, email, password);
     }
 
 
 
-    public void onClickLogin(View v) {
-        btnLogin = findViewById(R.id.btnLogin);
+    public void onClickLogin() {
+        Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (isRootShowing) {
-                    TransitionManager.go(scene1, slideUpTransition);
-                    isRootShowing = false;
-
-                } else {
-                    //collect and validate credential
+                if (!isRootShowing) {
+                    // If already in the login scene, handle login action
                     try {
                         validateCredential();
-
+                    } catch (Exception e) {
+                        Log.d("Error", "onClick: " + e);
                     }
-                    catch (Exception e){
-                        Log.d("Error", "onClick: "+ e);
-                    }
-
+                    return;
                 }
+
+                // Transition to the login scene
+                TransitionManager.go(scene1, slideUpTransition);
+                isRootShowing = false;
             }
         });
     }
@@ -140,8 +209,5 @@ public class Landing extends AppCompatActivity {
             Toast.makeText(this, "Not valid", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
 
 }
