@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/silver"
+    tools:context=".Landing">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/imgLogo"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:background="@color/green"
+        android:paddingHorizontal="25dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/txtRegisterIns"
+            style="@style/normal_style"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:text="@string/txtRegisterIns"
+            tools:ignore="TextSizeCheck" />
+
+        <EditText
+            android:id="@+id/etUsernameRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/etUsernameSignUp"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#546E7A"
+            android:importantForAutofill="no"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtRegisterIns"/>
+
+        <EditText
+            android:id="@+id/etFirstNameRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/tvFirstName"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#546E7A"
+            android:importantForAutofill="no"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/etUsernameRegister"/>
+        <EditText
+            android:id="@+id/etLastNameRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/tvLastName"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#546E7A"
+            android:importantForAutofill="no"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/etFirstNameRegister"/>
+
+        <EditText
+            android:id="@+id/etEmailRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/tvEmail"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp"
+            android:textColorHint="#546E7A"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/etLastNameRegister"
+            />
+        <EditText
+            android:id="@+id/etCellRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/tvCell"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp"
+            android:textColorHint="#546E7A"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/etEmailRegister"
+            />
+
+        <EditText
+            android:id="@+id/etPasswordRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/etPassword"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:textColorHint="#546E7A"
+            android:importantForAutofill="no"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/etCellRegister"/>
+
+
+
+        <EditText
+            android:id="@+id/etConfirmPasswordRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/tvConfirmPassword"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:textColorHint="#546E7A"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/etPasswordRegister" />
+
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/button_style_gray"
+            android:text="@string/btnRegister"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/etConfirmPasswordRegister"
+            />
+
+
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
