@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -22,6 +23,10 @@ import android.widget.Toast;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class SellPage extends AppCompatActivity {
 
     Button btnPlaceForSelling;
@@ -34,6 +39,8 @@ public class SellPage extends AppCompatActivity {
 
     Button btnUpload;
     ImageView ivUploadedImage;
+    Uri result;
+    byte[] imageBytes;
 
     private ActivityResultLauncher<String> getImage;
 
@@ -53,42 +60,22 @@ public class SellPage extends AppCompatActivity {
         btnUpload = findViewById(R.id.btnUploadImage);
         ivUploadedImage = findViewById(R.id.ivItemImage);
 
-        btnPlaceForSelling.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String itemName = etItemName.getText().toString();
-                String itemPrice = etItemPrice.getText().toString();
-                String itemDescription = etItemDescription.getText().toString();
-                String itemLocation = etItemLocation.getText().toString();
-                String itemCategory = etItemCategory.getSelectedItem().toString();
-                String itemTags = etItemTags.getText().toString();
-
-                DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
-                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags);
-
-                Toast.makeText(SellPage.this, "Item placed for selling", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
 
         /**
          * This Activity allows the user to get image from the Android Device Storage
+         * and store it to the "imageBytes" and displays the selected image
+         * to the "ivUploadImage".
+         * "imageBytes" is also directly used in the db.insertItem method and stores it as BLOB
          */
         getImage = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
-            public void onActivityResult(Uri result) {
-                if (result != null) {
+            public void onActivityResult(Uri uriRes) {
+                if (uriRes != null) {
                     // Process the selected image URI
                     try {
-                        Bitmap bitmap = null;
-                        if (Build.VERSION.SDK_INT < 28) { //Checks if the build is below SDK 28 since the Bitmap is deprecated on SDK 29 (Android 10)
-                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result);
-                        } else {
-                            ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), result);
-                            bitmap = ImageDecoder.decodeBitmap(source);
-                        }
-                        ivUploadedImage.setImageBitmap(bitmap);
+                        imageBytes = convertImageToByteArray(uriRes);
+                        ivUploadedImage.setImageBitmap(BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length));
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -96,11 +83,47 @@ public class SellPage extends AppCompatActivity {
             }
         });
 
+
+        btnPlaceForSelling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                String itemName = etItemName.getText().toString();
+                Double itemPrice = Double.parseDouble(etItemPrice.getText().toString());
+                String itemDescription = etItemDescription.getText().toString();
+                String itemLocation = etItemLocation.getText().toString();
+                String itemCategory = etItemCategory.getSelectedItem().toString();
+                String itemTags = etItemTags.getText().toString();
+
+                DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes);
+
+                Toast.makeText(SellPage.this, "Item placed for selling", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+        /**
+         * This method opens the image directory of the user's device to upload an image.
+         */
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getImage.launch("image/*");
             }
         });
+    }
+
+    private byte[] convertImageToByteArray(Uri uri) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        InputStream inputStream = getContentResolver().openInputStream(uri);
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, bytesRead);
+        }
+        return byteArrayOutputStream.toByteArray();
     }
 }

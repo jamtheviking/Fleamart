@@ -11,7 +11,7 @@ import com.csis3175.fleamart.model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "app_database";
+    private static final String DATABASE_NAME = "fleamartDB";
     private static final int DATABASE_VERSION = 1;
 
     //------ USERS TABLE -------- //
@@ -33,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ITEM_LOCATION = "location";
     private static final String COLUMN_ITEM_CATEGORY = "category";
     private static final String COLUMN_ITEM_TAG = "tag";
+    private static final String COLUMN_ITEM_IMAGE = "image";
 
     //------END OF ITEMS TABLE -------- //
 
@@ -58,7 +59,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ITEM_DESCRIPTION + " TEXT,"
                 + COLUMN_ITEM_LOCATION + " TEXT,"
                 + COLUMN_ITEM_CATEGORY + " TEXT,"
-                + COLUMN_ITEM_TAG + " TEXT"
+                + COLUMN_ITEM_TAG + " TEXT,"
+                + COLUMN_ITEM_IMAGE + " BLOB"
                 + ")";
 
         db.execSQL(CREATE_USERS_TABLE);
@@ -90,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public void insertItem(String name, String price, String description, String location, String category, String tag) {
+    public void insertItem(String name, Double price, String description, String location, String category, String tag, byte[] img) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_ITEM_NAME, name);
@@ -99,9 +101,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ITEM_LOCATION, location);
         values.put(COLUMN_ITEM_CATEGORY, category);
         values.put(COLUMN_ITEM_TAG, tag);
+        values.put(COLUMN_ITEM_IMAGE, img);
 
         db.insert(TABLE_ITEMS, null, values);
-        db.close();
+
     }
 
 
