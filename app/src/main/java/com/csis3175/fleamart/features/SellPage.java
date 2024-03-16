@@ -63,8 +63,6 @@ public class SellPage extends AppCompatActivity {
                 String itemLocation = etItemLocation.getText().toString();
                 String itemCategory = etItemCategory.getSelectedItem().toString();
                 String itemTags = etItemTags.getText().toString();
-                String imagePath =
-                        MediaStore.Audio.Media.getContentUriForPath()
 
                 DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
                 dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags);
