@@ -1,10 +1,14 @@
-package com.csis3175.fleamart;
+package com.csis3175.fleamart.features;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.csis3175.fleamart.model.CardAdapter;
+import com.csis3175.fleamart.model.Product;
+import com.csis3175.fleamart.R;
 
 import java.util.ArrayList;
 import java.util.List;
