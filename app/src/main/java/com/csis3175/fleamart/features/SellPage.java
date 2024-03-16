@@ -116,6 +116,12 @@ public class SellPage extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method converts the uploaded image to byte to store it as a BLOB
+     * @param uri
+     * @return
+     * @throws IOException
+     */
     private byte[] convertImageToByteArray(Uri uri) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         InputStream inputStream = getContentResolver().openInputStream(uri);
