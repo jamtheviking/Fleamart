@@ -20,8 +20,18 @@ public class SearchView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_view);
+
+        //https://exchangetuts.com/setting-span-size-of-single-row-in-staggeredgridlayoutmanager-1639642992135800
         RecyclerView rView = findViewById(R.id.recycler);
-        rView.setLayoutManager(new GridLayoutManager(this, 2));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return 1;
+            }
+        });
+
+        rView.setLayoutManager(gridLayoutManager);
         CardAdapter cardAdapter = new CardAdapter(getCardData());
         rView.setAdapter(cardAdapter);
 

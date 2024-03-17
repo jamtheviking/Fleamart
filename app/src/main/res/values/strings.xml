@@ -14,6 +14,7 @@
     <string name="tvCell">Cell Number</string>
     <string name="tvConfirmPassword">Confirm Password</string>
     <string name="etUsernameSignUp">Username</string>
+    <string name="hintSearch">Search Listings</string>
     <string name="txtRegisterIns">Welcome to Fleamart! We just need to know some information you can get started.</string>
     <string-array name="itemCategories">
         <item>Furniture</item>
