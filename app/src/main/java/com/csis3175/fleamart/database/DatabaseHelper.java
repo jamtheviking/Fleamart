@@ -1,4 +1,4 @@
-package com.csis3175.fleamart;
+package com.csis3175.fleamart.database;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -7,11 +7,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class Users extends SQLiteOpenHelper {
+import com.csis3175.fleamart.model.User;
 
-    private static final String DATABASE_NAME = "app_database";
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private static final String DATABASE_NAME = "fleamartDB";
     private static final int DATABASE_VERSION = 1;
 
+    //------ USERS TABLE -------- //
     private static final String TABLE_USERS = "users";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_FIRST_NAME = "firstName";
@@ -19,6 +22,9 @@ public class Users extends SQLiteOpenHelper {
     private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
+    //------ END OF USERS TABLE -------- //
+
+    //------ ITEMS TABLE -------- //
     private static final String TABLE_ITEMS = "items";
     private static final String COLUMN_ITEM_ID = "id";
     private static final String COLUMN_ITEM_NAME = "name";
@@ -27,7 +33,11 @@ public class Users extends SQLiteOpenHelper {
     private static final String COLUMN_ITEM_LOCATION = "location";
     private static final String COLUMN_ITEM_CATEGORY = "category";
     private static final String COLUMN_ITEM_TAG = "tag";
-    public Users(Context context){
+    private static final String COLUMN_ITEM_IMAGE = "image";
+
+    //------END OF ITEMS TABLE -------- //
+
+    public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -41,6 +51,7 @@ public class Users extends SQLiteOpenHelper {
                 + COLUMN_USERNAME + " TEXT,"
                 + COLUMN_PASSWORD + " TEXT"
                 + ")";
+
         String CREATE_ITEMS_TABLE = "CREATE TABLE " + TABLE_ITEMS + "("
                 + COLUMN_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_ITEM_NAME + " TEXT,"
@@ -48,8 +59,10 @@ public class Users extends SQLiteOpenHelper {
                 + COLUMN_ITEM_DESCRIPTION + " TEXT,"
                 + COLUMN_ITEM_LOCATION + " TEXT,"
                 + COLUMN_ITEM_CATEGORY + " TEXT,"
-                + COLUMN_ITEM_TAG + " TEXT"
+                + COLUMN_ITEM_TAG + " TEXT,"
+                + COLUMN_ITEM_IMAGE + " BLOB"
                 + ")";
+
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_ITEMS_TABLE);
     }
@@ -79,7 +92,7 @@ public class Users extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public void insertItem(String name, String price, String description, String location, String category, String tag) {
+    public void insertItem(String name, Double price, String description, String location, String category, String tag, byte[] img) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_ITEM_NAME, name);
@@ -88,15 +101,17 @@ public class Users extends SQLiteOpenHelper {
         values.put(COLUMN_ITEM_LOCATION, location);
         values.put(COLUMN_ITEM_CATEGORY, category);
         values.put(COLUMN_ITEM_TAG, tag);
+        values.put(COLUMN_ITEM_IMAGE, img);
 
         db.insert(TABLE_ITEMS, null, values);
-        db.close();
+
     }
 
 
 
     public boolean isValidUser(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
+        //This query looks for the a user using user name and password. The "?" is used to avoid SQL Injection Attacks and allows parameterization input
         Cursor cursor = db.query(TABLE_USERS, null, "username=? AND password=?", new String[]{username, password}, null, null, null);
         boolean isValid = cursor.moveToFirst();
         cursor.close();
@@ -104,9 +119,14 @@ public class Users extends SQLiteOpenHelper {
         return isValid;
     }
 
-
+    /**
+     * This method returns a User object that pulls the data from the database.
+     * @param username
+     * @param password
+     * @return
+     */
     @SuppressLint("Range")//This suppresses warning that the column index might return -1
-    public com.csis3175.fleamart.User getUserDetails(String username, String password) {
+    public User getUserDetails(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(
                 TABLE_USERS,

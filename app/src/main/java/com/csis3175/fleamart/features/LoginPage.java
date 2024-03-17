@@ -1,4 +1,4 @@
-package com.csis3175.fleamart;
+package com.csis3175.fleamart.features;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.csis3175.fleamart.database.DatabaseHelper;
+import com.csis3175.fleamart.model.User;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -35,14 +38,14 @@ public class LoginPage extends AppCompatActivity {
 //    }
 
     public void onClickBtnLogin(View view){
-        Users usersDB = new Users(this);
+        DatabaseHelper databaseHelperDB = new DatabaseHelper(this);
 
         String un = username.getText().toString();
         String pw = password.getText().toString();
 
-        User user = usersDB.getUserDetails(un, pw);
-        boolean isValidUser = usersDB.isValidUser(un, pw);
-        usersDB.close();
+        User user = databaseHelperDB.getUserDetails(un, pw);
+        boolean isValidUser = databaseHelperDB.isValidUser(un, pw);
+        databaseHelperDB.close();
 
         if (isValidUser) {
             showHomePage(user);
@@ -54,7 +57,7 @@ public class LoginPage extends AppCompatActivity {
 
     private void showHomePage(User user) {
         // Example: Pass user details to the home page activity
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, HomePage.class);
         intent.putExtra("user", user);
         startActivity(intent);
     }

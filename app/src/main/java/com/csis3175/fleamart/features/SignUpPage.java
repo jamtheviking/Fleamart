@@ -1,4 +1,4 @@
-package com.csis3175.fleamart;
+package com.csis3175.fleamart.features;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SignUp extends AppCompatActivity {
+import com.csis3175.fleamart.R;
+import com.csis3175.fleamart.database.DatabaseHelper;
+
+public class SignUpPage extends AppCompatActivity {
 
     EditText firstName;
     EditText lastName;
@@ -52,7 +55,7 @@ public class SignUp extends AppCompatActivity {
 
     private void addUser(String firstName, String lastName, String username, String email, String password){
 
-        Users user = new Users(this);
+        DatabaseHelper user = new DatabaseHelper(this);
 
         user.insertUser(firstName, lastName, username, email, password);
 

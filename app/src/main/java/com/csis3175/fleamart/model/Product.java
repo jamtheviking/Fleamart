@@ -1,4 +1,4 @@
-package com.csis3175.fleamart;
+package com.csis3175.fleamart.model;
 
 public class Product {
 

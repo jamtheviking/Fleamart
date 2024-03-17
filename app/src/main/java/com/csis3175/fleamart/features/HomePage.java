@@ -1,4 +1,4 @@
-package com.csis3175.fleamart;
+package com.csis3175.fleamart.features;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class HomeActivity extends AppCompatActivity {
+import com.csis3175.fleamart.R;
+import com.csis3175.fleamart.model.User;
+
+public class HomePage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
         btnSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, Sell.class);
+                Intent intent = new Intent(HomePage.this, SellPage.class);
                 startActivity(intent);
             }
         });
@@ -38,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, SearchView.class));
+                startActivity(new Intent(HomePage.this, SearchView.class));
             }
         });
 
