@@ -21,10 +21,23 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     private List<Product> productList;
 
-
+    //Default constructor for search
+    public CardAdapter(){}
     public CardAdapter(List<Product> productList) {
         this.productList = productList;
     }
+
+    // JO
+    public void updatedList(List<Product> updatedList) {
+        productList = updatedList;
+
+    }
+
+
+
+    // JO
+
+
 
 
 
