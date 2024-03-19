@@ -1,24 +1,19 @@
 package com.csis3175.fleamart.features;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
@@ -29,7 +24,7 @@ import java.io.InputStream;
 
 public class SellPage extends AppCompatActivity {
 
-    Button btnPlaceForSelling;
+    Button btnConfirm,btnCancel;
     EditText etItemName;
     EditText etItemPrice;
     EditText etItemDescription;
@@ -37,7 +32,6 @@ public class SellPage extends AppCompatActivity {
     Spinner etItemCategory;
     EditText etItemTags;
 
-    Button btnUpload;
     ImageView ivUploadedImage;
     Uri result;
     byte[] imageBytes;
@@ -49,16 +43,15 @@ public class SellPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
 
-        btnPlaceForSelling = findViewById(R.id.btnPlaceForSelling);
+        btnConfirm = findViewById(R.id.btConfirm);
+        btnCancel = findViewById(R.id.btCancel);
         etItemName = findViewById(R.id.etItemName);
         etItemPrice = findViewById(R.id.etItemPrice);
         etItemDescription = findViewById(R.id.etItemDescription);
         etItemLocation = findViewById(R.id.etItemLocation);
         etItemCategory = findViewById(R.id.spinnerCategories);
-        etItemTags = findViewById(R.id.etItemTags);
-
-        btnUpload = findViewById(R.id.btnUploadImage);
-        ivUploadedImage = findViewById(R.id.ivItemImage);
+        etItemTags = findViewById(R.id.etItemTag);
+        ivUploadedImage = findViewById(R.id.imageUpload);
 
 
         /**
@@ -83,12 +76,20 @@ public class SellPage extends AppCompatActivity {
             }
         });
 
+        //Cancel button
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-        btnPlaceForSelling.setOnClickListener(new View.OnClickListener() {
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
+                //TODO: Input validation
                 String itemName = etItemName.getText().toString();
                 Double itemPrice = Double.parseDouble(etItemPrice.getText().toString());
                 String itemDescription = etItemDescription.getText().toString();
@@ -100,14 +101,18 @@ public class SellPage extends AppCompatActivity {
                 dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes);
 
                 Toast.makeText(SellPage.this, "Item placed for selling", Toast.LENGTH_SHORT).show();
+                //TODO: confirm button should move to a different user asking the user if they want to share or sell the item
+                //TODO: Provide user confirmation that item was uploaded
                 finish();
             }
         });
 
+
+
         /**
          * This method opens the image directory of the user's device to upload an image.
          */
-        btnUpload.setOnClickListener(new View.OnClickListener() {
+        ivUploadedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

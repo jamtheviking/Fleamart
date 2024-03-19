@@ -15,6 +15,13 @@
     <string name="tvConfirmPassword">Confirm Password</string>
     <string name="etUsernameSignUp">Username</string>
     <string name="hintSearch">Search Listings</string>
+    <string name="txtSellTitle">Post an item</string>
+    <string name="txtSellName">Item Name</string>
+    <string name="txtSellCategory">Category</string>
+    <string name="txtSellLocation">Location</string>
+    <string name="txtSellPrice">Price</string>
+    <string name="txtSellDesc">Description</string>
+    <string name="txtSellTags">Tags</string>
     <string name="txtRegisterIns">Welcome to Fleamart! We just need to know some information you can get started.</string>
     <string-array name="itemCategories">
         <item>Furniture</item>
@@ -23,6 +30,8 @@
         <item>Garden and outdoor</item>
         <item>Electronics</item>
     </string-array>
-    <string name="txtDesc">Description</string>
+    <string name="btConfirm">Confirm</string>
+    <string name="btCancel">Cancel</string>
     <string name="btBuy">Buy</string>
+    <string name="txtUpload">Upload Image</string>
 </resources>
