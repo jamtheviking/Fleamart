@@ -89,7 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
-        db.close(); // Closing database connection
+
     }
 
     public void insertItem(String name, Double price, String description, String location, String category, String tag, byte[] img) {
@@ -114,9 +114,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //This query looks for the a user using user name and password. The "?" is used to avoid SQL Injection Attacks and allows parameterization input
         Cursor cursor = db.query(TABLE_USERS, null, "username=? AND password=?", new String[]{username, password}, null, null, null);
         boolean isValid = cursor.moveToFirst();
-        cursor.close();
-        db.close();
         return isValid;
+    }
+
+    public int updateUser(int oldId,String firstName, String lastName, String username, String email, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        // Updating values
+        values.put(COLUMN_FIRST_NAME, firstName);
+        values.put(COLUMN_LAST_NAME, lastName);
+        values.put(COLUMN_USERNAME, username);
+        values.put(COLUMN_EMAIL, email);
+        values.put(COLUMN_PASSWORD, password);
+
+        // updating row
+        int updateStatus = db.update(TABLE_USERS, values, COLUMN_ID + " = ?", new String[] { String.valueOf(oldId) });
+
+        return updateStatus;
     }
 
     /**

@@ -13,6 +13,8 @@ import com.csis3175.fleamart.model.User;
 
 public class HomePage extends AppCompatActivity {
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +23,7 @@ public class HomePage extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("user")) {
-            User user = (User) intent.getSerializableExtra("user");
+            user = (User) intent.getSerializableExtra("user");
 
             // Example: Display user details in TextViews or other UI elements
             TextView welcomeTextView = findViewById(R.id.tvFullName);
@@ -30,6 +32,7 @@ public class HomePage extends AppCompatActivity {
 
         Button btnSell = findViewById(R.id.btnSell);
         Button btnBuy = findViewById(R.id.btnBuy);
+        Button btnUpdate = findViewById(R.id.btnUpdate);
         btnSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,6 +45,16 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomePage.this, SearchView.class));
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent updateIntent = new Intent(HomePage.this, UpdatePage.class);
+                // Assuming 'user' holds the current user's data
+                updateIntent.putExtra("user", user);
+                startActivity(updateIntent);
             }
         });
 
