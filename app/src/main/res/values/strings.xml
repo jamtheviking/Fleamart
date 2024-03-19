@@ -34,4 +34,6 @@
     <string name="btCancel">Cancel</string>
     <string name="btBuy">Buy</string>
     <string name="txtUpload">Upload Image</string>
+    <string name="btnUpdate">Update profile info</string>
+    <string name="txtUpload">Upload Image</string>
 </resources>
