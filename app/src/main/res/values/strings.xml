@@ -25,4 +25,5 @@
     </string-array>
     <string name="txtDesc">Description</string>
     <string name="btBuy">Buy</string>
+    <string name="btnUpdate">Update profile info</string>
 </resources>
