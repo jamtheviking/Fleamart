@@ -34,6 +34,8 @@ public class SignUpPage extends AppCompatActivity {
         confirmPassword = findViewById(R.id.etConfirmPasswordRegister);
         btnRegister = findViewById(R.id.btnRegister);
 
+        //TODO: Implement an escape for the user
+
     }
 
     public void btnRegisterOnClick(View view){

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".features.HomePage">
-
+<!--    //TODO: fix styling and layout-->
+    <!--    //TODO: Remove share button-->
     <TextView
         android:id="@+id/tvFullName"
         android:layout_width="104dp"
