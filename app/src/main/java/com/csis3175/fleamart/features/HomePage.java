@@ -33,6 +33,7 @@ public class HomePage extends AppCompatActivity {
         Button btnSell = findViewById(R.id.btnSell);
         Button btnBuy = findViewById(R.id.btnBuy);
         Button btnUpdate = findViewById(R.id.btnUpdate);
+        Button btnLogout = findViewById(R.id.btnLogout);
         btnSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +56,14 @@ public class HomePage extends AppCompatActivity {
                 // Assuming 'user' holds the current user's data
                 updateIntent.putExtra("user", user);
                 startActivity(updateIntent);
+            }
+        });
+
+        //Logout button
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
