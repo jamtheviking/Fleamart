@@ -15,6 +15,11 @@
     <string name="tvConfirmPassword">Confirm Password</string>
     <string name="etUsernameSignUp">Username</string>
     <string name="hintSearch">Search Listings</string>
+    <string name="txtHomeBuy">Find Something</string>
+    <string name="txtHomeSell">Post an item</string>
+    <string name="txtHomeTr">History</string>
+    <string name="txtHomeUpdate">Profile Settings</string>
+    <string name="txtHomeLogout">Logout</string>
     <string name="txtSellTitle">Post an item</string>
     <string name="txtSellName">Item Name</string>
     <string name="txtSellCategory">Category</string>
@@ -35,5 +40,5 @@
     <string name="btBuy">Buy</string>
     <string name="txtUpload">Upload Image</string>
     <string name="btnUpdate">Update profile info</string>
-    <string name="txtUpload">Upload Image</string>
+
 </resources>
