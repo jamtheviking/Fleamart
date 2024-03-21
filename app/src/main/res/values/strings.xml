@@ -40,5 +40,7 @@
     <string name="btBuy">Buy</string>
     <string name="txtUpload">Upload Image</string>
     <string name="btnUpdate">Update profile info</string>
+    <string name="btnSell">Sell it</string>
+    <string name="btnShare">Share it</string>
 
 </resources>

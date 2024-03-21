@@ -1,7 +1,6 @@
 package com.csis3175.fleamart.model;
 
 import android.content.Context;
-
 import android.util.AttributeSet;
 
 

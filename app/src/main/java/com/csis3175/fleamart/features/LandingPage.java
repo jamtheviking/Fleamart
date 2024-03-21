@@ -1,12 +1,20 @@
 package com.csis3175.fleamart.features;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.transition.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.transition.Scene;
+import androidx.transition.Slide;
+import androidx.transition.Transition;
+import androidx.transition.TransitionManager;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
@@ -23,7 +31,7 @@ public class LandingPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.csis3175.fleamart.R.layout.activity_landing);
+        setContentView(R.layout.activity_landing);
         transitionConfig();
         isRootShowing = true;
 
@@ -32,8 +40,8 @@ public class LandingPage extends AppCompatActivity {
     public void transitionConfig() {
         listenerConfig();
         ViewGroup viewRoot = findViewById(android.R.id.content);
-        scene1 = Scene.getSceneForLayout(viewRoot, com.csis3175.fleamart.R.layout.login, this);
-        scene2 = Scene.getSceneForLayout(viewRoot, com.csis3175.fleamart.R.layout.sign_up, this);
+        scene1 = Scene.getSceneForLayout(viewRoot, R.layout.login, this);
+        scene2 = Scene.getSceneForLayout(viewRoot, R.layout.sign_up, this);
         slideUpTransition = new Slide(Gravity.BOTTOM);
         slideDownTransition = new Slide(Gravity.TOP);
         slideUpTransition.setDuration(500);
@@ -62,7 +70,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     public void onClickSignup() {
-        Button btnSignup = findViewById(com.csis3175.fleamart.R.id.btnSignUp);
+        Button btnSignup = findViewById(R.id.btnSignUp);
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,13 +81,13 @@ public class LandingPage extends AppCompatActivity {
     }
     public void registerUser(){
 
-        firstName = findViewById(com.csis3175.fleamart.R.id.etFirstNameRegister);
-        lastName = findViewById(com.csis3175.fleamart.R.id.etLastNameRegister);
-        username = findViewById(com.csis3175.fleamart.R.id.etUsernameRegister);
-        email = findViewById(com.csis3175.fleamart.R.id.etEmailRegister);
-        password = findViewById(com.csis3175.fleamart.R.id.etPasswordRegister);
-        confirmPassword = findViewById(com.csis3175.fleamart.R.id.etConfirmPasswordRegister);
-        btnRegister = findViewById(com.csis3175.fleamart.R.id.btnRegister);
+        firstName = findViewById(R.id.etFirstNameRegister);
+        lastName = findViewById(R.id.etLastNameRegister);
+        username = findViewById(R.id.etUsernameRegister);
+        email = findViewById(R.id.etEmailRegister);
+        password = findViewById(R.id.etPasswordRegister);
+        confirmPassword = findViewById(R.id.etConfirmPasswordRegister);
+        btnRegister = findViewById(R.id.btnRegister);
             // Set up click listener for registration button
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +109,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     public void onClickLogin() {
-        Button btnLogin = findViewById(com.csis3175.fleamart.R.id.btnLogin);
+        Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +139,7 @@ public class LandingPage extends AppCompatActivity {
     public void validateCredential(){
         EditText username, password;
 
-        username = findViewById(com.csis3175.fleamart.R.id.etUsername);
+        username = findViewById(R.id.etUsername);
         password = findViewById(R.id.etPassword);
         DatabaseHelper databaseHelperDB = new DatabaseHelper(this);
 
