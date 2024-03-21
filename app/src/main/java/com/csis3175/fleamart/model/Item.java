@@ -1,16 +1,26 @@
 package com.csis3175.fleamart.model;
 
-public class Product {
+public class Item {
 
 
     private String itemName;
     private String itemDescription;
     private double itemPrice;
-    private int imgId;
-//    private bool isShareable;
+    private boolean isShareable;
+    private String date;
+    private byte[] imageData; //storing image into bytes.
+
 
     public String getItemName() {
         return itemName;
+    }
+
+    public boolean isShareable() {
+        return isShareable;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public void setItemName(String itemName) {
@@ -33,18 +43,20 @@ public class Product {
         this.itemPrice = itemPrice;
     }
 
-    public int getImgId() {
-        return imgId;
+
+
+
+
+    public byte[] getImageData() {
+        return imageData;
     }
 
-    public void setImgId(int imgId) {
-        this.imgId = imgId;
-    }
-
-    public Product(String itemName, double itemPrice, int imgId) {
+    public Item(String itemName, String itemDescription, double itemPrice,byte[] imageData,boolean isShareable,String date) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
-        this.imgId = imgId;
+        this.imageData = imageData;
+        this.isShareable = isShareable;
+        this.date = date;
     }
 }

@@ -12,11 +12,11 @@ import com.csis3175.fleamart.model.User;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fleamartDB";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     //------ USERS TABLE -------- //
     private static final String TABLE_USERS = "users";
-    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_ID = "userId";
     private static final String COLUMN_FIRST_NAME = "firstName";
     private static final String COLUMN_LAST_NAME = "lastName";
     private static final String COLUMN_EMAIL = "email";
@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //------ ITEMS TABLE -------- //
     private static final String TABLE_ITEMS = "items";
-    private static final String COLUMN_ITEM_ID = "id";
+    private static final String COLUMN_ITEM_ID = "itemid";
     private static final String COLUMN_ITEM_NAME = "name";
     private static final String COLUMN_ITEM_PRICE = "price";
     private static final String COLUMN_ITEM_DESCRIPTION = "description";
@@ -34,8 +34,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ITEM_CATEGORY = "category";
     private static final String COLUMN_ITEM_TAG = "tag";
     private static final String COLUMN_ITEM_IMAGE = "image";
+    private static final String COLUMN_ITEM_SHAREABLE = "isShareable";
+    private static final String COLUMN_ITEM_DATE = "date";
+    private static final String  COLUMN_USER_ID = "userId";
 
     //------END OF ITEMS TABLE -------- //
+
+
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,7 +65,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ITEM_LOCATION + " TEXT,"
                 + COLUMN_ITEM_CATEGORY + " TEXT,"
                 + COLUMN_ITEM_TAG + " TEXT,"
-                + COLUMN_ITEM_IMAGE + " BLOB"
+                + COLUMN_ITEM_IMAGE + " BLOB,"
+                + COLUMN_ITEM_SHAREABLE + " BOOLEAN,"
+                + COLUMN_ITEM_DATE + " TEXT,"
+                + COLUMN_USER_ID + " INTEGER,"
+                + "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + ")"
                 + ")";
 
         db.execSQL(CREATE_USERS_TABLE);
@@ -92,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertItem(String name, Double price, String description, String location, String category, String tag, byte[] img) {
+    public void insertItem(String name, Double price, String description, String location, String category, String tag, byte[] img,boolean isShareable,String date, int userId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_ITEM_NAME, name);
@@ -102,9 +111,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ITEM_CATEGORY, category);
         values.put(COLUMN_ITEM_TAG, tag);
         values.put(COLUMN_ITEM_IMAGE, img);
-
+        values.put(COLUMN_ITEM_SHAREABLE, isShareable);
+        values.put(COLUMN_ITEM_DATE, date);
+        values.put(COLUMN_USER_ID, userId);
         db.insert(TABLE_ITEMS, null, values);
 
+
+    }
+
+    //View All items excluding ones posted by current USER
+
+   public Cursor viewAllItems(int userID){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query = "SELECT name, description, price, image, isShareable, date FROM " + TABLE_ITEMS +
+                " WHERE userId <> ? or userId is NULL";
+        Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
+        return c;
     }
 
 
@@ -114,6 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //This query looks for the a user using user name and password. The "?" is used to avoid SQL Injection Attacks and allows parameterization input
         Cursor cursor = db.query(TABLE_USERS, null, "username=? AND password=?", new String[]{username, password}, null, null, null);
         boolean isValid = cursor.moveToFirst();
+        cursor.close();
         return isValid;
     }
 

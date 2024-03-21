@@ -1,27 +1,49 @@
 package com.csis3175.fleamart.features;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.csis3175.fleamart.R;
+import com.csis3175.fleamart.database.DatabaseHelper;
 import com.csis3175.fleamart.model.CardAdapter;
 import com.csis3175.fleamart.model.CustomEditText;
-import com.csis3175.fleamart.model.Product;
-import com.csis3175.fleamart.R;
+import com.csis3175.fleamart.model.Item;
+import com.csis3175.fleamart.model.User;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class SearchView extends AppCompatActivity {
 
+    DatabaseHelper databaseHelper;
+    private User user;
+    private int userId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_view);
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("user")) {
+            user = (User) intent.getSerializableExtra("user");
+            userId = user.getId();
+
+
+        }
+
+        //initialize DB
+        databaseHelper = new DatabaseHelper(this);
 
         //https://exchangetuts.com/setting-span-size-of-single-row-in-staggeredgridlayoutmanager-1639642992135800
         RecyclerView rView = findViewById(R.id.recycler);
@@ -34,7 +56,7 @@ public class SearchView extends AppCompatActivity {
         });
 
         rView.setLayoutManager(gridLayoutManager);
-        CardAdapter cardAdapter = new CardAdapter(getCardData());
+        CardAdapter cardAdapter = new CardAdapter(SearchView.this,getCardData());
 
         rView.setAdapter(cardAdapter);
 
@@ -69,11 +91,11 @@ public class SearchView extends AppCompatActivity {
 
     public void searchItems(String searchTerm, CardAdapter ca,RecyclerView rView){
 
-        List<Product> allProducts = new ArrayList<>(getCardData());
-        List<Product> updatedList = new ArrayList<>();
-        for(Product product : allProducts){
-            if (product.getItemName().toLowerCase().contains(searchTerm)) {
-                updatedList.add(product);
+        List<Item> allItems = new ArrayList<>(getCardData());
+        List<Item> updatedList = new ArrayList<>();
+        for(Item item : allItems){
+            if (item.getItemName().toLowerCase().contains(searchTerm)) {
+                updatedList.add(item);
             }
         }
         ca.updatedList(updatedList);
@@ -81,23 +103,37 @@ public class SearchView extends AppCompatActivity {
 
     }
 
-    private List<Product> getCardData(){
-        List<Product> products = new ArrayList<>();
-        products.add(new Product("Clock",56,R.drawable.alarm_clock));
-        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
-        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
-        products.add(new Product("Dryer Machine",200,R.drawable.dryer));
-        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
-        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
-        products.add(new Product("Dryer Machine",12000,R.drawable.dryer));
-        products.add(new Product("Clock",56,R.drawable.alarm_clock));
-        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
-        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
-        products.add(new Product("Dryer Machine",200,R.drawable.dryer));
-        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
-        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
-        products.add(new Product("Dryer Machine",12000,R.drawable.dryer));
+    private List<Item> getCardData(){
+        List<Item> items = new ArrayList<>();
+//        products.add(new Product("Clock",56,R.drawable.alarm_clock));
+//        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
+//        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
+//        products.add(new Product("Dryer Machine",200,R.drawable.dryer));
+//        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
+//        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
+//        products.add(new Product("Dryer Machine",12000,R.drawable.dryer));
+//        products.add(new Product("Clock",56,R.drawable.alarm_clock));
+//        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
+//        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
+//        products.add(new Product("Dryer Machine",200,R.drawable.dryer));
+//        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
+//        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
+//        products.add(new Product("Dryer Machine",12000,R.drawable.dryer));
 
-        return products;
+        // Retrieve data from the database
+        Cursor c = databaseHelper.viewAllItems(userId);
+        while (c.moveToNext()) {
+            String name = c.getString(0);
+            String description = c.getString(1);
+            double price = c.getDouble(2);
+            byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
+            boolean isShareable = c.getInt(c.getColumnIndexOrThrow("isShareable"))==1;
+            String dateString = c.getString(c.getColumnIndexOrThrow("date"));
+            items.add(new Item(name, description, price, imageData,isShareable,dateString));
+            }
+        // Close the cursor
+        c.close();
+        return items;
+
     }
 }

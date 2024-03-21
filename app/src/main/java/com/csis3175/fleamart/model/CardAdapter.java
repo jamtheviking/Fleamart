@@ -1,5 +1,6 @@
 package com.csis3175.fleamart.model;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
 
 import java.text.DecimalFormat;
@@ -19,22 +21,23 @@ import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
-    private List<Product> productList;
+    private List<Item> itemList;
+    private Context context;
 
     //Default constructor for search
     public CardAdapter(){}
-    public CardAdapter(List<Product> productList) {
-        this.productList = productList;
+    public CardAdapter(Context context, List<Item> itemList) {
+        this.itemList = itemList;
+        this.context = context;
     }
 
     // JO
-    public void updatedList(List<Product> updatedList) {
-        productList = updatedList;
+    public void updatedList(List<Item> updatedList) {
+        itemList.clear(); // Clear the existing list
+        itemList.addAll(updatedList); // Add all elements from the updated list
+        notifyDataSetChanged();
 
     }
-
-
-
     // JO
 
 
@@ -51,20 +54,27 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DecimalFormat df = new DecimalFormat("#,###,###$");
-        Product product = productList.get(position);
-        holder.itemNameTextView.setText(product.getItemName());
-        holder.itemPriceTextView.setText(df.format(product.getItemPrice()));
-        holder.itemImageView.setImageResource(product.getImgId());
+        Item item = itemList.get(position);
+        holder.itemNameTextView.setText(item.getItemName());
+        holder.itemPriceTextView.setText(df.format(item.getItemPrice()));
+//        holder.itemImageView.setImageDrawable(product.getImageDrawable());
+
+
+        Glide.with(context)
+                .load(item.getImageData()) // Load image from the imagePath string
+                .into(holder.itemImageView);
+
+
 
         //Onclick listener
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ItemDisplay.class);
-                intent.putExtra("itemName", product.getItemName());
-                intent.putExtra("itemPrice", product.getItemPrice());
-                intent.putExtra("itemDesc", product.getItemDescription());
-                intent.putExtra("imgId", product.getImgId());
+                intent.putExtra("itemName", item.getItemName());
+                intent.putExtra("itemPrice", item.getItemPrice());
+                intent.putExtra("itemDesc", item.getItemDescription());
+                intent.putExtra("imgData", item.getImageData());
                 v.getContext().startActivity(intent);
 
             }
@@ -74,7 +84,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return itemList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
