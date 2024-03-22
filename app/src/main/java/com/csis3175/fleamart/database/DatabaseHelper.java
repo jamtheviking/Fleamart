@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.csis3175.fleamart.model.Item;
 import com.csis3175.fleamart.model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -95,7 +96,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_EMAIL, email);
         values.put(COLUMN_PASSWORD, password);
-
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
 
@@ -123,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
    public Cursor viewAllItems(int userID){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT name, description, price, image, isShareable, date FROM " + TABLE_ITEMS +
+        String query = "SELECT * FROM " + TABLE_ITEMS +
                 " WHERE userId <> ? or userId is NULL";
         Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
         return c;
@@ -198,5 +198,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
+
+    public Item getItemById(int id) {
+        //TODO exception handling
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_ITEMS + " where itemid = ? ";
+        Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(id)});
+        Item item = new Item();
+        if (c != null && c.moveToFirst()) {
+            item.setItemName(c.getString(c.getColumnIndexOrThrow("name")));
+            item.setItemPrice(c.getDouble(c.getColumnIndexOrThrow("price")));
+            item.setShareable(c.getInt(c.getColumnIndexOrThrow("isShareable")) == 1);
+            item.setImageData(c.getBlob(c.getColumnIndexOrThrow("image")));
+            item.setItemDescription(c.getString(c.getColumnIndexOrThrow("description")));
+            item.setLocation(c.getString(c.getColumnIndexOrThrow("location")));
+            item.setDate(c.getString(c.getColumnIndexOrThrow("date")));
+            item.setCategory(c.getString(c.getColumnIndexOrThrow("category")));
+            item.setUserID(c.getInt(c.getColumnIndexOrThrow("userId")));
+            c.close();
+            //TODO add tag
+//            private static final String COLUMN_ITEM_TAG = "tag";
+//            private static final String  COLUMN_USER_ID = "userId";
+        }
+        return item;
+    }
+
 
 }

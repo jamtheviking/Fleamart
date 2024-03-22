@@ -42,5 +42,8 @@
     <string name="btnUpdate">Update profile info</string>
     <string name="btnSell">Sell it</string>
     <string name="btnShare">Share it</string>
+    <string name="btnBorrow">Borrow</string>
+    <string name="discountPrompt">Please a discount rate for this item using the slider</string>
+    <string name="btnAddDiscount">Apply Discount</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.csis3175.fleamart.features;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -10,13 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.transition.Scene;
 import androidx.transition.Slide;
 import androidx.transition.Transition;
@@ -29,52 +33,38 @@ import com.csis3175.fleamart.model.User;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class SellPage extends AppCompatActivity {
 
-    Button btnConfirm,btnCancel,btnShare,btnSell;
-    EditText etItemName;
-    EditText etItemPrice;
-    EditText etItemDescription;
-    EditText etItemLocation;
+    Button btnConfirm,btnCancel,btnShare,btnSell,addDiscount;
+    EditText etItemName,etItemPrice,etItemDescription,etItemLocation,etItemTags;
     Spinner etItemCategory;
-    EditText etItemTags;
-
     ImageView ivUploadedImage;
-    Uri result;
     byte[] imageBytes;
     private Transition slideRightTransition;
-    private Scene scene1, scene2;
+    private Scene scene3, scene2;
     String itemName,itemDescription,itemLocation,itemCategory,itemTags,currentDate ;
     Double itemPrice;
     int userId;
-
-
-
-
     private ActivityResultLauncher<String> getImage;
     private User user;
+    double dValue = 0.0;
+    double newPrice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
-        transitionConfig();
-
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("user")) {
             user = (User) intent.getSerializableExtra("user");
             userId = user.getId();
         }
-
-
-
-
-
-
+        //TODO need to implement discount feature. After user selects buy, user selects discount for item
         etItemName = findViewById(R.id.etItemName);
         etItemPrice = findViewById(R.id.etItemPrice);
         etItemDescription = findViewById(R.id.etItemDescription);
@@ -83,6 +73,35 @@ public class SellPage extends AppCompatActivity {
         etItemTags = findViewById(R.id.etItemTag);
         ivUploadedImage = findViewById(R.id.imageUpload);
 
+        DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+        ViewGroup viewRoot = findViewById(android.R.id.content);
+
+
+        scene2 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell2, this);
+        scene3 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell3, this);
+        slideRightTransition = new Slide(Gravity.START);
+        slideRightTransition.setDuration(800);
+
+        btnConfirm = findViewById(R.id.btConfirm);  //activity_sell
+        btnCancel = findViewById(R.id.btCancel);    //activity_sell
+
+
+        //Go to scene2
+        btnConfirm.setOnClickListener(v -> {
+
+            //TODO: ADD validation
+            TransitionManager.go(scene2, slideRightTransition);
+            itemName = etItemName.getText().toString();
+            itemPrice = Double.parseDouble(etItemPrice.getText().toString());
+            itemDescription = etItemDescription.getText().toString();
+            itemLocation = etItemLocation.getText().toString();
+            itemCategory = etItemCategory.getSelectedItem().toString();
+            itemTags = etItemTags.getText().toString();
+        });
+
+        //finish
+        btnCancel.setOnClickListener(v -> finish());
+        transitionConfigFlow();
 
         /**
          * This Activity allows the user to get image from the Android Device Storage
@@ -106,36 +125,12 @@ public class SellPage extends AppCompatActivity {
             }
         });
 
-        //Cancel button
-//        btnCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
 
-
-//        btnConfirm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
 //
 //                //TODO: Input validation
-//                String itemName = etItemName.getText().toString();
-//                Double itemPrice = Double.parseDouble(etItemPrice.getText().toString());
-//                String itemDescription = etItemDescription.getText().toString();
-//                String itemLocation = etItemLocation.getText().toString();
-//                String itemCategory = etItemCategory.getSelectedItem().toString();
-//                String itemTags = etItemTags.getText().toString();
-//
-//                DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
-//                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes);
-//
-//                Toast.makeText(SellPage.this, "Item placed for selling", Toast.LENGTH_SHORT).show();
+
 //                //TODO: confirm button should move to a different user asking the user if they want to share or sell the item
 //                //TODO: Provide user confirmation that item was uploaded
-//                finish();
-//            }
-//        });
 
 
 
@@ -151,116 +146,118 @@ public class SellPage extends AppCompatActivity {
         });
     }
 
-    public void transitionConfig() {
-        listenerConfig();
+    public void transitionConfigFlow() {
+        DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
         ViewGroup viewRoot = findViewById(android.R.id.content);
         scene2 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell2, this);
-//        scene2 = Scene.getSceneForLayout(viewRoot, com.csis3175.fleamart.R.layout.sign_up, this);
-        slideRightTransition = new Slide(Gravity.LEFT);
+        scene3 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell3, this);
+        btnSell = findViewById(R.id.btnSell);  //activity_sell2
+        btnShare = findViewById(R.id.btnShare);    //activity_sell2
+
+        slideRightTransition = new Slide(Gravity.START);
         slideRightTransition.setDuration(800);
-        slideRightTransition.addListener(new Transition.TransitionListener() {
+
+        scene2.setEnterAction(new Runnable() {
             @Override
-            public void onTransitionStart(@NonNull Transition transition) {
+            public void run() {
+                btnSell = findViewById(R.id.btnSell);  //activity_sell2
+                btnShare = findViewById(R.id.btnShare);    //activity_sell2
+                //setup scene2
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                //go to scene3
+                btnSell.setOnClickListener(v -> {
+                    currentDate = dateFormat.format(new Date());
+
+                    TransitionManager.go(scene3, slideRightTransition);
+                });
+                //finish()
+                btnShare.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        currentDate = dateFormat.format(new Date());
+                        //TODO default discount to 0
+                        dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId());
+                        finish();
+                    }
+                });
 
             }
-
+        });
+        scene3.setEnterAction(new Runnable() {
             @Override
-            public void onTransitionEnd(@NonNull Transition transition) {
-                onShareClick();
-
-            }
-
-            @Override
-            public void onTransitionCancel(@NonNull Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionPause(@NonNull Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionResume(@NonNull Transition transition) {
+            public void run() {
+                LinearLayout linearLayout = findViewById(R.id.rootContainer);
+                addDiscount = findViewById(R.id.btnAddDiscount);
+                seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,user.getId(), itemLocation, itemCategory,addDiscount);
 
             }
         });
 
 
-
-
-
     }
-    public void listenerConfig(){
-        onClickConfirm();
-        onClickCancel();
+    public void seekBarConfig(LinearLayout linearLayout,String itemName, String itemDescription, double itemPrice,
+                              boolean isShareable,String date, byte[] imageData, int userID, String location, String category, Button b) {
+//        https://tutorialwing.com/create-an-android-seekbar-programmatically-in-android/
+
+        SeekBar seekBar = new SeekBar(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(30, 30, 30, 30);
+        seekBar.setLayoutParams(layoutParams);
+        DecimalFormat df = new DecimalFormat("#%");
+
+        df.setMultiplier(1);
+        TextView total = findViewById(R.id.total);
+        TextView discount = findViewById(R.id.discount);
+        total.setText(String.valueOf(itemPrice));
+
+        Drawable customThumbDrawable = ResourcesCompat.getDrawable(getResources(),
+                R.drawable.custom_thumb, null);
+        seekBar.setThumb(customThumbDrawable);
+
+        seekBar.setBackgroundColor(getResources().getColor(R.color.black));
 
 
-    }
+        // Add SeekBar to LinearLayout
+        if (linearLayout != null) {
+            linearLayout.addView(seekBar);
+        }
 
-    public void onClickConfirm() {
-        btnConfirm = findViewById(R.id.btConfirm);
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
+
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // Write code to perform some action when progress is changed.
+                dValue = (double) progress;
+                discount.setText(df.format(seekBar.getProgress()));
+            }
 
-                //TODO: ADD validation
-                TransitionManager.go(scene2, slideRightTransition);
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Write code to perform some action when touch is started.
+            }
 
-                itemName = etItemName.getText().toString();
-                itemPrice = Double.parseDouble(etItemPrice.getText().toString());
-                itemDescription = etItemDescription.getText().toString();
-                itemLocation = etItemLocation.getText().toString();
-                itemCategory = etItemCategory.getSelectedItem().toString();
-                itemTags = etItemTags.getText().toString();
-
-//
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Write code to perform some action when touch is stopped.
+                DecimalFormat df = new DecimalFormat("#$");
+                double discountMul = 1 - (dValue/100);
+                newPrice = itemPrice * discountMul;
+                total.setText(df.format(newPrice));
             }
         });
-    }
-
-    public void onClickCancel() {
-        btnCancel = findViewById(R.id.btCancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-            }
-        });
-    }
-    public void onShareClick() {
-        btnShare = findViewById(R.id.btnShare);
-        btnSell = findViewById(R.id.btnSell);
-        DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        btnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                currentDate = dateFormat.format(new Date());
-
+                DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+                //Todo change DB to include discount and add to insert statement. We will be inserting entered price and discount.
                 dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId());
-
                 finish();
-
-
-
-
-            }
-        });
-
-        btnSell.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentDate = dateFormat.format(new Date());
-                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,user.getId());
-                finish();
-
             }
         });
 
     }
-
 
     /**
      * This method converts the uploaded image to byte to store it as a BLOB
