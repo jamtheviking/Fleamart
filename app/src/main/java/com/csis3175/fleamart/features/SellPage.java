@@ -176,7 +176,7 @@ public class SellPage extends AppCompatActivity {
                     public void onClick(View v) {
                         currentDate = dateFormat.format(new Date());
                         //TODO default discount to 0
-                        dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId());
+                        dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),1,"available");
                         finish();
                     }
                 });
@@ -252,7 +252,7 @@ public class SellPage extends AppCompatActivity {
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
                 //Todo change DB to include discount and add to insert statement. We will be inserting entered price and discount.
-                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId());
+                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),dValue,"available");
                 finish();
             }
         });
