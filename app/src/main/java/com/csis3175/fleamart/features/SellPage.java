@@ -53,6 +53,7 @@ public class SellPage extends AppCompatActivity {
     private ActivityResultLauncher<String> getImage;
     private User user;
     double dValue = 0.0;
+    double discountMul = 0.0;
     double newPrice = 0;
 
     @Override
@@ -125,8 +126,6 @@ public class SellPage extends AppCompatActivity {
             }
         });
 
-
-//
 //                //TODO: Input validation
 
 //                //TODO: confirm button should move to a different user asking the user if they want to share or sell the item
@@ -184,12 +183,12 @@ public class SellPage extends AppCompatActivity {
             }
         });
         scene3.setEnterAction(new Runnable() {
+
             @Override
             public void run() {
                 LinearLayout linearLayout = findViewById(R.id.rootContainer);
                 addDiscount = findViewById(R.id.btnAddDiscount);
                 seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,user.getId(), itemLocation, itemCategory,addDiscount);
-
             }
         });
 
@@ -229,7 +228,7 @@ public class SellPage extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // Write code to perform some action when progress is changed.
-                dValue = (double) progress;
+                discountMul = (double) progress;
                 discount.setText(df.format(seekBar.getProgress()));
             }
 
@@ -242,8 +241,8 @@ public class SellPage extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // Write code to perform some action when touch is stopped.
                 DecimalFormat df = new DecimalFormat("#$");
-                double discountMul = 1 - (dValue/100);
-                newPrice = itemPrice * discountMul;
+                dValue = 1 - (discountMul/100);
+                newPrice = itemPrice * dValue;
                 total.setText(df.format(newPrice));
             }
         });
@@ -252,7 +251,7 @@ public class SellPage extends AppCompatActivity {
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
                 //Todo change DB to include discount and add to insert statement. We will be inserting entered price and discount.
-                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),dValue,"available");
+                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,user.getId(),dValue,"available");
                 finish();
             }
         });

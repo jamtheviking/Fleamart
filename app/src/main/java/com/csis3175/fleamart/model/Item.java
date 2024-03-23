@@ -11,7 +11,26 @@ public class Item implements Serializable {
     private double itemPrice;
     private boolean isShareable;
     private double discount;
-
+    private String date;
+    private byte[] imageData; //storing image into bytes.
+    private int userID;
+    private String location;
+    private String category;
+    private String status;
+    public Item(int itemID, String itemName, String itemDescription, double itemPrice, boolean isShareable, double discount, String date, byte[] imageData, int userID, String location, String category, String status) {
+        this.itemID = itemID;
+        this.itemName = itemName;
+        this.itemDescription = itemDescription;
+        this.itemPrice = itemPrice;
+        this.isShareable = isShareable;
+        this.discount = discount;
+        this.date = date;
+        this.imageData = imageData;
+        this.userID = userID;
+        this.location = location;
+        this.category = category;
+        this.status = status;
+    }
     public Item(int itemID, String itemName, String itemDescription, double itemPrice, boolean isShareable, double discount, String date, byte[] imageData, int userID, String location, String category) {
         this.itemID = itemID;
         this.itemName = itemName;
@@ -25,6 +44,18 @@ public class Item implements Serializable {
         this.location = location;
         this.category = category;
     }
+    //Default Constructor
+    public Item() {
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public double getDiscount() {
         return discount;
@@ -32,28 +63,6 @@ public class Item implements Serializable {
 
     public void setDiscount(double discount) {
         this.discount = discount;
-    }
-
-    private String date;
-    private byte[] imageData; //storing image into bytes.
-    private int userID;
-    private String location;
-    private String category;
-    //Default Constructor
-    public Item() {
-    }
-
-    public Item(int itemID, String itemName, String itemDescription, double itemPrice, boolean isShareable, String date, byte[] imageData, int userID, String location, String category) {
-        this.itemID = itemID;
-        this.itemName = itemName;
-        this.itemDescription = itemDescription;
-        this.itemPrice = itemPrice;
-        this.isShareable = isShareable;
-        this.date = date;
-        this.imageData = imageData;
-        this.userID = userID;
-        this.location = location;
-        this.category = category;
     }
 
     public int getItemID() {

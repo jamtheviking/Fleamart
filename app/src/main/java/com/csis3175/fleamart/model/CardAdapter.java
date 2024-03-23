@@ -2,6 +2,7 @@ package com.csis3175.fleamart.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +54,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DecimalFormat df = new DecimalFormat("#,###,###$");
+
         Item item = itemList.get(position);
+        double itemPrice = item.getItemPrice();
+        double discount = item.getDiscount();
+        double discountedPrice = itemPrice * (1 - discount);
+
         holder.itemNameTextView.setText(item.getItemName());
-        holder.itemPriceTextView.setText(df.format(item.getItemPrice()));
+        //TODO: calculate discount price or show show discount percentage on card
+        holder.itemPriceTextView.setText(df.format(discountedPrice));
 
 //        holder.itemImageView.setImageDrawable(product.getImageDrawable());
 

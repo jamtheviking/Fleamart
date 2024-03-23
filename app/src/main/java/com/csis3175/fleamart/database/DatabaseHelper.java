@@ -151,11 +151,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //View All items excluding ones posted by current USER
+    //TODO modify query to display items that are available
 
    public Cursor viewAllItems(int userID){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_ITEMS +
-                " WHERE userId <> ? or userId is NULL";
+                " WHERE posterid <> ? or posterid is NULL";
         Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
         return c;
     }
@@ -240,13 +241,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c != null && c.moveToFirst()) {
             item.setItemName(c.getString(c.getColumnIndexOrThrow("name")));
             item.setItemPrice(c.getDouble(c.getColumnIndexOrThrow("price")));
+            item.setDiscount(c.getDouble(c.getColumnIndexOrThrow("discount")));
+            item.setStatus(c.getString(c.getColumnIndexOrThrow("itemstatus")));
             item.setShareable(c.getInt(c.getColumnIndexOrThrow("isShareable")) == 1);
             item.setImageData(c.getBlob(c.getColumnIndexOrThrow("image")));
             item.setItemDescription(c.getString(c.getColumnIndexOrThrow("description")));
             item.setLocation(c.getString(c.getColumnIndexOrThrow("location")));
             item.setDate(c.getString(c.getColumnIndexOrThrow("date")));
             item.setCategory(c.getString(c.getColumnIndexOrThrow("category")));
-            item.setUserID(c.getInt(c.getColumnIndexOrThrow("userId")));
+            item.setUserID(c.getInt(c.getColumnIndexOrThrow("posterid")));
             c.close();
             //TODO add tag
 //            private static final String COLUMN_ITEM_TAG = "tag";

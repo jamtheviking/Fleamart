@@ -18,7 +18,6 @@ public class SignUpPage extends AppCompatActivity {
     EditText confirmPassword;
     EditText email;
     EditText username;
-
     Button btnRegister;
 
     @Override

@@ -2,6 +2,7 @@ package com.csis3175.fleamart.model;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ public class ItemDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_display);
 
+        //TODO REQUIREMENT: Display seller information in this page.
+
         TextView itemName = findViewById(R.id.itemName);
         TextView itemPrice = findViewById(R.id.itemPrice);
         TextView itemDesc = findViewById(R.id.itemDesc);
@@ -36,6 +39,7 @@ public class ItemDisplay extends AppCompatActivity {
         Button btnConfirm = findViewById(R.id.btConfirm);
         DecimalFormat df = new DecimalFormat("#$");
 
+
         Intent intent = getIntent(); //Received from Card Adapter
         int itemId;
         itemId = intent.getIntExtra("itemId", 0);
@@ -43,18 +47,27 @@ public class ItemDisplay extends AppCompatActivity {
 
 
         DatabaseHelper db = new DatabaseHelper(this);
+        //TODO modify db query. Join users table and retrieve Seller name and email?
         Item item = db.getItemById(itemId);
 
         if (item != null) {
             itemName.setText(item.getItemName());
-            itemPrice.setText(String.format(Locale.getDefault(), df.format(item.getItemPrice())));
+            //TODO calculate discounted price or show discount
+            double price = item.getItemPrice();
+            double discount = item.getDiscount();
+            double discountedPrice = price * (1 - discount);
+            Log.d("DiscountCalculation", "Item Price: " + price);
+            Log.d("DiscountCalculation", "Discount: " + discount);
+            Log.d("DiscountCalculation", "Discounted Price: " + discountedPrice);
+            itemPrice.setText(String.format(Locale.getDefault(), df.format(discountedPrice)));
             itemDesc.setText(item.getItemDescription());
             byte[] imageData = item.getImageData();
+            //TODO add an identifier to a card that is shareable
             boolean isShareable = item.getIsShareable();
             Date dateObj = convertToListedDate(item.getDate());
             itemListDay.setText(calculateListedDays(dateObj));
 
-            if (!isShareable) {
+            if (isShareable) {
                 btnConfirm.setText(R.string.btnBorrow);
             }
 
@@ -69,7 +82,7 @@ public class ItemDisplay extends AppCompatActivity {
         }
 
         btnConfirm.setOnClickListener(v -> {
-            // Handle button click logic here
+            //TODO create next activity to confirm share or buy.
         });
     }
 

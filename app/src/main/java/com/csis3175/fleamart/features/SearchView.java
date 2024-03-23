@@ -3,6 +3,7 @@ package com.csis3175.fleamart.features;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -127,13 +128,14 @@ public class  SearchView extends AppCompatActivity {
             String name = c.getString(c.getColumnIndexOrThrow("name"));
             String description = c.getString(c.getColumnIndexOrThrow("description"));
             double price = c.getDouble(c.getColumnIndexOrThrow("price"));
+            double discount = c.getDouble(c.getColumnIndexOrThrow("discount"));
             boolean isShareable = c.getInt(c.getColumnIndexOrThrow("isShareable"))==1;
             String dateString = c.getString(c.getColumnIndexOrThrow("date"));
             byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
-            int userId = c.getInt(c.getColumnIndexOrThrow("userId"));
+            int userId = c.getInt(c.getColumnIndexOrThrow("posterid"));
             String location = c.getString(c.getColumnIndexOrThrow("location"));
             String category = c.getString(c.getColumnIndexOrThrow("category"));
-            items.add(new Item(itemId,name, description, price, isShareable,dateString,imageData,userId,location,category));
+            items.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category));
             }
         // Close the cursor
         c.close();
