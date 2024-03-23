@@ -7,6 +7,8 @@
     tools:context=".model.ItemDisplay"
     android:background="@color/black">
 
+<!--    Todo need to fix formating and font sizes-->
+
     <ImageView
         android:id="@+id/itemImg"
         android:layout_width="match_parent"
@@ -27,7 +29,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Listed 45 days ago"
+
         android:textSize="15sp"
         android:textColor="@color/silver"
         app:layout_constraintTop_toBottomOf="@id/itemImg"/>
@@ -73,7 +75,7 @@
 
 
         <Button
-            android:id="@+id/btBuy"
+            android:id="@+id/btConfirm"
             android:text="@string/btBuy"
             android:textSize="20sp"
             android:layout_width="wrap_content"

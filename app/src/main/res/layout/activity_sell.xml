@@ -34,9 +34,6 @@
 
 
 
-
-
-
     <TextView
         android:id="@+id/txtItemName"
         style="@style/normal_style_silver"
@@ -51,7 +48,7 @@
     <EditText
         android:id="@+id/etItemName"
         style="@style/edit_text_silver"
-        android:layout_width="wrap_content"
+        android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageUpload"
         android:layout_alignEnd="@id/imageUpload"
@@ -72,7 +69,7 @@
     <EditText
         android:id="@+id/etItemDescription"
         style="@style/edit_text_silver"
-        android:layout_width="wrap_content"
+        android:layout_width="225dp"
         android:layout_height="80dp"
         android:layout_below="@id/etItemName"
         android:layout_alignEnd="@id/imageUpload"
@@ -93,7 +90,7 @@
     <EditText
         android:id="@+id/etItemLocation"
         style="@style/edit_text_silver"
-        android:layout_width="wrap_content"
+        android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/etItemDescription"
         android:layout_alignEnd="@id/imageUpload"
@@ -113,7 +110,7 @@
     <EditText
         android:id="@+id/etItemPrice"
         style="@style/edit_text_silver"
-        android:layout_width="wrap_content"
+        android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/etItemLocation"
         android:layout_alignEnd="@id/imageUpload"
@@ -135,7 +132,7 @@
     <EditText
         android:id="@+id/etItemTag"
         style="@style/edit_text_silver"
-        android:layout_width="wrap_content"
+        android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/etItemPrice"
         android:layout_alignEnd="@id/imageUpload"

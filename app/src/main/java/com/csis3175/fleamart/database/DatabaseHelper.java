@@ -7,12 +7,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.csis3175.fleamart.model.Item;
 import com.csis3175.fleamart.model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fleamartDB";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4; /** Added transaction table, and [status,discount] to Item table*/
 
     //------ USERS TABLE -------- //
     private static final String TABLE_USERS = "users";
@@ -29,14 +30,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ITEM_ID = "itemid";
     private static final String COLUMN_ITEM_NAME = "name";
     private static final String COLUMN_ITEM_PRICE = "price";
+    private static final String COLUMN_ITEM_DISCOUNT = "discount";
     private static final String COLUMN_ITEM_DESCRIPTION = "description";
     private static final String COLUMN_ITEM_LOCATION = "location";
     private static final String COLUMN_ITEM_CATEGORY = "category";
     private static final String COLUMN_ITEM_TAG = "tag";
     private static final String COLUMN_ITEM_IMAGE = "image";
     private static final String COLUMN_ITEM_SHAREABLE = "isShareable";
+    private static final String COLUMN_ITEM_STATUS = "itemstatus";
     private static final String COLUMN_ITEM_DATE = "date";
-    private static final String  COLUMN_USER_ID = "userId";
+    private static final String  COLUMN_USER_ID = "posterid";
+
+    //------END OF ITEMS TABLE -------- //
+    //------ TRANSACTION TABLE -------- //
+    private static final String TABLE_TRANSACTION = "transactions";
+    private static final String COLUMN_TRANSACTION_ID = "Transaction_id";
+    private static final String COLUMN_TRANSACTION_BUYER_ID = "transaction_buyer_id";
+    private static final String COLUMN_TRANSACTION_SELLER_ID = "transaction_seller_id";
+    private static final String COLUMN_TRANSACTION_DATE = "transaction_date";
+    private static final String COLUMN_TRANSACTION_DELIVERY = "transaction_delivery";
+    private static final String COLUMN_TRANSACTION_STATUS = "transaction_status";
 
     //------END OF ITEMS TABLE -------- //
 
@@ -61,19 +74,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_ITEM_NAME + " TEXT,"
                 + COLUMN_ITEM_PRICE + " REAL,"
+                + COLUMN_ITEM_DISCOUNT + " REAL,"
                 + COLUMN_ITEM_DESCRIPTION + " TEXT,"
                 + COLUMN_ITEM_LOCATION + " TEXT,"
                 + COLUMN_ITEM_CATEGORY + " TEXT,"
                 + COLUMN_ITEM_TAG + " TEXT,"
                 + COLUMN_ITEM_IMAGE + " BLOB,"
                 + COLUMN_ITEM_SHAREABLE + " BOOLEAN,"
+                + COLUMN_ITEM_STATUS + " TEXT,"
                 + COLUMN_ITEM_DATE + " TEXT,"
                 + COLUMN_USER_ID + " INTEGER,"
                 + "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + ")"
                 + ")";
 
+        String CREATE_TRANSACTION_TABLE = "CREATE TABLE " + TABLE_TRANSACTION + "("
+                + COLUMN_TRANSACTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_ITEM_ID + " INTEGER,"
+                + COLUMN_TRANSACTION_BUYER_ID + " INTEGER,"
+                + COLUMN_TRANSACTION_SELLER_ID + " INTEGER,"
+                + COLUMN_TRANSACTION_DATE + " TEXT,"
+                + COLUMN_TRANSACTION_DELIVERY + " TEXT,"
+                + COLUMN_TRANSACTION_STATUS + " TEXT,"
+                + "FOREIGN KEY(" + COLUMN_ITEM_ID + ") REFERENCES " + TABLE_ITEMS + "(" + COLUMN_ITEM_ID + "),"
+                + "FOREIGN KEY(" + COLUMN_TRANSACTION_BUYER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + "),"
+                + "FOREIGN KEY(" + COLUMN_TRANSACTION_SELLER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + ")"
+                + ")";
+
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_ITEMS_TABLE);
+        db.execSQL(CREATE_TRANSACTION_TABLE);
     }
 
     @Override
@@ -83,6 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // Perform necessary upgrades, e.g., add new columns or update existing ones
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEMS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSACTION);
             onCreate(db);
         }
     }
@@ -95,17 +125,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_EMAIL, email);
         values.put(COLUMN_PASSWORD, password);
-
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
 
     }
 
-    public void insertItem(String name, Double price, String description, String location, String category, String tag, byte[] img,boolean isShareable,String date, int userId) {
+    public void insertItem(String name, Double price, String description, String location, String category, String tag, byte[] img,boolean isShareable,String date, int userId,double dValue,String status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_ITEM_NAME, name);
         values.put(COLUMN_ITEM_PRICE, price);
+        values.put(COLUMN_ITEM_DISCOUNT, dValue);
         values.put(COLUMN_ITEM_DESCRIPTION, description);
         values.put(COLUMN_ITEM_LOCATION, location);
         values.put(COLUMN_ITEM_CATEGORY, category);
@@ -113,6 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ITEM_IMAGE, img);
         values.put(COLUMN_ITEM_SHAREABLE, isShareable);
         values.put(COLUMN_ITEM_DATE, date);
+        values.put(COLUMN_ITEM_STATUS, status);
         values.put(COLUMN_USER_ID, userId);
         db.insert(TABLE_ITEMS, null, values);
 
@@ -120,11 +151,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //View All items excluding ones posted by current USER
+    //TODO modify query to display items that are available
 
    public Cursor viewAllItems(int userID){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT name, description, price, image, isShareable, date FROM " + TABLE_ITEMS +
-                " WHERE userId <> ? or userId is NULL";
+        String query = "SELECT * FROM " + TABLE_ITEMS +
+                " WHERE posterid <> ? or posterid is NULL";
         Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
         return c;
     }
@@ -198,5 +230,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
+
+    public Item getItemById(int id) {
+        //TODO exception handling
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_ITEMS + " where itemid = ? ";
+        Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(id)});
+        Item item = new Item();
+        if (c != null && c.moveToFirst()) {
+            item.setItemName(c.getString(c.getColumnIndexOrThrow("name")));
+            item.setItemPrice(c.getDouble(c.getColumnIndexOrThrow("price")));
+            item.setDiscount(c.getDouble(c.getColumnIndexOrThrow("discount")));
+            item.setStatus(c.getString(c.getColumnIndexOrThrow("itemstatus")));
+            item.setShareable(c.getInt(c.getColumnIndexOrThrow("isShareable")) == 1);
+            item.setImageData(c.getBlob(c.getColumnIndexOrThrow("image")));
+            item.setItemDescription(c.getString(c.getColumnIndexOrThrow("description")));
+            item.setLocation(c.getString(c.getColumnIndexOrThrow("location")));
+            item.setDate(c.getString(c.getColumnIndexOrThrow("date")));
+            item.setCategory(c.getString(c.getColumnIndexOrThrow("category")));
+            item.setUserID(c.getInt(c.getColumnIndexOrThrow("posterid")));
+            c.close();
+            //TODO add tag
+//            private static final String COLUMN_ITEM_TAG = "tag";
+//            private static final String  COLUMN_USER_ID = "userId";
+        }
+        return item;
+    }
+
 
 }

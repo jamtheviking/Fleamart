@@ -3,6 +3,7 @@ package com.csis3175.fleamart.features;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class SearchView extends AppCompatActivity {
+public class  SearchView extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
     private User user;
@@ -123,13 +124,18 @@ public class SearchView extends AppCompatActivity {
         // Retrieve data from the database
         Cursor c = databaseHelper.viewAllItems(userId);
         while (c.moveToNext()) {
-            String name = c.getString(0);
-            String description = c.getString(1);
-            double price = c.getDouble(2);
-            byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
+            int itemId = c.getInt(c.getColumnIndexOrThrow("itemid"));
+            String name = c.getString(c.getColumnIndexOrThrow("name"));
+            String description = c.getString(c.getColumnIndexOrThrow("description"));
+            double price = c.getDouble(c.getColumnIndexOrThrow("price"));
+            double discount = c.getDouble(c.getColumnIndexOrThrow("discount"));
             boolean isShareable = c.getInt(c.getColumnIndexOrThrow("isShareable"))==1;
             String dateString = c.getString(c.getColumnIndexOrThrow("date"));
-            items.add(new Item(name, description, price, imageData,isShareable,dateString));
+            byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
+            int userId = c.getInt(c.getColumnIndexOrThrow("posterid"));
+            String location = c.getString(c.getColumnIndexOrThrow("location"));
+            String category = c.getString(c.getColumnIndexOrThrow("category"));
+            items.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category));
             }
         // Close the cursor
         c.close();

@@ -30,11 +30,11 @@ public class HomePage extends AppCompatActivity {
             tvFullName.setText(user.getFirstName() + " " + user.getLastName());
         }
 
-        Button btnSell = findViewById(R.id.btnSell);
+        Button btnPost = findViewById(R.id.btnSell);
         Button btnBuy = findViewById(R.id.btnBuy);
         Button btnUpdate = findViewById(R.id.btnUpdate);
         Button btnLogout = findViewById(R.id.btnLogout);
-        btnSell.setOnClickListener(new View.OnClickListener() {
+        btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomePage.this, SellPage.class);

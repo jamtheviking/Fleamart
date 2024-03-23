@@ -2,6 +2,7 @@ package com.csis3175.fleamart.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public void updatedList(List<Item> updatedList) {
         itemList.clear(); // Clear the existing list
         itemList.addAll(updatedList); // Add all elements from the updated list
-        notifyDataSetChanged();
 
     }
     // JO
@@ -54,9 +54,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DecimalFormat df = new DecimalFormat("#,###,###$");
+
         Item item = itemList.get(position);
+        double itemPrice = item.getItemPrice();
+        double discount = item.getDiscount();
+        double discountedPrice = itemPrice * (1 - discount);
+
         holder.itemNameTextView.setText(item.getItemName());
-        holder.itemPriceTextView.setText(df.format(item.getItemPrice()));
+        //TODO: calculate discount price or show show discount percentage on card
+        holder.itemPriceTextView.setText(df.format(discountedPrice));
+
 //        holder.itemImageView.setImageDrawable(product.getImageDrawable());
 
 
@@ -71,10 +78,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ItemDisplay.class);
-                intent.putExtra("itemName", item.getItemName());
-                intent.putExtra("itemPrice", item.getItemPrice());
-                intent.putExtra("itemDesc", item.getItemDescription());
-                intent.putExtra("imgData", item.getImageData());
+                intent.putExtra("itemId", item.getItemID());
                 v.getContext().startActivity(intent);
 
             }
