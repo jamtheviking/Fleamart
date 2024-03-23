@@ -175,7 +175,7 @@ public class SellPage extends AppCompatActivity {
                     public void onClick(View v) {
                         currentDate = dateFormat.format(new Date());
                         //TODO default discount to 0
-                        dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),1,"available");
+                        dbHelper.insertItem(itemName, null, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),0.0,"available");
                         finish();
                     }
                 });
