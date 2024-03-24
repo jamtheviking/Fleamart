@@ -39,8 +39,6 @@ public class  SearchView extends AppCompatActivity {
         if (intent != null && intent.hasExtra("user")) {
             user = (User) intent.getSerializableExtra("user");
             userId = user.getId();
-
-
         }
 
         //initialize DB
