@@ -24,6 +24,9 @@ import java.util.Locale;
 public class ItemDisplay extends AppCompatActivity {
     Item item;
     int itemId;
+    private User user;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,9 @@ public class ItemDisplay extends AppCompatActivity {
 
 
         Intent intent = getIntent(); //Received from Card Adapter
-        itemId = intent.getIntExtra("itemId", 0);
-
+        item = (Item) intent.getSerializableExtra("item");
+        itemId = item.getItemID();
+        user = (User) intent.getSerializableExtra("user");
 
 
         DatabaseHelper db = new DatabaseHelper(this);
@@ -57,6 +61,7 @@ public class ItemDisplay extends AppCompatActivity {
             double price = item.getItemPrice();
             double discount = item.getDiscount();
             double discountedPrice = price * (1 - discount);
+            itemId = item.getItemID();
             itemPrice.setText(String.format(Locale.getDefault(), df.format(discountedPrice)));
             itemDesc.setText(item.getItemDescription());
             byte[] imageData = item.getImageData();
@@ -80,9 +85,11 @@ public class ItemDisplay extends AppCompatActivity {
         }
 
         btnConfirm.setOnClickListener(v -> {
+            Log.d("ItemDisplay", "Item ID before passing: " + item.getItemID());
 
             Intent nextIntent = new Intent(ItemDisplay.this, OrderConfirmation.class);
             nextIntent.putExtra("item", item);
+            nextIntent.putExtra("user",user);
             startActivity(nextIntent);
         });
     }

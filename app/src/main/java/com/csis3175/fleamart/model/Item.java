@@ -13,7 +13,7 @@ public class Item implements Serializable {
     private double discount;
     private String date;
     private byte[] imageData; //storing image into bytes.
-    private int userID;
+    private int userID; //Todo: change this to sellerId or posterid
     private String location;
     private String category;
     private String status;

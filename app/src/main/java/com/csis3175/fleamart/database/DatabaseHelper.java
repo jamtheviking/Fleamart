@@ -146,7 +146,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ITEM_STATUS, status);
         values.put(COLUMN_USER_ID, userId);
         db.insert(TABLE_ITEMS, null, values);
+    }
 
+    public void insertTransaction(int transaction_buyer_id, int transaction_seller_id, int itemId, String transaction_date, String transaction_delivery, String transaction_status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TRANSACTION_BUYER_ID,transaction_buyer_id );
+        values.put(COLUMN_TRANSACTION_SELLER_ID,transaction_seller_id );
+        values.put(COLUMN_TRANSACTION_DATE,transaction_date );
+        values.put(COLUMN_TRANSACTION_DELIVERY, transaction_delivery);
+        values.put(COLUMN_TRANSACTION_STATUS,transaction_status );
+        values.put(COLUMN_ITEM_ID,itemId );
+        db.insert(TABLE_TRANSACTION, null, values);
 
     }
 
@@ -239,6 +250,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(id)});
         Item item = new Item();
         if (c != null && c.moveToFirst()) {
+            item.setItemID(c.getInt(c.getColumnIndexOrThrow("itemid")));
             item.setItemName(c.getString(c.getColumnIndexOrThrow("name")));
             item.setItemPrice(c.getDouble(c.getColumnIndexOrThrow("price")));
             item.setDiscount(c.getDouble(c.getColumnIndexOrThrow("discount")));

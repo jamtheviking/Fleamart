@@ -55,7 +55,7 @@ public class  SearchView extends AppCompatActivity {
         });
 
         rView.setLayoutManager(gridLayoutManager);
-        CardAdapter cardAdapter = new CardAdapter(SearchView.this,getCardData());
+        CardAdapter cardAdapter = new CardAdapter(SearchView.this,getCardData(),user);
 
         rView.setAdapter(cardAdapter);
 

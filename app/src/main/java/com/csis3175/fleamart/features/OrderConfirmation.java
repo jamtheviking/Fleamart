@@ -10,11 +10,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
+import com.csis3175.fleamart.database.DatabaseHelper;
 import com.csis3175.fleamart.model.Item;
 import com.csis3175.fleamart.model.User;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class OrderConfirmation extends AppCompatActivity {
     int itemid = 0;
+    int buyerId =0;
+    String currentDate,deliveryMethod;
     Item item;
     private ImageButton toggleDeliver,togglePickup;
     public  Button btConfirm,btCancel;
@@ -22,6 +29,7 @@ public class OrderConfirmation extends AppCompatActivity {
     ImageView itemImg;
     TextView itemName,itemPrice;
     byte[] imageData;
+    private User user;
 
 
 
@@ -44,6 +52,8 @@ public class OrderConfirmation extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("item")) { // Use "testitemid" as the key
             item = (Item) intent.getSerializableExtra("item");
+            user = (User) intent.getSerializableExtra("user");
+
             //Populate layout
             imageData = item.getImageData();
             itemName.setText(item.getItemName());
@@ -52,11 +62,9 @@ public class OrderConfirmation extends AppCompatActivity {
             Glide.with(this)
                     .load(imageData)
                     .into(itemImg);
-
-
         } else {
             Log.d("Order", "Item ID not found in intent");
-            // Handle the case where item ID is not passed
+
         }
 
         onToggleDeliver();
@@ -95,6 +103,18 @@ public class OrderConfirmation extends AppCompatActivity {
         btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                currentDate = dateFormat.format(new Date());
+                if(isDeliverySelected){
+                    deliveryMethod = "delivery";
+
+                }
+                else {
+                    deliveryMethod = "Pickup";
+                }
+                DatabaseHelper db = new DatabaseHelper(OrderConfirmation.this);
+                buyerId = user.getId();
+                db.insertTransaction(buyerId,item.getUserID(),item.getItemID(),currentDate,deliveryMethod,"pending");
 
             }
         });
@@ -102,7 +122,7 @@ public class OrderConfirmation extends AppCompatActivity {
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Log.d("","Item id is "+ item.getItemID());
             }
         });
 

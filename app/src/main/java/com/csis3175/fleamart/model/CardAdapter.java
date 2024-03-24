@@ -24,12 +24,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     private List<Item> itemList;
     private Context context;
+    private User user;
 
     //Default constructor for search
     public CardAdapter(){}
-    public CardAdapter(Context context, List<Item> itemList) {
+    public CardAdapter(Context context, List<Item> itemList,User user) {
         this.itemList = itemList;
         this.context = context;
+        this.user = user;
     }
 
     // JO
@@ -61,7 +63,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         double discountedPrice = itemPrice * (1 - discount);
 
         holder.itemNameTextView.setText(item.getItemName());
-        //TODO: calculate discount price or show show discount percentage on card
         holder.itemPriceTextView.setText(df.format(discountedPrice));
 
 //        holder.itemImageView.setImageDrawable(product.getImageDrawable());
@@ -78,7 +79,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ItemDisplay.class);
-                intent.putExtra("itemId", item.getItemID());
+                intent.putExtra("item", item);
+                intent.putExtra("user", user);
+
                 v.getContext().startActivity(intent);
 
             }
