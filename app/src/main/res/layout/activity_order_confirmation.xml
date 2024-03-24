@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/title_style"
+        android:gravity="center"
         android:textColor="@color/silver"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="20dp"
@@ -88,7 +89,7 @@
         android:src="@drawable/delivery"
         android:layout_below="@id/deliveryPrompt"
         android:layout_alignEnd="@id/deliveryPrompt"
-        android:onClick="onToggleDeliver"
+
 
         />
     <ImageButton
@@ -98,7 +99,7 @@
         android:src="@drawable/pickup"
         android:layout_below="@id/pickupPrompt"
         android:layout_alignStart="@id/pickupPrompt"
-        android:onClick="onTogglePickup"/>
+        />
 
     <Button
         android:id="@+id/btConfirm"
