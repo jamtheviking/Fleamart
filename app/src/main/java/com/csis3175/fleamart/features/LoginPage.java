@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.csis3175.fleamart.database.DatabaseHelper;
+import com.csis3175.fleamart.database.*;
 import com.csis3175.fleamart.model.User;
 
 public class LoginPage extends AppCompatActivity {

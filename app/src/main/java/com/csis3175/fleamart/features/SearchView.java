@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.csis3175.fleamart.R;
-import com.csis3175.fleamart.database.DatabaseHelper;
+import com.csis3175.fleamart.database.*;
 import com.csis3175.fleamart.model.CardAdapter;
 import com.csis3175.fleamart.model.CustomEditText;
 import com.csis3175.fleamart.model.Item;
@@ -94,6 +94,12 @@ public class  SearchView extends AppCompatActivity {
         List<Item> updatedList = new ArrayList<>();
         for(Item item : allItems){
             if (item.getItemName().toLowerCase().contains(searchTerm)) {
+                updatedList.add(item);
+            } else if (item.getLocation().toLowerCase().contains(searchTerm)) {
+                updatedList.add(item);
+            } else if (item.getCategory().toLowerCase().contains(searchTerm)){
+                updatedList.add(item);
+            } else if (item.getItemDescription().toLowerCase().contains(searchTerm)){
                 updatedList.add(item);
             }
         }
