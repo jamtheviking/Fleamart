@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.csis3175.fleamart.R;
-import com.csis3175.fleamart.database.DatabaseHelper;
+import com.csis3175.fleamart.database.*;
 import com.csis3175.fleamart.model.CardAdapter;
 import com.csis3175.fleamart.model.CustomEditText;
 import com.csis3175.fleamart.model.Item;
@@ -93,7 +93,15 @@ public class  SearchView extends AppCompatActivity {
         List<Item> allItems = new ArrayList<>(getCardData());
         List<Item> updatedList = new ArrayList<>();
         for(Item item : allItems){
-            if (item.getItemName().toLowerCase().contains(searchTerm)) {
+            if (item.getItemName() != null && item.getItemName().toLowerCase().contains(searchTerm)) {
+                updatedList.add(item);
+            } else if (item.getLocation() != null && item.getLocation().toLowerCase().contains(searchTerm)) {
+                updatedList.add(item);
+            } else if (item.getCategory() != null && item.getCategory().toLowerCase().contains(searchTerm)){
+                updatedList.add(item);
+            } else if (item.getItemDescription() != null && item.getItemDescription().toLowerCase().contains(searchTerm)){
+                updatedList.add(item);
+            } else if (item.getTag() != null && item.getTag().toLowerCase().contains(searchTerm)){
                 updatedList.add(item);
             }
         }
@@ -133,7 +141,8 @@ public class  SearchView extends AppCompatActivity {
             int userId = c.getInt(c.getColumnIndexOrThrow("posterid"));
             String location = c.getString(c.getColumnIndexOrThrow("location"));
             String category = c.getString(c.getColumnIndexOrThrow("category"));
-            items.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category));
+            String tag = c.getString(c.getColumnIndexOrThrow("tag"));
+            items.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category, tag));
             }
         // Close the cursor
         c.close();

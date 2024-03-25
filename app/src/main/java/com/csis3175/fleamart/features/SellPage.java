@@ -5,16 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -27,7 +19,7 @@ import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
 
 import com.csis3175.fleamart.R;
-import com.csis3175.fleamart.database.DatabaseHelper;
+import com.csis3175.fleamart.database.*;
 import com.csis3175.fleamart.model.User;
 
 import java.io.ByteArrayOutputStream;
