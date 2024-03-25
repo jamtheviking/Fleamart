@@ -39,8 +39,6 @@ public class  SearchView extends AppCompatActivity {
         if (intent != null && intent.hasExtra("user")) {
             user = (User) intent.getSerializableExtra("user");
             userId = user.getId();
-
-
         }
 
         //initialize DB
@@ -57,7 +55,7 @@ public class  SearchView extends AppCompatActivity {
         });
 
         rView.setLayoutManager(gridLayoutManager);
-        CardAdapter cardAdapter = new CardAdapter(SearchView.this,getCardData());
+        CardAdapter cardAdapter = new CardAdapter(SearchView.this,getCardData(),user);
 
         rView.setAdapter(cardAdapter);
 

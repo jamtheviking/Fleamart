@@ -45,5 +45,9 @@
     <string name="btnBorrow">Borrow</string>
     <string name="discountPrompt">Please a discount rate for this item using the slider</string>
     <string name="btnAddDiscount">Apply Discount</string>
+    <string name="txtConfirmation">Order has been sent to buyer</string>
+    <string name="txtSellerTitle">Seller Information</string>
+    <string name="txtOrderConTitle">Please review your order</string>
+
 
 </resources>

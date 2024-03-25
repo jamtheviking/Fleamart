@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
+import com.csis3175.fleamart.features.OrderConfirmation;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -21,6 +22,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ItemDisplay extends AppCompatActivity {
+    Item item;
+    int itemId;
+    private User user;
+
 
 
     @Override
@@ -34,6 +39,7 @@ public class ItemDisplay extends AppCompatActivity {
         TextView itemName = findViewById(R.id.itemName);
         TextView itemPrice = findViewById(R.id.itemPrice);
         TextView itemDesc = findViewById(R.id.itemDesc);
+        TextView itemLocation = findViewById(R.id.itemLocation);
         ImageView itemImg = findViewById(R.id.itemImg);
         TextView itemListDay = findViewById(R.id.itemListDay);
         Button btnConfirm = findViewById(R.id.btConfirm);
@@ -41,24 +47,23 @@ public class ItemDisplay extends AppCompatActivity {
 
 
         Intent intent = getIntent(); //Received from Card Adapter
-        int itemId;
-        itemId = intent.getIntExtra("itemId", 0);
-
+        item = (Item) intent.getSerializableExtra("item");
+        itemId = item.getItemID();
+        user = (User) intent.getSerializableExtra("user");
 
 
         DatabaseHelper db = new DatabaseHelper(this);
         //TODO modify db query. Join users table and retrieve Seller name and email?
-        Item item = db.getItemById(itemId);
+        item = db.getItemById(itemId);
 
         if (item != null) {
             itemName.setText(item.getItemName());
-            //TODO calculate discounted price or show discount
+            itemLocation.setText(item.getLocation());
+
             double price = item.getItemPrice();
             double discount = item.getDiscount();
             double discountedPrice = price * (1 - discount);
-            Log.d("DiscountCalculation", "Item Price: " + price);
-            Log.d("DiscountCalculation", "Discount: " + discount);
-            Log.d("DiscountCalculation", "Discounted Price: " + discountedPrice);
+            itemId = item.getItemID();
             itemPrice.setText(String.format(Locale.getDefault(), df.format(discountedPrice)));
             itemDesc.setText(item.getItemDescription());
             byte[] imageData = item.getImageData();
@@ -82,7 +87,12 @@ public class ItemDisplay extends AppCompatActivity {
         }
 
         btnConfirm.setOnClickListener(v -> {
-            //TODO create next activity to confirm share or buy.
+            Log.d("ItemDisplay", "Item ID before passing: " + item.getItemID());
+
+            Intent nextIntent = new Intent(ItemDisplay.this, OrderConfirmation.class);
+            nextIntent.putExtra("item", item);
+            nextIntent.putExtra("user",user);
+            startActivity(nextIntent);
         });
     }
 
@@ -94,7 +104,7 @@ public class ItemDisplay extends AppCompatActivity {
             currentDate = dateFormat.parse(dateString);
         } catch (ParseException e) {
             Toast.makeText(this, "Failed to parse date", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+
         }
         return currentDate;
     }
