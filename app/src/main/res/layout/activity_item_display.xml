@@ -53,8 +53,7 @@
                 android:layout_below="@id/itemListDay"
                 android:textSize="15sp"
                 android:textColor="@color/silver"
-                android:layout_alignParentEnd="true"
-                android:text="Location: Vancouver"/>
+                android:layout_alignParentEnd="true"/>
 
             <TextView
                 android:id="@+id/descTitle"
@@ -75,7 +74,7 @@
                 android:textColor="@color/silver"
                 android:layout_below="@id/descTitle"
                 android:layout_alignStart="@id/descTitle"
-                android:text="Item Description" />
+                 />
 
             <TextView
                 android:id="@+id/sellerTitle"
@@ -83,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:textColor="@color/silver"
-                android:text="Seller Details"
+                android:text="@string/txtSellerTitle"
                 android:layout_below="@id/itemDesc"/>
             <TextView
                 android:id="@+id/sellerFName"
@@ -91,14 +90,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sellerTitle"
                 style="@style/normal_style_silver"
-                android:text="Rick"/>
+                />
             <TextView
                 android:id="@+id/sellerEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sellerFName"
                 style="@style/normal_style_silver"
-                android:text="Rick@gmail"/>
+                />
 
 
         </RelativeLayout>

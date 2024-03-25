@@ -16,7 +16,7 @@
         android:textColor="@color/silver"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="20dp"
-        android:text="Please review your order"/>
+        android:text="@string/txtOrderConTitle"/>
 
 
 
@@ -56,50 +56,68 @@
             />
         </RelativeLayout>
 
-    <TextView
-        android:id="@+id/deliveryPrompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/normal_style_silver"
-        android:textSize="35sp"
-        android:layout_below="@id/itemCard"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="50dp"
-        android:text="Delivery"
-
-        />
-
-    <TextView
-        android:id="@+id/pickupPrompt"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/mthodCard"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/itemCard"
+        android:paddingHorizontal="35dp">
+
+        <TextView
+            android:id="@+id/deliveryPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/normal_style_silver"
+            android:textSize="35sp"
+            android:layout_alignParentStart="true"
+            android:text="Delivery"/>
+
+        <TextView
+            android:id="@+id/pickupPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/normal_style_silver"
+            android:layout_alignParentEnd="true"
+            android:textSize="35sp"
+            android:layout_marginEnd="50dp"
+            android:text="Pickup"
+
+            />
+
+        <ImageButton
+            android:id="@+id/toggleDeliver"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/delivery"
+            android:layout_alignStart="@id/deliveryPrompt"
+            android:layout_below="@id/deliveryPrompt"
+            android:layout_marginStart="30dp"/>
+        <ImageButton
+            android:id="@+id/togglePickup"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/pickup"
+            android:layout_alignEnd="@id/pickupPrompt"
+            android:layout_below="@id/pickupPrompt"
+            android:layout_marginEnd="10dp"
+
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/msgConfirmation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mthodCard"
+        android:gravity="center"
         style="@style/normal_style_silver"
-        android:layout_alignParentEnd="true"
-        android:textSize="35sp"
-        android:layout_marginEnd="50dp"
-        android:text="Pickup"
-
+        android:textSize="30sp"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
         />
 
-    <ImageButton
-        android:id="@+id/toggleDeliver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/delivery"
-        android:layout_below="@id/deliveryPrompt"
-        android:layout_alignEnd="@id/deliveryPrompt"
 
-
-        />
-    <ImageButton
-        android:id="@+id/togglePickup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/pickup"
-        android:layout_below="@id/pickupPrompt"
-        android:layout_alignStart="@id/pickupPrompt"
-        />
 
     <Button
         android:id="@+id/btConfirm"

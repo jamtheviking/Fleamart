@@ -2,6 +2,7 @@ package com.csis3175.fleamart.features;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
 import com.csis3175.fleamart.model.Item;
+import com.csis3175.fleamart.model.ItemDisplay;
 import com.csis3175.fleamart.model.User;
 
 import java.text.SimpleDateFormat;
@@ -19,21 +21,17 @@ import java.util.Date;
 import java.util.Locale;
 
 public class OrderConfirmation extends AppCompatActivity {
-    int itemid = 0;
+    public  Button btConfirm,btCancel;
+    public boolean isDeliverySelected = false;
+
     int buyerId =0;
     String currentDate,deliveryMethod;
     Item item;
-    private ImageButton toggleDeliver,togglePickup;
-    public  Button btConfirm,btCancel;
-    public boolean isDeliverySelected = false;
     ImageView itemImg;
-    TextView itemName,itemPrice;
+    TextView itemName,itemPrice,msgConfirmation;
     byte[] imageData;
+    private ImageButton toggleDeliver,togglePickup;
     private User user;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +42,7 @@ public class OrderConfirmation extends AppCompatActivity {
         togglePickup = findViewById(R.id.togglePickup);
         btConfirm = findViewById(R.id.btConfirm);
         btCancel = findViewById(R.id.btCancel);
+        msgConfirmation = findViewById(R.id.msgConfirmation);
         itemImg = findViewById(R.id.itemImg);
         itemName = findViewById(R.id.itemName);
         itemPrice = findViewById(R.id.itemPrice);
@@ -91,7 +90,6 @@ public class OrderConfirmation extends AppCompatActivity {
                     toggleDeliver.setImageResource(R.drawable.delivery_false);
                     togglePickup.setImageResource(R.drawable.pickup);
                 } else {
-                    isDeliverySelected = false;
                     togglePickup.setImageResource(R.drawable.pickup);
                 }
                 Log.d("Toggle", "toggle value is "+isDeliverySelected);
@@ -115,6 +113,11 @@ public class OrderConfirmation extends AppCompatActivity {
                 DatabaseHelper db = new DatabaseHelper(OrderConfirmation.this);
                 buyerId = user.getId();
                 db.insertTransaction(buyerId,item.getUserID(),item.getItemID(),currentDate,deliveryMethod,"pending");
+                db.updateItemStatus(item.getItemID(),"pending");
+                msgConfirmation.setText(R.string.txtConfirmation);
+                //Post Delay
+                new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
+                startActivity(new Intent(OrderConfirmation.this, HomePage.class));
 
             }
         });
@@ -122,7 +125,8 @@ public class OrderConfirmation extends AppCompatActivity {
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("","Item id is "+ item.getItemID());
+                startActivity(new Intent(OrderConfirmation.this, ItemDisplay.class));
+                Log.d("LOG USER ID","user id is"+user.getId());
             }
         });
 

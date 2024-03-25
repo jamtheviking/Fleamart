@@ -199,6 +199,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return updateStatus;
     }
 
+    public boolean updateItemStatus(int itemId, String itemStatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        // Updating values
+        values.put(COLUMN_ITEM_STATUS, itemStatus);
+
+        // updating row
+        int rowsAffected = db.update(TABLE_ITEMS, values, COLUMN_ITEM_ID + " = ?", new String[]{String.valueOf(itemId)});
+        return rowsAffected > 0;
+    }
+
     /**
      * This method returns a User object that pulls the data from the database.
      * @param username

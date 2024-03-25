@@ -39,6 +39,7 @@ public class ItemDisplay extends AppCompatActivity {
         TextView itemName = findViewById(R.id.itemName);
         TextView itemPrice = findViewById(R.id.itemPrice);
         TextView itemDesc = findViewById(R.id.itemDesc);
+        TextView itemLocation = findViewById(R.id.itemLocation);
         ImageView itemImg = findViewById(R.id.itemImg);
         TextView itemListDay = findViewById(R.id.itemListDay);
         Button btnConfirm = findViewById(R.id.btConfirm);
@@ -57,7 +58,8 @@ public class ItemDisplay extends AppCompatActivity {
 
         if (item != null) {
             itemName.setText(item.getItemName());
-            //TODO calculate discounted price or show discount
+            itemLocation.setText(item.getLocation());
+
             double price = item.getItemPrice();
             double discount = item.getDiscount();
             double discountedPrice = price * (1 - discount);
@@ -102,7 +104,7 @@ public class ItemDisplay extends AppCompatActivity {
             currentDate = dateFormat.parse(dateString);
         } catch (ParseException e) {
             Toast.makeText(this, "Failed to parse date", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+
         }
         return currentDate;
     }
