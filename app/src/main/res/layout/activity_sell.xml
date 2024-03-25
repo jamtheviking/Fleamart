@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:padding="15dp"
+    tools:context=".features.SellPage">
+
+    <TextView
+        android:id="@+id/pageTitle"
+        style="@style/title_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/txtSellTitle"
+        android:textColor="@color/silver"
+        android:textSize="32sp"
+        />
+
+    <ImageView
+        android:id="@+id/imageUpload"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/pageTitle"
+        android:layout_centerHorizontal="true"
+        android:gravity="top|center"
+        android:text="@string/txtUpload"
+        android:background="@color/silver"
+        android:src="@drawable/camera_icon"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"/>
+
+
+
+    <TextView
+        android:id="@+id/txtItemName"
+        style="@style/normal_style_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/etItemName"
+        android:layout_alignEnd="@id/txtItemDesc"
+        android:text="@string/txtSellName"
+        />
+
+
+    <EditText
+        android:id="@+id/etItemName"
+        style="@style/edit_text_silver"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageUpload"
+        android:layout_alignEnd="@id/imageUpload"
+        android:gravity="start|center_vertical"
+        android:hint="@string/txtSellName"/>
+
+    <TextView
+        android:id="@+id/txtItemDesc"
+        style="@style/normal_style_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/etItemDescription"
+        android:text="@string/txtSellDesc"
+
+        />
+
+
+    <EditText
+        android:id="@+id/etItemDescription"
+        style="@style/edit_text_silver"
+        android:layout_width="225dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/etItemName"
+        android:layout_alignEnd="@id/imageUpload"
+        android:hint="@string/txtSellDesc"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/txtLocation"
+        style="@style/normal_style_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/etItemLocation"
+        android:layout_alignEnd="@id/txtItemDesc"
+        android:text="@string/txtSellLocation"
+        />
+
+
+    <EditText
+        android:id="@+id/etItemLocation"
+        style="@style/edit_text_silver"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etItemDescription"
+        android:layout_alignEnd="@id/imageUpload"
+        android:hint="@string/txtSellLocation"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/txtPrice"
+        style="@style/normal_style_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/etItemPrice"
+        android:layout_alignEnd="@id/txtItemDesc"
+        android:text="@string/txtSellPrice"
+        />
+
+    <EditText
+        android:id="@+id/etItemPrice"
+        style="@style/edit_text_silver"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etItemLocation"
+        android:layout_alignEnd="@id/imageUpload"
+        android:hint="@string/txtSellPrice"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        />
+
+    <TextView
+        android:id="@+id/txtTags"
+        style="@style/normal_style_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/etItemTag"
+        android:layout_alignEnd="@id/txtItemDesc"
+        android:text="@string/txtSellTags"
+        />
+
+    <EditText
+        android:id="@+id/etItemTag"
+        style="@style/edit_text_silver"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etItemPrice"
+        android:layout_alignEnd="@id/imageUpload"
+        android:hint="@string/txtSellTags"
+        android:importantForAutofill="no"
+        />
+
+    <TextView
+        android:id="@+id/txtCategory"
+        style="@style/normal_style_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/spinnerCategories"
+        android:layout_alignEnd="@id/txtItemDesc"
+        android:text="@string/txtSellCategory"
+        />
+    <Spinner
+        android:id="@+id/spinnerCategories"
+        android:layout_width="225dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/etItemTag"
+        android:layout_alignEnd="@id/imageUpload"
+        android:background="@color/silver"
+        android:entries="@array/itemCategories"
+        android:layout_marginBottom="40dp"/>
+
+    <Button
+        android:id="@+id/btConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/button_style_green"
+        android:text="@string/btConfirm"
+        android:layout_below="@id/spinnerCategories"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="50dp"
+        />
+    <Button
+        android:id="@+id/btCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/button_style_gray"
+        android:text="@string/btCancel"
+        android:layout_below="@id/spinnerCategories"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"/>
+
+</RelativeLayout>

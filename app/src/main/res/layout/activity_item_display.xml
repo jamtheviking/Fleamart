@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".model.ItemDisplay"
+    android:background="@color/black">
+
+<!--    Todo need to fix formating and font sizes-->
+
+    <ImageView
+        android:id="@+id/itemImg"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/itemName"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@color/silver"
+        app:layout_constraintTop_toBottomOf="@id/itemImg"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/itemListDay"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:textSize="15sp"
+        android:textColor="@color/silver"
+        app:layout_constraintTop_toBottomOf="@id/itemImg"/>
+
+
+    <TextView
+        android:id="@+id/descTitle"
+        android:text="@string/txtSellDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textColor="@color/silver"
+        app:layout_constraintBottom_toTopOf="@+id/itemDesc"
+        app:layout_constraintStart_toStartOf="@id/itemDesc"/>
+    <TextView
+        android:id="@+id/itemDesc"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:textSize="15sp"
+        android:textColor="@color/silver"
+        android:layout_marginStart="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        />
+
+    <RelativeLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/green">
+
+        <TextView
+            android:id="@+id/itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"/>
+
+
+        <Button
+            android:id="@+id/btConfirm"
+            android:text="@string/btBuy"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+
+
+    </RelativeLayout>
+<!--    <LinearLayout-->
+<!--        android:id="@+id/bottomBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:background="@color/green">-->
+
+
+
+<!--    </LinearLayout>-->
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

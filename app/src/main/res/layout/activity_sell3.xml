@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/green"
+    android:layout_height="match_parent"
+    android:padding="40dp">
+
+    <TextView
+        android:id="@+id/discountPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/title_style"
+        android:textSize="35sp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/discountPrompt"
+        android:gravity="center"
+        android:layout_marginBottom="50dp"/>
+
+
+    <TextView
+        android:id="@+id/discount"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textSize="35sp"
+        android:layout_below="@id/discountPrompt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:text="0%"/>
+
+    <LinearLayout
+        android:id="@+id/rootContainer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/discount"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textSize="35sp"
+        android:layout_below="@id/rootContainer"
+        android:layout_centerHorizontal="true"
+        />
+
+    <Button
+        android:id="@+id/btnAddDiscount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/button_style_gray"
+        android:text="@string/btnAddDiscount"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+
+        />
+
+
+
+
+</RelativeLayout>
