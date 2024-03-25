@@ -16,8 +16,9 @@ public class Item implements Serializable {
     private int userID; //Todo: change this to sellerId or posterid
     private String location;
     private String category;
+    private String tag;
     private String status;
-    public Item(int itemID, String itemName, String itemDescription, double itemPrice, boolean isShareable, double discount, String date, byte[] imageData, int userID, String location, String category, String status) {
+    public Item(int itemID, String itemName, String itemDescription, double itemPrice, boolean isShareable, double discount, String date, byte[] imageData, int userID, String location, String category, String tag, String status) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
@@ -29,9 +30,10 @@ public class Item implements Serializable {
         this.userID = userID;
         this.location = location;
         this.category = category;
+        this.tag = tag;
         this.status = status;
     }
-    public Item(int itemID, String itemName, String itemDescription, double itemPrice, boolean isShareable, double discount, String date, byte[] imageData, int userID, String location, String category) {
+    public Item(int itemID, String itemName, String itemDescription, double itemPrice, boolean isShareable, double discount, String date, byte[] imageData, int userID, String location, String category, String tag) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
@@ -43,6 +45,7 @@ public class Item implements Serializable {
         this.userID = userID;
         this.location = location;
         this.category = category;
+        this.tag = tag;
     }
     //Default Constructor
     public Item() {
@@ -80,7 +83,8 @@ public class Item implements Serializable {
     public void setCategory(String category) {
         this.category = category;
     }
-
+    public void setTag(String tag) { this.tag = tag; }
+    public String getTag() { return tag; }
     public int getUserID() {
         return userID;
     }

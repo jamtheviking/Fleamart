@@ -272,6 +272,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             item.setLocation(c.getString(c.getColumnIndexOrThrow("location")));
             item.setDate(c.getString(c.getColumnIndexOrThrow("date")));
             item.setCategory(c.getString(c.getColumnIndexOrThrow("category")));
+            item.setTag(c.getString(c.getColumnIndexOrThrow("tag")));
             item.setUserID(c.getInt(c.getColumnIndexOrThrow("posterid")));
             c.close();
             //TODO add tag
