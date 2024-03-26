@@ -118,10 +118,10 @@ public class SellPage extends AppCompatActivity {
             }
         });
 
-//                //TODO: Input validation
+               //TODO: Input validation
 
-//                //TODO: confirm button should move to a different user asking the user if they want to share or sell the item
-//                //TODO: Provide user confirmation that item was uploaded
+                //TODO: confirm button should move to a different user asking the user if they want to share or sell the item
+                //TODO: Provide user confirmation that item was uploaded
 
 
 

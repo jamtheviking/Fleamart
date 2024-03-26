@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
+import com.csis3175.fleamart.features.EditItemPage;
 import com.csis3175.fleamart.features.SellPage;
 
 import java.text.DecimalFormat;
@@ -67,7 +68,7 @@ public class SellerCardAdapter extends RecyclerView.Adapter<SellerCardAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SellPage.class);
+                Intent intent = new Intent(v.getContext(), EditItemPage.class);
                 intent.putExtra("item", item);
                 intent.putExtra("user", user);
 

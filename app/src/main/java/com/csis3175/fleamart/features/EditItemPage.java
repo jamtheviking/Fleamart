@@ -1,6 +1,8 @@
 package com.csis3175.fleamart.features;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.transition.Scene;
@@ -8,6 +10,8 @@ import androidx.transition.Slide;
 import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
 
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,8 +26,10 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
+import com.csis3175.fleamart.model.Item;
 import com.csis3175.fleamart.model.User;
 
 import java.io.ByteArrayOutputStream;
@@ -35,6 +41,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EditItemPage extends AppCompatActivity {
+
+    Item item;
+    int itemId;
+    private User user;
 
     EditText etItemNameEdit,etItemPriceEdit,etItemDescriptionEdit,etItemLocationEdit,etItemTagEdit;
     ImageView imageUploadEdit;
@@ -48,10 +58,9 @@ public class EditItemPage extends AppCompatActivity {
     private Scene scene3, scene2;
     String itemName,itemDescription,itemLocation,itemCategory,itemTags,currentDate;
 
-    Double itemPrice;
+    double itemPrice;
     int userId;
     private ActivityResultLauncher<String> getImage;
-    private User user;
     double dValue = 0.0;
     double discountMul = 0.0;
     double newPrice = 0;
@@ -69,13 +78,24 @@ public class EditItemPage extends AppCompatActivity {
         etItemTagEdit = findViewById(R.id.etItemTagEdit);
         imageUploadEdit = findViewById(R.id.imageUploadEdit);
 
-        etItemNameEdit.setText("");
-        etItemPriceEdit.setText("");
-        etItemDescriptionEdit.setText("");
-        etItemLocationEdit.setText("");
-        etItemCategory.setSelection(2);
-        etItemTagEdit.setText("");
-        imageUploadEdit
+
+        Intent intent = getIntent(); //Received from Card Adapter
+        if (intent != null && intent.hasExtra("user")) {
+            user = (User) intent.getSerializableExtra("user");
+            userId = user.getId();
+            item = (Item) intent.getSerializableExtra("item");
+        }
+
+        itemPrice = item.getItemPrice();
+        item.setItemID(item.getItemID());
+        itemId = item.getItemID();
+        etItemNameEdit.setText(item.getItemName());
+        etItemPriceEdit.setText(String.valueOf(itemPrice));
+        etItemDescriptionEdit.setText(item.getItemDescription());
+        etItemLocationEdit.setText(item.getLocation());
+        etItemTagEdit.setText(item.getTag());
+        imageBytes = item.getImageData();
+        Glide.with(this).load(item.getImageData()).into(imageUploadEdit);
 
 
         DatabaseHelper dbHelper = new DatabaseHelper(EditItemPage.this);
@@ -91,6 +111,49 @@ public class EditItemPage extends AppCompatActivity {
         scene3 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell3, this);
         slideRightTransition = new Slide(Gravity.START);
         slideRightTransition.setDuration(800);
+
+        btnConfirmEdit.setOnClickListener(v ->{
+            TransitionManager.go(scene2, slideRightTransition);
+            itemName = etItemNameEdit.getText().toString();
+            itemPrice = Double.parseDouble(etItemPriceEdit.getText().toString());
+            itemDescription = etItemDescriptionEdit.getText().toString();
+            itemLocation = etItemLocationEdit.getText().toString();
+            itemCategory = etItemCategory.getSelectedItem().toString();
+            itemTags = etItemTagEdit.getText().toString();
+        });
+
+        /**
+         * This Activity allows the user to get image from the Android Device Storage
+         * and store it to the "imageBytes" and displays the selected image
+         * to the "ivUploadImage".
+         * "imageBytes" is also directly used in the db.insertItem method and stores it as BLOB
+         */
+        getImage = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri uriRes) {
+                if (uriRes != null) {
+                    // Process the selected image URI
+                    try {
+                        imageBytes = convertImageToByteArray(uriRes);
+                        imageUploadEdit.setImageBitmap(BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length));
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        /**
+         * This method opens the image directory of the user's device to upload an image.
+         */
+        imageUploadEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getImage.launch("image/*");
+            }
+        });
 
     }
 
@@ -123,9 +186,12 @@ public class EditItemPage extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         currentDate = dateFormat.format(new Date());
+                        dValue=0;
                         //TODO default discount to 0
-                        dbHelper.insertItem(itemName, null, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),0.0,"available");
-                        finish();
+                        dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),dValue,"available");
+                        Intent intent = new Intent(EditItemPage.this, HomePage.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
                     }
                 });
 
@@ -199,8 +265,10 @@ public class EditItemPage extends AppCompatActivity {
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(EditItemPage.this);
                 //Todo change DB to include discount and add to insert statement. We will be inserting entered price and discount.
-                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,user.getId(),dValue,"available");
-                finish();
+                dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,user.getId(),dValue,"available");
+                Intent intent = new Intent(EditItemPage.this, HomePage.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
             }
         });
 
