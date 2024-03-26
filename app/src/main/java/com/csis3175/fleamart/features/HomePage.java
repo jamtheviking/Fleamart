@@ -34,10 +34,20 @@ public class HomePage extends AppCompatActivity {
         Button btnBuy = findViewById(R.id.btnBuy);
         Button btnUpdate = findViewById(R.id.btnUpdate);
         Button btnLogout = findViewById(R.id.btnLogout);
+        Button btnTransactions = findViewById(R.id.btnTransactions);
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomePage.this, SellPage.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        });
+
+        btnTransactions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePage.this, transactions.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
             }

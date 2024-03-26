@@ -172,6 +172,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public Cursor viewPostedItemsByUser(int userID){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_ITEMS +
+                " WHERE posterid = ? or posterid is NULL";
+        Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
+        return c;
+    }
+
 
 
     public boolean isValidUser(String username, String password) {
