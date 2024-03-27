@@ -16,6 +16,18 @@
         android:theme="@style/Theme.Fleamart"
         tools:targetApi="31">
         <activity
+            android:name=".features.EditItems"
+            android:exported="false" />
+        <activity
+            android:name=".features.TransactionDetailsPage"
+            android:exported="false" />
+        <activity
+            android:name=".features.EditItemPage"
+            android:exported="false" />
+        <activity
+            android:name=".features.TransactionsPage"
+            android:exported="false" />
+        <activity
             android:name=".features.OrderConfirmation"
             android:exported="false" />
         <activity

@@ -71,39 +71,55 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             />
+
+        <Button
+            android:id="@+id/btnEditPostedItems"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            style="@style/button_style_gray"
+            android:gravity="center"
+            android:text="@string/btnEditItems"
+            android:layout_below="@id/btnSell"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            />
+
         <Button
             android:id="@+id/btnTransactions"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             style="@style/button_style_gray"
             android:gravity="center"
-            android:text="@string/txtHomeTr"
+            android:text="@string/btnTransactions"
             android:layout_below="@id/btnSell"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="120dp"
             />
+
         <Button
             android:id="@+id/btnUpdate"
+            style="@style/button_style_gray"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            style="@style/button_style_gray"
-            android:gravity="center"
-            android:text="@string/txtHomeUpdate"
             android:layout_below="@id/btnTransactions"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            />
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="33dp"
+            android:layout_marginEnd="27dp"
+            android:gravity="center"
+            android:text="@string/txtHomeUpdate" />
+
         <Button
             android:id="@+id/btnLogout"
+            style="@style/button_style_gray"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            style="@style/button_style_gray"
-            android:gravity="center"
-            android:text="@string/txtHomeLogout"
             android:layout_below="@id/btnUpdate"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            />
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="@string/txtHomeLogout" />
+
+
 
     </RelativeLayout>
 

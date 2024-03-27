@@ -1,13 +1,5 @@
 package com.csis3175.fleamart.features;
 
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -18,8 +10,26 @@ import androidx.transition.Slide;
 import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
 
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
-import com.csis3175.fleamart.database.*;
+import com.csis3175.fleamart.database.DatabaseHelper;
+import com.csis3175.fleamart.model.Item;
 import com.csis3175.fleamart.model.User;
 
 import java.io.ByteArrayOutputStream;
@@ -30,20 +40,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class SellPage extends AppCompatActivity {
+public class EditItemPage extends AppCompatActivity {
 
-    Button btnConfirm,btnCancel,btnShare,btnSell,addDiscount;
-    EditText etItemName,etItemPrice,etItemDescription,etItemLocation,etItemTags;
+    Item item;
+    int itemId;
+    private User user;
+
+    EditText etItemNameEdit,etItemPriceEdit,etItemDescriptionEdit,etItemLocationEdit,etItemTagEdit;
+    ImageView imageUploadEdit;
     Spinner etItemCategory;
-    ImageView ivUploadedImage;
     byte[] imageBytes;
+
     private Transition slideRightTransition;
+
+    Button btnCancelEdit, btnConfirmEdit, btnSell, btnShare, btnAddDiscount;
+
     private Scene scene3, scene2;
     String itemName,itemDescription,itemLocation,itemCategory,itemTags,currentDate;
-    Double itemPrice;
+
+    double itemPrice;
     int userId;
     private ActivityResultLauncher<String> getImage;
-    private User user;
     double dValue = 0.0;
     double discountMul = 0.0;
     double newPrice = 0;
@@ -51,50 +68,59 @@ public class SellPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sell);
-        Intent intent = getIntent();
+        setContentView(R.layout.activity_edit_item);
+
+        etItemNameEdit = findViewById(R.id.etItemNameEdit);
+        etItemPriceEdit = findViewById(R.id.etItemPriceEdit);
+        etItemDescriptionEdit = findViewById(R.id.etItemDescriptionEdit);
+        etItemLocationEdit = findViewById(R.id.etItemLocationEdit);
+        etItemCategory = findViewById(R.id.spinnerCategoriesEdit);
+        etItemTagEdit = findViewById(R.id.etItemTagEdit);
+        imageUploadEdit = findViewById(R.id.imageUploadEdit);
+
+
+        Intent intent = getIntent(); //Received from Card Adapter
         if (intent != null && intent.hasExtra("user")) {
             user = (User) intent.getSerializableExtra("user");
             userId = user.getId();
+            item = (Item) intent.getSerializableExtra("item");
         }
-        //TODO need to implement discount feature. After user selects buy, user selects discount for item
-        etItemName = findViewById(R.id.etItemName);
-        etItemPrice = findViewById(R.id.etItemPrice);
-        etItemDescription = findViewById(R.id.etItemDescription);
-        etItemLocation = findViewById(R.id.etItemLocation);
-        etItemCategory = findViewById(R.id.spinnerCategories);
-        etItemTags = findViewById(R.id.etItemTagEdit);
-        ivUploadedImage = findViewById(R.id.imageUploadEdit);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+        itemPrice = item.getItemPrice();
+        item.setItemID(item.getItemID());
+        itemId = item.getItemID();
+        etItemNameEdit.setText(item.getItemName());
+        etItemPriceEdit.setText(String.valueOf(itemPrice));
+        etItemDescriptionEdit.setText(item.getItemDescription());
+        etItemLocationEdit.setText(item.getLocation());
+        etItemTagEdit.setText(item.getTag());
+        imageBytes = item.getImageData();
+        Glide.with(this).load(item.getImageData()).into(imageUploadEdit);
+
+
+        DatabaseHelper dbHelper = new DatabaseHelper(EditItemPage.this);
         ViewGroup viewRoot = findViewById(android.R.id.content);
 
+        btnCancelEdit = findViewById(R.id.btCancelEdit);
+        btnConfirmEdit = findViewById(R.id.btConfirmEdit);
+
+        btnCancelEdit.setOnClickListener(v -> finish());
+        transitionConfigFlow();
 
         scene2 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell2, this);
         scene3 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell3, this);
         slideRightTransition = new Slide(Gravity.START);
         slideRightTransition.setDuration(800);
 
-        btnConfirm = findViewById(R.id.btConfirm);  //activity_sell
-        btnCancel = findViewById(R.id.btCancel);    //activity_sell
-
-
-        //Go to scene2
-        btnConfirm.setOnClickListener(v -> {
-
-            //TODO: ADD validation
+        btnConfirmEdit.setOnClickListener(v ->{
             TransitionManager.go(scene2, slideRightTransition);
-            itemName = etItemName.getText().toString();
-            itemPrice = Double.parseDouble(etItemPrice.getText().toString());
-            itemDescription = etItemDescription.getText().toString();
-            itemLocation = etItemLocation.getText().toString();
+            itemName = etItemNameEdit.getText().toString();
+            itemPrice = Double.parseDouble(etItemPriceEdit.getText().toString());
+            itemDescription = etItemDescriptionEdit.getText().toString();
+            itemLocation = etItemLocationEdit.getText().toString();
             itemCategory = etItemCategory.getSelectedItem().toString();
-            itemTags = etItemTags.getText().toString();
+            itemTags = etItemTagEdit.getText().toString();
         });
-
-        //finish
-        btnCancel.setOnClickListener(v -> finish());
-        transitionConfigFlow();
 
         /**
          * This Activity allows the user to get image from the Android Device Storage
@@ -109,7 +135,7 @@ public class SellPage extends AppCompatActivity {
                     // Process the selected image URI
                     try {
                         imageBytes = convertImageToByteArray(uriRes);
-                        ivUploadedImage.setImageBitmap(BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length));
+                        imageUploadEdit.setImageBitmap(BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length));
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -118,27 +144,21 @@ public class SellPage extends AppCompatActivity {
             }
         });
 
-               //TODO: Input validation
-
-                //TODO: confirm button should move to a different user asking the user if they want to share or sell the item
-                //TODO: Provide user confirmation that item was uploaded
-
-
-
         /**
          * This method opens the image directory of the user's device to upload an image.
          */
-        ivUploadedImage.setOnClickListener(new View.OnClickListener() {
+        imageUploadEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 getImage.launch("image/*");
             }
         });
+
     }
 
     public void transitionConfigFlow() {
-        DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+        DatabaseHelper dbHelper = new DatabaseHelper(EditItemPage.this);
         ViewGroup viewRoot = findViewById(android.R.id.content);
         scene2 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell2, this);
         scene3 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell3, this);
@@ -166,9 +186,12 @@ public class SellPage extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         currentDate = dateFormat.format(new Date());
+                        dValue=0;
                         //TODO default discount to 0
-                        dbHelper.insertItem(itemName, null, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),0.0,"available");
-                        finish();
+                        dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),dValue,"available");
+                        Intent intent = new Intent(EditItemPage.this, HomePage.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
                     }
                 });
 
@@ -179,13 +202,13 @@ public class SellPage extends AppCompatActivity {
             @Override
             public void run() {
                 LinearLayout linearLayout = findViewById(R.id.rootContainer);
-                addDiscount = findViewById(R.id.btnAddDiscount);
-                seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,user.getId(), itemLocation, itemCategory,addDiscount);
+                btnAddDiscount = findViewById(R.id.btnAddDiscount);
+                seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,user.getId(), itemLocation, itemCategory, btnAddDiscount);
             }
         });
 
-
     }
+
     public void seekBarConfig(LinearLayout linearLayout,String itemName, String itemDescription, double itemPrice,
                               boolean isShareable,String date, byte[] imageData, int userID, String location, String category, Button b) {
 //        https://tutorialwing.com/create-an-android-seekbar-programmatically-in-android/
@@ -213,9 +236,6 @@ public class SellPage extends AppCompatActivity {
             linearLayout.addView(seekBar);
         }
 
-
-
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -241,10 +261,12 @@ public class SellPage extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+                DatabaseHelper dbHelper = new DatabaseHelper(EditItemPage.this);
                 //Todo change DB to include discount and add to insert statement. We will be inserting entered price and discount.
-                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,user.getId(),dValue,"available");
-                finish();
+                dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,user.getId(),dValue,"available");
+                Intent intent = new Intent(EditItemPage.this, HomePage.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
             }
         });
 
@@ -266,4 +288,5 @@ public class SellPage extends AppCompatActivity {
         }
         return byteArrayOutputStream.toByteArray();
     }
+
 }

@@ -112,12 +112,17 @@ public class OrderConfirmation extends AppCompatActivity {
                 }
                 DatabaseHelper db = new DatabaseHelper(OrderConfirmation.this);
                 buyerId = user.getId();
+                System.out.println(item.getUserID());
+                System.out.println(user.getId());
                 db.insertTransaction(buyerId,item.getUserID(),item.getItemID(),currentDate,deliveryMethod,"pending");
                 db.updateItemStatus(item.getItemID(),"pending");
                 msgConfirmation.setText(R.string.txtConfirmation);
                 //Post Delay
+
                 new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
-                startActivity(new Intent(OrderConfirmation.this, HomePage.class));
+                Intent intent = new Intent(OrderConfirmation.this, HomePage.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
 
             }
         });
@@ -125,7 +130,8 @@ public class OrderConfirmation extends AppCompatActivity {
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(OrderConfirmation.this, ItemDisplay.class));
+                Intent intent = new Intent(OrderConfirmation.this, TransactionsPage.class);
+                intent.putExtra("user", user);
                 Log.d("LOG USER ID","user id is"+user.getId());
             }
         });

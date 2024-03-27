@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@drawable/image_cardview"
+    android:clipToOutline="true"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/imageView_Transactions"
+        android:layout_width="173dp"
+        android:layout_height="150dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/txtBuyerID_Transactions"
+        android:layout_width="133dp"
+        android:layout_height="50dp"
+        android:layout_alignEnd="@id/imageView_Transactions"
+        android:layout_marginEnd="-130dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txtItemName_Transactions"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/txtBuyerID_Transactions"
+        android:layout_alignEnd="@id/imageView_Transactions"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="-130dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txtStatus_Transactions"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/txtItemName_Transactions"
+        android:layout_alignEnd="@id/imageView_Transactions"
+        android:layout_marginTop="-2dp"
+        android:layout_marginEnd="-130dp"
+        android:textSize="20sp" />
+</RelativeLayout>

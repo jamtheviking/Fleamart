@@ -13,7 +13,7 @@ import com.csis3175.fleamart.model.User;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fleamartDB";
-    private static final int DATABASE_VERSION = 4; /** Added transaction table, and [status,discount] to Item table*/
+    private static final int DATABASE_VERSION = 6; /** Updated column Transaction_id to transaction_id*/
 
     //------ USERS TABLE -------- //
     private static final String TABLE_USERS = "users";
@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //------END OF ITEMS TABLE -------- //
     //------ TRANSACTION TABLE -------- //
     private static final String TABLE_TRANSACTION = "transactions";
-    private static final String COLUMN_TRANSACTION_ID = "Transaction_id";
+    private static final String COLUMN_TRANSACTION_ID = "transaction_id";
     private static final String COLUMN_TRANSACTION_BUYER_ID = "transaction_buyer_id";
     private static final String COLUMN_TRANSACTION_SELLER_ID = "transaction_seller_id";
     private static final String COLUMN_TRANSACTION_DATE = "transaction_date";
@@ -130,6 +130,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public String getUsernameByID(int userId){
+        String username = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Assuming you have a Users table with columns "user_id" and "username"
+        String[] projection = { "firstName" };
+        String selection = "userId = ?";
+        String[] selectionArgs = { String.valueOf(userId) };
+
+        Cursor cursor = db.query("Users", projection, selection, selectionArgs, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            username = cursor.getString(cursor.getColumnIndexOrThrow("firstName"));
+            cursor.close();
+        }
+
+        db.close();
+
+        return username;
+    }
+
     public void insertItem(String name, Double price, String description, String location, String category, String tag, byte[] img,boolean isShareable,String date, int userId,double dValue,String status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -146,6 +167,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ITEM_STATUS, status);
         values.put(COLUMN_USER_ID, userId);
         db.insert(TABLE_ITEMS, null, values);
+    }
+
+    public int updateItem(int oldId, String name, Double price, String description, String location, String category, String tag, byte[] img,boolean isShareable,String date, int userId,double dValue,String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ITEM_ID, oldId);
+        values.put(COLUMN_ITEM_NAME, name);
+        values.put(COLUMN_ITEM_PRICE, price);
+        values.put(COLUMN_ITEM_DISCOUNT, dValue);
+        values.put(COLUMN_ITEM_DESCRIPTION, description);
+        values.put(COLUMN_ITEM_LOCATION, location);
+        values.put(COLUMN_ITEM_CATEGORY, category);
+        values.put(COLUMN_ITEM_TAG, tag);
+        values.put(COLUMN_ITEM_IMAGE, img);
+        values.put(COLUMN_ITEM_SHAREABLE, isShareable);
+        values.put(COLUMN_ITEM_DATE, date);
+        values.put(COLUMN_ITEM_STATUS, status);
+        values.put(COLUMN_USER_ID, userId);
+        int updateItemStatus = db.update(TABLE_ITEMS, values, COLUMN_ITEM_ID + " = ?", new String[] { String.valueOf(oldId) });
+
+        return updateItemStatus;
     }
 
     public void insertTransaction(int transaction_buyer_id, int transaction_seller_id, int itemId, String transaction_date, String transaction_delivery, String transaction_status) {
@@ -170,6 +212,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " WHERE posterid <> ? or posterid is NULL";
         Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
         return c;
+    }
+
+    public Cursor viewPostedItemsByUser(int userID){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_ITEMS +
+                " WHERE posterid = ? or posterid is NULL";
+        Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
+        return c;
+    }
+
+    public Cursor viewUserTransactions(int userId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = String.format("SELECT * FROM %s WHERE %s = ? or %s is NULL", TABLE_TRANSACTION, COLUMN_TRANSACTION_SELLER_ID, COLUMN_TRANSACTION_SELLER_ID);
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        return cursor;
     }
 
 

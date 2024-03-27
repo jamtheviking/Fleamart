@@ -48,6 +48,16 @@
     <string name="txtConfirmation">Order has been sent to buyer</string>
     <string name="txtSellerTitle">Seller Information</string>
     <string name="txtOrderConTitle">Please review your order</string>
+    <string name="btnEditItems">Edit Items</string>
+    <string name="txtEditItem">Edit Item Details</string>
+    <string name="btnTransactions">Transactions</string>
+    <string name="btnSendNotification">Send Notification</string>
+    <string name="tvBuyerNameLabel">Buyer Name</string>
+    <string name="tvItemNameLabel">Item Name</string>
+    <string name="tvItemStatusLabel">Pick-up or Delivery</string>
+    <string name="tvItemPriceLabel">Item Price</string>
+    <string name="tvTransactionStatus">Status</string>
+    <string name="tvTransactionIdLabel">Transaction ID:</string>
 
 
 </resources>

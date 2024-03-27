@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:padding="15dp"
-    tools:context=".features.SellPage">
+    tools:context=".features.EditItemPage">
 
     <TextView
         android:id="@+id/pageTitle"
@@ -14,23 +14,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="@string/txtSellTitle"
+        android:text="@string/txtEditItem"
         android:textColor="@color/silver"
-        android:textSize="32sp"
-        />
+        android:textSize="32sp" />
 
     <ImageView
         android:id="@+id/imageUploadEdit"
-        android:layout_width="400dp"
-        android:layout_height="250dp"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
         android:layout_below="@id/pageTitle"
         android:layout_centerHorizontal="true"
-        android:gravity="top|center"
-        android:text="@string/txtUpload"
-        android:background="@color/silver"
-        android:src="@drawable/camera_icon"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:background="@color/silver"
+        android:gravity="top|center"
+        android:src="@drawable/camera_icon"
+        android:text="@string/txtUpload"
+        tools:ignore="ContentDescription,ImageContrastCheck" />
 
 
 
@@ -39,85 +39,88 @@
         style="@style/normal_style_silver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/etItemName"
+        android:layout_alignTop="@id/etItemNameEdit"
         android:layout_alignEnd="@id/txtItemDesc"
         android:text="@string/txtSellName"
         />
 
 
     <EditText
-        android:id="@+id/etItemName"
+        android:id="@+id/etItemNameEdit"
         style="@style/edit_text_silver"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageUploadEdit"
         android:layout_alignEnd="@id/imageUploadEdit"
         android:gravity="start|center_vertical"
-        android:hint="@string/txtSellName"/>
+        android:hint="@string/txtSellName"
+        tools:ignore="Autofill,DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/txtItemDesc"
         style="@style/normal_style_silver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/etItemDescription"
+        android:layout_alignTop="@id/etItemDescriptionEdit"
         android:text="@string/txtSellDesc"
 
         />
 
 
     <EditText
-        android:id="@+id/etItemDescription"
+        android:id="@+id/etItemDescriptionEdit"
         style="@style/edit_text_silver"
         android:layout_width="225dp"
         android:layout_height="80dp"
-        android:layout_below="@id/etItemName"
+        android:layout_below="@id/etItemNameEdit"
         android:layout_alignEnd="@id/imageUploadEdit"
         android:hint="@string/txtSellDesc"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/txtLocation"
         style="@style/normal_style_silver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/etItemLocation"
+        android:layout_alignTop="@id/etItemLocationEdit"
         android:layout_alignEnd="@id/txtItemDesc"
         android:text="@string/txtSellLocation"
         />
 
 
     <EditText
-        android:id="@+id/etItemLocation"
+        android:id="@+id/etItemLocationEdit"
         style="@style/edit_text_silver"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etItemDescription"
+        android:layout_below="@id/etItemDescriptionEdit"
         android:layout_alignEnd="@id/imageUploadEdit"
         android:hint="@string/txtSellLocation"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/txtPrice"
         style="@style/normal_style_silver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/etItemPrice"
+        android:layout_alignTop="@id/etItemPriceEdit"
         android:layout_alignEnd="@id/txtItemDesc"
         android:text="@string/txtSellPrice"
         />
 
     <EditText
-        android:id="@+id/etItemPrice"
+        android:id="@+id/etItemPriceEdit"
         style="@style/edit_text_silver"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etItemLocation"
+        android:layout_below="@id/etItemLocationEdit"
         android:layout_alignEnd="@id/imageUploadEdit"
         android:hint="@string/txtSellPrice"
         android:importantForAutofill="no"
         android:inputType="number"
-        />
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/txtTags"
@@ -134,23 +137,23 @@
         style="@style/edit_text_silver"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etItemPrice"
+        android:layout_below="@id/etItemPriceEdit"
         android:layout_alignEnd="@id/imageUploadEdit"
         android:hint="@string/txtSellTags"
         android:importantForAutofill="no"
-        />
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/txtCategory"
         style="@style/normal_style_silver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/spinnerCategories"
+        android:layout_alignTop="@id/spinnerCategoriesEdit"
         android:layout_alignEnd="@id/txtItemDesc"
         android:text="@string/txtSellCategory"
         />
     <Spinner
-        android:id="@+id/spinnerCategories"
+        android:id="@+id/spinnerCategoriesEdit"
         android:layout_width="225dp"
         android:layout_height="48dp"
         android:layout_below="@id/etItemTagEdit"
@@ -160,22 +163,22 @@
         android:layout_marginBottom="40dp"/>
 
     <Button
-        android:id="@+id/btConfirm"
+        android:id="@+id/btConfirmEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/button_style_green"
         android:text="@string/btConfirm"
-        android:layout_below="@id/spinnerCategories"
+        android:layout_below="@id/spinnerCategoriesEdit"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="50dp"
         />
     <Button
-        android:id="@+id/btCancel"
+        android:id="@+id/btCancelEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/button_style_gray"
         android:text="@string/btCancel"
-        android:layout_below="@id/spinnerCategories"
+        android:layout_below="@id/spinnerCategoriesEdit"
         android:layout_alignParentStart="true"
         android:layout_marginStart="50dp"/>
 
