@@ -4,13 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.TransactionsPage">
+    tools:context=".features.TransactionDetailsPage">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTransactionsView"
-        android:layout_width="412dp"
-        android:layout_height="599dp"
-        android:layout_marginTop="128dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,12 +12,15 @@ import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
 import com.csis3175.fleamart.model.Item;
 import com.csis3175.fleamart.model.SellerCardAdapter;
+import com.csis3175.fleamart.model.TransacationsAdapter;
+import com.csis3175.fleamart.model.Transaction;
 import com.csis3175.fleamart.model.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class transactions extends AppCompatActivity {
+public class TransactionsPage extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
     private User user;
@@ -48,9 +51,30 @@ public class transactions extends AppCompatActivity {
         });
 
         rvTransactionsView.setLayoutManager(gridLayoutManager);
-        SellerCardAdapter sellerCardAdapter = new SellerCardAdapter(transactions.this,getPostedItemsData(),user);
+        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this,getTransactions(), user);
 
-        rvTransactionsView.setAdapter(sellerCardAdapter);
+        rvTransactionsView.setAdapter(transacationsAdapter);
+    }
+
+    private List<Transaction> getTransactions(){
+        List<Transaction> transactions = new ArrayList<>();
+
+        Cursor c = databaseHelper.viewUserTransactions(userId);
+        while (c.moveToNext()) {
+            int transactionId = c.getInt(c.getColumnIndexOrThrow("transaction_id"));
+            int buyerId = c.getInt(c.getColumnIndexOrThrow("transaction_buyer_id"));
+            int sellerId = c.getInt(c.getColumnIndexOrThrow("transaction_seller_id"));
+            int itemId = c.getInt(c.getColumnIndexOrThrow("itemid"));
+            String date = c.getString(c.getColumnIndexOrThrow("transaction_date"));
+            String status = c.getString(c.getColumnIndexOrThrow("transaction_status"));
+            String delivery = c.getString(c.getColumnIndexOrThrow("transaction_delivery"));
+            transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery));
+        }
+
+
+        // Close the cursor
+        c.close();
+        return transactions;
     }
 
     private List<Item> getPostedItemsData(){

@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //------END OF ITEMS TABLE -------- //
     //------ TRANSACTION TABLE -------- //
     private static final String TABLE_TRANSACTION = "transactions";
-    private static final String COLUMN_TRANSACTION_ID = "Transaction_id";
+    private static final String COLUMN_TRANSACTION_ID = "transaction_id";
     private static final String COLUMN_TRANSACTION_BUYER_ID = "transaction_buyer_id";
     private static final String COLUMN_TRANSACTION_SELLER_ID = "transaction_seller_id";
     private static final String COLUMN_TRANSACTION_DATE = "transaction_date";
@@ -199,6 +199,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " WHERE posterid = ? or posterid is NULL";
         Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
         return c;
+    }
+
+    public Cursor viewUserTransactions(int userId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = String.format("SELECT * FROM %s WHERE %s = ? or %s is NULL", TABLE_TRANSACTION, COLUMN_TRANSACTION_SELLER_ID, COLUMN_TRANSACTION_SELLER_ID);
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        return cursor;
     }
 
 

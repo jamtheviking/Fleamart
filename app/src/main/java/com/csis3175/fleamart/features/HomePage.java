@@ -34,6 +34,7 @@ public class HomePage extends AppCompatActivity {
         Button btnBuy = findViewById(R.id.btnBuy);
         Button btnUpdate = findViewById(R.id.btnUpdate);
         Button btnLogout = findViewById(R.id.btnLogout);
+        Button btnEditItems = findViewById(R.id.btnEditPostedItems);
         Button btnTransactions = findViewById(R.id.btnTransactions);
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,10 +45,19 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        btnEditItems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePage.this, EditItems.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        });
+
         btnTransactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomePage.this, transactions.class);
+                Intent intent = new Intent(HomePage.this, TransactionsPage.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
             }

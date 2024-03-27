@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.features.EditItemPage;
-import com.csis3175.fleamart.features.SellPage;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -34,10 +33,9 @@ public class SellerCardAdapter extends RecyclerView.Adapter<SellerCardAdapter.Vi
     }
 
     // JO
-    public void udatedList(List<Item> updatedList) {
+    public void updatedList(List<Item> updatedList) {
         itemList.clear(); // Clear the existing list
         itemList.addAll(updatedList); // Add all elements from the updated list
-
     }
 
     @NonNull

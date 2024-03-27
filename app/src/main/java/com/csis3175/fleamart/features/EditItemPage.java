@@ -207,8 +207,6 @@ public class EditItemPage extends AppCompatActivity {
             }
         });
 
-
-
     }
 
     public void seekBarConfig(LinearLayout linearLayout,String itemName, String itemDescription, double itemPrice,
