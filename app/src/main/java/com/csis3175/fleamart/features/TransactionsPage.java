@@ -51,7 +51,7 @@ public class TransactionsPage extends AppCompatActivity {
         });
 
         rvTransactionsView.setLayoutManager(gridLayoutManager);
-        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions(), getPostedItemsData(), user);
+        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions(), getPostedItemsData(), user, databaseHelper);
 
         rvTransactionsView.setAdapter(transacationsAdapter);
     }
