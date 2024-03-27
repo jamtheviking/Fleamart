@@ -118,10 +118,11 @@ public class OrderConfirmation extends AppCompatActivity {
                 db.updateItemStatus(item.getItemID(),"pending");
                 msgConfirmation.setText(R.string.txtConfirmation);
                 //Post Delay
-                Intent intent = new Intent(OrderConfirmation.this, TransactionsPage.class);
-                intent.putExtra("user", user);
+
                 new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
-                startActivity(new Intent(OrderConfirmation.this, HomePage.class));
+                Intent intent = new Intent(OrderConfirmation.this, HomePage.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
 
             }
         });

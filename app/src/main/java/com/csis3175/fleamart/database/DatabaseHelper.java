@@ -13,7 +13,7 @@ import com.csis3175.fleamart.model.User;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fleamartDB";
-    private static final int DATABASE_VERSION = 5; /** Updated Item Price to INTEGER from REAL*/
+    private static final int DATABASE_VERSION = 6; /** Updated column Transaction_id to transaction_id*/
 
     //------ USERS TABLE -------- //
     private static final String TABLE_USERS = "users";
@@ -128,6 +128,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
 
+    }
+
+    public String getUsernameByID(int userId){
+        String username = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Assuming you have a Users table with columns "user_id" and "username"
+        String[] projection = { "firstName" };
+        String selection = "userId = ?";
+        String[] selectionArgs = { String.valueOf(userId) };
+
+        Cursor cursor = db.query("Users", projection, selection, selectionArgs, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            username = cursor.getString(cursor.getColumnIndexOrThrow("firstName"));
+            cursor.close();
+        }
+
+        db.close();
+
+        return username;
     }
 
     public void insertItem(String name, Double price, String description, String location, String category, String tag, byte[] img,boolean isShareable,String date, int userId,double dValue,String status) {

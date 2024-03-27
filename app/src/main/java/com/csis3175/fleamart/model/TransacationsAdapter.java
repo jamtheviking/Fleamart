@@ -22,7 +22,7 @@ import java.util.List;
 public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdapter.ViewHolder> {
 
     private List<Transaction> transactionsList;
-    //private List<Item> itemList;
+    private List<Item> itemList;
     private Context context;
     private User user;
 
@@ -41,20 +41,21 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
     public void onBindViewHolder(@NonNull TransacationsAdapter.ViewHolder holder, int position) {
         Transaction transaction = transactionsList.get(position);
 
-        //Item item = findItemById(transaction.getItemId());
-        //Glide.with(context).load(item.getImageData()).into(holder.itemImageView);
+        Item item = findItemById(transaction.getItemId());
+        Glide.with(context).load(item.getImageData()).into(holder.itemImageView);
         holder.transactionStatus.setText(transaction.getStatus());
-        //holder.itemNameTextView.setText(item.getItemName());
-        holder.buyerId.setText(transaction.getBuyerId());
+        holder.itemNameTextView.setText(item.getItemName());
+        holder.buyerId.setText(String.valueOf(transaction.getBuyerId()));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), TransactionDetailsPage.class);
-                //intent.putExtra("item", item);
+                intent.putExtra("item", item);
                 intent.putExtra("transaction", transaction);
                 intent.putExtra("user", user);
+
 
                 view.getContext().startActivity(intent);
             }
@@ -62,25 +63,25 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
 
     }
 
-    /*private Item findItemById(int itemId) {
+    private Item findItemById(int itemId) {
         for (Item item : itemList) {
             if (item.getItemID() == itemId) {
                 return item;
             }
         }
         return null;
-    }*/
+    }
 
     @Override
     public int getItemCount() {
         return transactionsList.size();
     }
 
-    public TransacationsAdapter(Context context, List<Transaction> transactionsList, User user){
+    public TransacationsAdapter(Context context, List<Transaction> transactionsList, List<Item> itemList, User user){
         this.context = context;
         this.transactionsList = transactionsList;
         this.user = user;
-        //this.itemList = itemList;
+        this.itemList = itemList;
     }
 
     public void updateTransactionsList(List<Transaction> transactionsList){
@@ -96,10 +97,10 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
 
         public ViewHolder(View itemView) {
             super(itemView);
-            itemNameTextView = itemView.findViewById(R.id.itemName);
-            transactionStatus = itemView.findViewById(R.id.itemPrice);
+            itemNameTextView = itemView.findViewById(R.id.txtItemName_Transactions);
+            transactionStatus = itemView.findViewById(R.id.txtStatus_Transactions);
             buyerId = itemView.findViewById(R.id.txtBuyerID_Transactions);
-            itemImageView = itemView.findViewById(R.id.img);
+            itemImageView = itemView.findViewById(R.id.imageView_Transactions);
         }
     }
 
