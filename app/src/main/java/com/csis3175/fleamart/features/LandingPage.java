@@ -1,6 +1,8 @@
 package com.csis3175.fleamart.features;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,6 +20,7 @@ import androidx.transition.TransitionManager;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.*;
+import com.csis3175.fleamart.model.Encrypt;
 import com.csis3175.fleamart.model.User;
 
 public class LandingPage extends AppCompatActivity {
@@ -27,11 +30,14 @@ public class LandingPage extends AppCompatActivity {
     EditText username,password,firstName,
             lastName,confirmPassword,email;
     boolean isRootShowing;
+    private SharedPreferences sharedPreferences;
+    private static final String PREF_USERID_KEY = "userId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         transitionConfig();
         isRootShowing = true;
 
@@ -96,16 +102,16 @@ public class LandingPage extends AppCompatActivity {
                 String ln = lastName.getText().toString();
                 String un = username.getText().toString();
                 String em = email.getText().toString();
-                String pw = password.getText().toString();
-                addUser(fn, ln, un, em, pw);
+                String hashedPassword = Encrypt.hashPassword(password.getText().toString());
+                addUser(fn, ln, un, em, hashedPassword);
                 TransitionManager.go(scene1, slideDownTransition);
             }
         });
     }
-    private void addUser(String firstName, String lastName, String username, String email, String password){
+    private void addUser(String firstName, String lastName, String username, String email, String hashedPassword){
         ///Needs Try Catch
         DatabaseHelper user = new DatabaseHelper(this);
-        user.insertUser(firstName, lastName, username, email, password);
+        user.insertUser(firstName, lastName, username, email, hashedPassword);
     }
 
     public void onClickLogin() {
@@ -129,33 +135,55 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    public void showHomePage(User user){
+    public void showHomePage(){
         Intent intent = new Intent(this, HomePage.class);
-        intent.putExtra("user", user);
+
         startActivity(intent);
         finish();
 
     }
     public void validateCredential(){
         EditText username, password;
-
         username = findViewById(R.id.etUsername);
         password = findViewById(R.id.etPassword);
         DatabaseHelper databaseHelperDB = new DatabaseHelper(this);
 
         String un = username.getText().toString();
         String pw = password.getText().toString();
+        String hash = databaseHelperDB.getHashedPassword(un);
+        Log.d("HASHTEST","HASH Value is "+hash);
+        Log.d("HASHTEST","pw Value is "+pw);
 
-        User user = databaseHelperDB.getUserDetails(un,pw);
-        boolean isValidUser = databaseHelperDB.isValidUser(un, pw);
-        databaseHelperDB.close();
+        if(!hash.isEmpty()){
+            boolean isValid = Encrypt.validatePassword(pw,hash);
 
-        if (isValidUser) {
-            showHomePage(user);
-        } else {
-            // Invalid credentials
-            // Display an error message
-            Toast.makeText(this, "Not valid", Toast.LENGTH_SHORT).show();
+            if (isValid){
+                int userId = databaseHelperDB.getUserId(un,hash);
+                Log.d("HASHTEST","userid Value is "+userId);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(PREF_USERID_KEY, userId);
+                editor.apply();
+                showHomePage();
+            }
+            else {
+                // Invalid credentials
+                // Display an error message
+                Toast.makeText(this, "Not valid", Toast.LENGTH_SHORT).show();
+            }
         }
+
+
+//        User user = databaseHelperDB.getUserDetails(un,pw);
+//        boolean isValidUser = databaseHelperDB.isValidUser(un, pw);
+
+//        databaseHelperDB.close();
+
+//        if (isValidUser) {
+//            showHomePage(user);
+//        } else {
+//            // Invalid credentials
+//            // Display an error message
+//            Toast.makeText(this, "Not valid", Toast.LENGTH_SHORT).show();
+//        }
     }
 }

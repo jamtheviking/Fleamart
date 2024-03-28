@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_FIRST_NAME = "firstName";
     private static final String COLUMN_LAST_NAME = "lastName";
     private static final String COLUMN_EMAIL = "email";
+//    private static final String COLUMN_CELL = "cell";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     //------ END OF USERS TABLE -------- //
@@ -66,6 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_FIRST_NAME + " TEXT,"
                 + COLUMN_LAST_NAME + " TEXT,"
                 + COLUMN_EMAIL + " TEXT, "
+//                + COLUMN_CELL + " INTEGER, "
                 + COLUMN_USERNAME + " TEXT,"
                 + COLUMN_PASSWORD + " TEXT"
                 + ")";
@@ -117,14 +119,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void insertUser(String firstName, String lastName, String username, String email, String password) {
+    public void insertUser(String firstName, String lastName, String username, String email, String hashedPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_FIRST_NAME, firstName);
         values.put(COLUMN_LAST_NAME, lastName);
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_EMAIL, email);
-        values.put(COLUMN_PASSWORD, password);
+//        values.put(COLUMN_CELL, cell);
+        values.put(COLUMN_PASSWORD, hashedPassword);
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
 
@@ -230,7 +233,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public String getHashedPassword(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String hashedPassword = null;
+        Cursor c = null;
+        try{
+            c = db.query(TABLE_USERS,null,"username=?",new String[]{username},null,null,null);
+            if (c !=null && c.moveToFirst())
+            {
+                int hIndex = c.getColumnIndex("password");
+                if(hIndex != -1){
+                    hashedPassword = c.getString(hIndex);
+                }
+            }
+            else {
+                c.close();
+            }
+        } catch (Exception e){
+            //Error?
+        }
+        return hashedPassword;
 
+
+    }
 
     public boolean isValidUser(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -269,35 +294,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * This method returns a User object that pulls the data from the database.
-     * @param username
-     * @param password
+     * This method returns a User object that pulls the data from the database. Modified params - KK
+     * @param userid
+     *
      * @return
      */
     @SuppressLint("Range")//This suppresses warning that the column index might return -1
-    public User getUserDetails(String username, String password) {
+    public String[] getUserDetails(int userid) {
         SQLiteDatabase db = this.getReadableDatabase();
+        String[] userDetails = new String[4];
         Cursor cursor = db.query(
                 TABLE_USERS,
-                new String[]{COLUMN_ID, COLUMN_FIRST_NAME, COLUMN_LAST_NAME, COLUMN_EMAIL},
-                "username=? AND password=?",
-                new String[]{username, password},
+                new String[]{COLUMN_ID, COLUMN_FIRST_NAME, COLUMN_LAST_NAME, COLUMN_EMAIL,COLUMN_USERNAME},
+                "userid=?",
+                new String[]{String.valueOf(userid)},
                 null,
                 null,
                 null
         );
 
-        User user = null;
-
         try {
             if (cursor.moveToFirst()) {
                 int idColumnIndex = cursor.getColumnIndex(COLUMN_ID);
                 if (idColumnIndex != -1) {
-                    user = new User();
-                    user.setId(cursor.getInt(idColumnIndex));
-                    user.setFirstName(cursor.getString(cursor.getColumnIndex(COLUMN_FIRST_NAME)));
-                    user.setLastName(cursor.getString(cursor.getColumnIndex(COLUMN_LAST_NAME)));
-                    user.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)));
+
+                    userDetails[0] = cursor.getString(cursor.getColumnIndex(COLUMN_FIRST_NAME));
+                    userDetails[1] = cursor.getString(cursor.getColumnIndex(COLUMN_LAST_NAME));
+                    userDetails[2] = cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
+                    userDetails[3] = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+
                     // Add other user details as needed
                 } else {
                     // Handle the case where the COLUMN_ID does not exist
@@ -308,7 +333,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.close();
         }
 
-        return user;
+        return userDetails;
+    }
+    /**GET USER ID by username and password. To be used once validate and will store in SharedPreferences for session*/
+    public int getUserId(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int userId = 0;
+        Cursor cursor = db.query(
+                TABLE_USERS,
+                new String[]{COLUMN_ID},
+                "username=? AND password=?",
+                new String[]{username, password},
+                null,
+                null,
+                null
+        );
+
+        try {
+            if (cursor.moveToFirst()) {
+                int idColumnIndex = cursor.getColumnIndex(COLUMN_ID);
+                if (idColumnIndex != -1) {
+                    userId = cursor.getInt(idColumnIndex);
+
+                } else {
+                    // Handle the case where the COLUMN_ID does not exist
+                }
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return userId;
     }
 
     public Item getItemById(int id) {
