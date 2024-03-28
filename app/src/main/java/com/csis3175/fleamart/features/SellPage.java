@@ -1,6 +1,8 @@
 package com.csis3175.fleamart.features;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -43,20 +45,26 @@ public class SellPage extends AppCompatActivity {
     Double itemPrice;
     int userId;
     private ActivityResultLauncher<String> getImage;
-    private User user;
     double dValue = 0.0;
     double discountMul = 0.0;
     double newPrice = 0;
+    SharedPreferences sharedPreferences;
+    DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("user")) {
-            user = (User) intent.getSerializableExtra("user");
-            userId = user.getId();
-        }
+
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getInt("userId",0);
+//        if (userId>0){
+//            String[] userDetails = db.getUserDetails(userId);
+//
+//        }
+
+
         //TODO need to implement discount feature. After user selects buy, user selects discount for item
         etItemName = findViewById(R.id.etItemName);
         etItemPrice = findViewById(R.id.etItemPrice);
@@ -66,7 +74,7 @@ public class SellPage extends AppCompatActivity {
         etItemTags = findViewById(R.id.etItemTagEdit);
         ivUploadedImage = findViewById(R.id.imageUploadEdit);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+
         ViewGroup viewRoot = findViewById(android.R.id.content);
 
 
@@ -138,7 +146,7 @@ public class SellPage extends AppCompatActivity {
     }
 
     public void transitionConfigFlow() {
-        DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+
         ViewGroup viewRoot = findViewById(android.R.id.content);
         scene2 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell2, this);
         scene3 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell3, this);
@@ -167,8 +175,8 @@ public class SellPage extends AppCompatActivity {
                     public void onClick(View v) {
                         currentDate = dateFormat.format(new Date());
                         //TODO default discount to 0
-                        dbHelper.insertItem(itemName, null, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),0.0,"available");
-                        finish();
+                        dbHelper.insertItem(itemName, null, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,userId,0.0,"available");
+                        startActivity(new Intent(SellPage.this,HomePage.class));
                     }
                 });
 
@@ -180,7 +188,7 @@ public class SellPage extends AppCompatActivity {
             public void run() {
                 LinearLayout linearLayout = findViewById(R.id.rootContainer);
                 addDiscount = findViewById(R.id.btnAddDiscount);
-                seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,user.getId(), itemLocation, itemCategory,addDiscount);
+                seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,userId, itemLocation, itemCategory,addDiscount);
             }
         });
 
@@ -241,10 +249,10 @@ public class SellPage extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+
                 //Todo change DB to include discount and add to insert statement. We will be inserting entered price and discount.
-                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,user.getId(),dValue,"available");
-                finish();
+                dbHelper.insertItem(itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,userId,dValue,"available");
+                startActivity(new Intent(SellPage.this, HomePage.class));
             }
         });
 

@@ -66,5 +66,6 @@ public class UpdatePage extends AppCompatActivity {
         databaseHelper.updateUser(userId,firstName,lastName,email,password);
         Toast.makeText(this, "User info updated successfully", Toast.LENGTH_SHORT).show();
         finish();
+        startActivity(new Intent(UpdatePage.this,HomePage.class));
     }
 }
