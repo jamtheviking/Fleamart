@@ -1,12 +1,15 @@
 package com.csis3175.fleamart.features;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -24,25 +27,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class  SearchView extends AppCompatActivity {
-
     DatabaseHelper databaseHelper;
-    private User user;
     private int userId;
-
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_view);
-
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("user")) {
-            user = (User) intent.getSerializableExtra("user");
-            userId = user.getId();
-        }
-
         //initialize DB
-        databaseHelper = new DatabaseHelper(this);
+        databaseHelper = new DatabaseHelper(SearchView.this);
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getInt("userId",0);
+
+
+
 
         //https://exchangetuts.com/setting-span-size-of-single-row-in-staggeredgridlayoutmanager-1639642992135800
         RecyclerView rView = findViewById(R.id.recycler);
@@ -55,7 +54,7 @@ public class  SearchView extends AppCompatActivity {
         });
 
         rView.setLayoutManager(gridLayoutManager);
-        CardAdapter cardAdapter = new CardAdapter(SearchView.this,getCardData(),user);
+        CardAdapter cardAdapter = new CardAdapter(SearchView.this,getCardData());
 
         rView.setAdapter(cardAdapter);
 
@@ -112,21 +111,6 @@ public class  SearchView extends AppCompatActivity {
 
     private List<Item> getCardData(){
         List<Item> items = new ArrayList<>();
-//        products.add(new Product("Clock",56,R.drawable.alarm_clock));
-//        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
-//        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
-//        products.add(new Product("Dryer Machine",200,R.drawable.dryer));
-//        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
-//        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
-//        products.add(new Product("Dryer Machine",12000,R.drawable.dryer));
-//        products.add(new Product("Clock",56,R.drawable.alarm_clock));
-//        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
-//        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
-//        products.add(new Product("Dryer Machine",200,R.drawable.dryer));
-//        products.add(new Product("Coffee Maker",25,R.drawable.coffee1));
-//        products.add(new Product("Coffee Maker2",20,R.drawable.coffee2));
-//        products.add(new Product("Dryer Machine",12000,R.drawable.dryer));
-
         // Retrieve data from the database
         Cursor c = databaseHelper.viewAllItems(userId);
         while (c.moveToNext()) {

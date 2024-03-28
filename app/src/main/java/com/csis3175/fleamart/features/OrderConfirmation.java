@@ -1,6 +1,8 @@
 package com.csis3175.fleamart.features;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -31,7 +33,9 @@ public class OrderConfirmation extends AppCompatActivity {
     TextView itemName,itemPrice,msgConfirmation;
     byte[] imageData;
     private ImageButton toggleDeliver,togglePickup;
-    private User user;
+    SharedPreferences sharedPreferences;
+    private int userId;
+    DatabaseHelper db = new DatabaseHelper(OrderConfirmation.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,8 @@ public class OrderConfirmation extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("item")) { // Use "testitemid" as the key
             item = (Item) intent.getSerializableExtra("item");
-            user = (User) intent.getSerializableExtra("user");
+            sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            userId = sharedPreferences.getInt("userId",0);
 
             //Populate layout
             imageData = item.getImageData();
@@ -110,19 +115,16 @@ public class OrderConfirmation extends AppCompatActivity {
                 else {
                     deliveryMethod = "Pickup";
                 }
-                DatabaseHelper db = new DatabaseHelper(OrderConfirmation.this);
-                buyerId = user.getId();
-                System.out.println(item.getUserID());
-                System.out.println(user.getId());
+
+                buyerId = userId;
+
                 db.insertTransaction(buyerId,item.getUserID(),item.getItemID(),currentDate,deliveryMethod,"pending");
                 db.updateItemStatus(item.getItemID(),"pending");
                 msgConfirmation.setText(R.string.txtConfirmation);
                 //Post Delay
 
                 new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
-                Intent intent = new Intent(OrderConfirmation.this, HomePage.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
+                startActivity(new Intent(OrderConfirmation.this, HomePage.class));
 
             }
         });
@@ -130,9 +132,8 @@ public class OrderConfirmation extends AppCompatActivity {
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OrderConfirmation.this, TransactionsPage.class);
-                intent.putExtra("user", user);
-                Log.d("LOG USER ID","user id is"+user.getId());
+
+                startActivity(new Intent(OrderConfirmation.this, HomePage.class));
             }
         });
 

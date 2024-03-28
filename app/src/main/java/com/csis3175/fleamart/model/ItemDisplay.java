@@ -1,6 +1,8 @@
 package com.csis3175.fleamart.model;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -24,7 +26,9 @@ import java.util.Locale;
 public class ItemDisplay extends AppCompatActivity {
     Item item;
     int itemId;
-    private User user;
+
+    private int userId;
+    DatabaseHelper db = new DatabaseHelper(ItemDisplay.this);
 
 
 
@@ -46,13 +50,14 @@ public class ItemDisplay extends AppCompatActivity {
         DecimalFormat df = new DecimalFormat("#$");
 
 
+
         Intent intent = getIntent(); //Received from Card Adapter
         item = (Item) intent.getSerializableExtra("item");
         itemId = item.getItemID();
-        user = (User) intent.getSerializableExtra("user");
 
 
-        DatabaseHelper db = new DatabaseHelper(this);
+
+
         //TODO modify db query. Join users table and retrieve Seller name and email?
         item = db.getItemById(itemId);
 
@@ -91,7 +96,6 @@ public class ItemDisplay extends AppCompatActivity {
 
             Intent nextIntent = new Intent(ItemDisplay.this, OrderConfirmation.class);
             nextIntent.putExtra("item", item);
-            nextIntent.putExtra("user",user);
             startActivity(nextIntent);
         });
     }

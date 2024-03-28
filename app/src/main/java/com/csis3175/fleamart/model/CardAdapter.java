@@ -24,14 +24,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     private List<Item> itemList;
     private Context context;
-    private User user;
+
 
     //Default constructor for search
     public CardAdapter(){}
-    public CardAdapter(Context context, List<Item> itemList,User user) {
+    public CardAdapter(Context context, List<Item> itemList) {
         this.itemList = itemList;
         this.context = context;
-        this.user = user;
+
     }
 
     // JO
@@ -80,8 +80,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ItemDisplay.class);
                 intent.putExtra("item", item);
-                intent.putExtra("user", user);
-
                 v.getContext().startActivity(intent);
 
             }
