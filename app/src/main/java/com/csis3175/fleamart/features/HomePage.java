@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,94 +17,57 @@ import com.csis3175.fleamart.model.User;
 
 public class HomePage extends AppCompatActivity {
 
-    private int userId;
     SharedPreferences sharedPreferences;
+    DatabaseHelper db = new DatabaseHelper(HomePage.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
-        DatabaseHelper db = new DatabaseHelper(HomePage.this);
-        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        userId = sharedPreferences.getInt("userId",0);
-
-        if (userId>0){
-            String[] userDetails = db.getUserDetails(userId);
-            TextView tvFullName = findViewById(R.id.tvFullName);
-            tvFullName.setText(String.format(userDetails[0]+" "+userDetails[1]));
-
-        }
-
-
-        //TODO remove this intent. Switch to sharedpreferences
-//        Intent intent = getIntent();
-//        if (intent != null && intent.hasExtra("user")) {
-//            user = (User) intent.getSerializableExtra("user");
-//
-//            // Example: Display user details in TextViews or other UI elements
-//            TextView tvFullName = findViewById(R.id.tvFullName);
-//            tvFullName.setText(user.getFirstName() + " " + user.getLastName());
-//        }
-
         Button btnPost = findViewById(R.id.btnSell);
         Button btnBuy = findViewById(R.id.btnBuy);
         Button btnUpdate = findViewById(R.id.btnUpdate);
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnEditItems = findViewById(R.id.btnEditPostedItems);
         Button btnTransactions = findViewById(R.id.btnTransactions);
-        btnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomePage.this, SellPage.class);
-//                intent.putExtra("user", user);
-                startActivity(intent);
-            }
-        });
 
-        btnEditItems.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomePage.this, EditItems.class);
-//                intent.putExtra("user", user);
-                startActivity(intent);
-            }
-        });
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("userId",0);
 
-        btnTransactions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomePage.this, TransactionsPage.class);
-//                intent.putExtra("user", user);
-                startActivity(intent);
-            }
-        });
+        if (userId>0){
+            String[] userDetails = db.getUserDetails(userId);
+            TextView tvFullName = findViewById(R.id.tvFullName);
+            tvFullName.setText(String.format(userDetails[0]+" "+userDetails[1]));
+        }
 
-        btnBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        /* POST ITEM ACTIVITY
+         */
+        btnPost.setOnClickListener(view -> startActivity(new Intent(HomePage.this, SellPage.class)));
 
-                Intent updateIntent = new Intent(HomePage.this, SearchView.class);
-//                updateIntent.putExtra("user", user);
-                startActivity(updateIntent);
-            }
-        });
+        /* EDIT ITEM ACTIVITY
+         */
+        btnEditItems.setOnClickListener(view -> startActivity(new Intent(HomePage.this, EditItems.class)));
 
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent updateIntent = new Intent(HomePage.this, UpdatePage.class);
-                // Assuming 'user' holds the current user's data
-//                updateIntent.putExtra("user", user);
-                startActivity(updateIntent);
-            }
-        });
+        /* TRANSACTION HISTORY ACTIVITY
+         */
+        btnTransactions.setOnClickListener(view -> startActivity(new Intent(HomePage.this, TransactionsPage.class)));
 
-        //Logout button
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        /* BUY ITEM > SEARCH VIEW ACTIVITY
+         */
+        btnBuy.setOnClickListener(v -> startActivity(new Intent(HomePage.this, SearchView.class)));
+
+        /* UPDATE PAGE ACTIVITY
+         */
+        btnUpdate.setOnClickListener(v -> startActivity(new Intent(HomePage.this, UpdatePage.class)));
+
+        /* LOGOUT > HOMEPAGE AND CLEAR SHARED PREFERENCES
+         */
+        btnLogout.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+            Toast.makeText(HomePage.this, "GOODBYE", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(HomePage.this, LandingPage.class));
         });
 
     }
