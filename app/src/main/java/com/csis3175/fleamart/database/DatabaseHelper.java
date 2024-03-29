@@ -241,6 +241,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return isValid;
     }
 
+    public boolean doesUsernameExist(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USERS, new String[]{COLUMN_ID}, "username=?", new String[]{username}, null, null, null);
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+
     public int updateUser(int oldId,String firstName, String lastName, String username, String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
