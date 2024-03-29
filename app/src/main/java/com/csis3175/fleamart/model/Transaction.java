@@ -6,6 +6,9 @@ import java.util.Date;
 public class Transaction implements Serializable {
 
     private int transactionId;
+    private String buyerName;
+    private String itemName;
+    private byte[] imageData;
     private int itemId;
     private int sellerId;
     private int buyerId;
@@ -17,7 +20,33 @@ public class Transaction implements Serializable {
 
     }
 
-    public Transaction(int transactionId, int itemId, int sellerId, int buyerId, String date, String status, String delivery){
+    public String getBuyerName() {
+        return buyerName;
+    }
+
+    public void setBuyerName(String buyerName) {
+        this.buyerName = buyerName;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public Transaction(int transactionId, int itemId, int sellerId, int buyerId, String date, String status, String delivery, String buyerName, String itemName, byte[] imageData){
         this.transactionId = transactionId;
         this.itemId = itemId;
         this.sellerId = sellerId;
@@ -25,7 +54,19 @@ public class Transaction implements Serializable {
         this.date = date;
         this.status = status;
         this.delivery = delivery;
+        this.buyerName =buyerName;
+        this.itemName = itemName;
+        this.imageData = imageData;
     }
+//    public Transaction(int transactionId, int itemId, int sellerId, int buyerId, String date, String status, String delivery){
+//        this.transactionId = transactionId;
+//        this.itemId = itemId;
+//        this.sellerId = sellerId;
+//        this.buyerId = buyerId;
+//        this.date = date;
+//        this.status = status;
+//        this.delivery = delivery;
+//    }
 
     public int getTransactionId() {
         return transactionId;

@@ -60,15 +60,19 @@ public class HomePage extends AppCompatActivity {
          */
         btnUpdate.setOnClickListener(v -> startActivity(new Intent(HomePage.this, UpdatePage.class)));
 
-        /* LOGOUT > HOMEPAGE AND CLEAR SHARED PREFERENCES
-         */
-        btnLogout.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
-            Toast.makeText(HomePage.this, "GOODBYE", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(HomePage.this, LandingPage.class));
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                Toast.makeText(HomePage.this, "GOODBYE", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(HomePage.this, LandingPage.class));
+                finish();
+
+            }
         });
+
 
     }
 }
