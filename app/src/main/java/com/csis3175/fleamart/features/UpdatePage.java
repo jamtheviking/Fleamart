@@ -91,17 +91,5 @@ public class UpdatePage extends AppCompatActivity {
         }
 
         return true;
-=======
-
-        String firstName = editTextFirstName.getText().toString();
-        String lastName = editTextLastName.getText().toString();
-        String email = editTextEmail.getText().toString();
-
-        String password = Encrypt.hashPassword(editTextPassword.getText().toString());
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        databaseHelper.updateUser(userId,firstName,lastName,email,password);
-        Toast.makeText(this, "User info updated successfully", Toast.LENGTH_SHORT).show();
-        finish();
->>>>>>> e6579ea (sharedpref accessed in updatePage)
     }
 }
