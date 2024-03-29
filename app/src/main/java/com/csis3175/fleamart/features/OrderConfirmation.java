@@ -25,7 +25,6 @@ import java.util.Locale;
 public class OrderConfirmation extends AppCompatActivity {
     public  Button btConfirm,btCancel;
     public boolean isDeliverySelected = false;
-
     int buyerId =0;
     String currentDate,deliveryMethod;
     Item item;

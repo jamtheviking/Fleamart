@@ -20,7 +20,7 @@ import com.csis3175.fleamart.model.User;
 import java.util.regex.Pattern;
 
 public class UpdatePage extends AppCompatActivity {
-    EditText editTextFirstName,editTextLastName,editTextUsername,editTextEmail,editTextPassword ;
+    EditText editTextFirstName,editTextLastName,editTextEmail,editTextPassword ;
     TextView usernameText;
     int userId;
     SharedPreferences sharedPreferences;
@@ -45,7 +45,7 @@ public class UpdatePage extends AppCompatActivity {
             editTextFirstName.setText(userDetails[0]);
             editTextLastName.setText(userDetails[1]);
             editTextEmail.setText(userDetails[2]);
-            editTextUsername.setText(userDetails[3]);
+            usernameText.setText(userDetails[3]);
         }
 
     }

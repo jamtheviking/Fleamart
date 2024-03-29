@@ -265,16 +265,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    }
 
-    public boolean isValidUser(String username, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        //This query looks for the a user using user name and password. The "?" is used to avoid SQL Injection Attacks and allows parameterization input
-        Cursor cursor = db.query(TABLE_USERS, null, "username=? AND password=?", new String[]{username, password}, null, null, null);
-        boolean isValid = cursor.moveToFirst();
-        cursor.close();
-        return isValid;
-    }
+
+//    public boolean isValidUser(String username, String password) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        //This query looks for the a user using user name and password. The "?" is used to avoid SQL Injection Attacks and allows parameterization input
+//        Cursor cursor = db.query(TABLE_USERS, null, "username=? AND password=?", new String[]{username, password}, null, null, null);
+//        boolean isValid = cursor.moveToFirst();
+//        cursor.close();
+//        return isValid;
+//    }
 
     public boolean doesUsernameExist(String username) {
         SQLiteDatabase db = this.getReadableDatabase();

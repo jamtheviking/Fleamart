@@ -30,9 +30,10 @@ public class LandingPage extends AppCompatActivity {
 
     EditText username,password,firstName,
             lastName,confirmPassword,email;
-    boolean isRootShowing;
+    boolean isRootShowing=true;
     private SharedPreferences sharedPreferences;
     private static final String PREF_USERID_KEY = "userId";
+    DatabaseHelper databaseHelperDB = new DatabaseHelper(LandingPage.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,6 @@ public class LandingPage extends AppCompatActivity {
         slideUpTransition = new Slide(Gravity.BOTTOM);
         slideDownTransition = new Slide(Gravity.TOP);
         slideUpTransition.setDuration(500);
-
 
 
         // Force listenerConfig() after transition to fix delayed response
@@ -102,7 +102,7 @@ public class LandingPage extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< HEAD
+
 
                 String fn = firstName.getText().toString().trim();
                 String ln = lastName.getText().toString().trim();
@@ -110,6 +110,7 @@ public class LandingPage extends AppCompatActivity {
                 String em = email.getText().toString().trim();
                 String pw = password.getText().toString().trim();
                 String cpw = confirmPassword.getText().toString().trim();
+                String hashePw = null;
 
                 // Check if any field is empty
                 if(fn.isEmpty() || ln.isEmpty() || un.isEmpty() || em.isEmpty() || pw.isEmpty() || cpw.isEmpty()) {
@@ -121,6 +122,8 @@ public class LandingPage extends AppCompatActivity {
                 if(!pw.equals(cpw)) {
                     Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_LONG).show();
                     return;
+                } else{
+                    hashePw = Encrypt.hashPassword(cpw);
                 }
 
                 // Check if username already exists
@@ -128,19 +131,12 @@ public class LandingPage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Username already exists. Please choose another.", Toast.LENGTH_LONG).show();
                 } else {
                     // Proceed with user registration since username is unique
-                    addUser(fn, ln, un, em, pw);
+                    addUser(fn, ln, un, em, hashePw);
                     // Assuming `TransitionManager.go(scene1, slideDownTransition);` is a valid transition you've set up
                     TransitionManager.go(scene1, slideDownTransition);
                 }
-=======
-                String fn = firstName.getText().toString();
-                String ln = lastName.getText().toString();
-                String un = username.getText().toString();
-                String em = email.getText().toString();
-                String hashedPassword = Encrypt.hashPassword(password.getText().toString());
-                addUser(fn, ln, un, em, hashedPassword);
-                TransitionManager.go(scene1, slideDownTransition);
->>>>>>> 51f9de5 (implement hash and sharepreferences)
+
+
             }
         });
     }
@@ -156,26 +152,28 @@ public class LandingPage extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isRootShowing) {
-                    // If already in the login scene, handle login action
-                    try {
-                        validateCredential();
-                    } catch (Exception e) {
-                        Log.d("Error", "onClick: " + e);
-                    }
-                    return;
-                }
                 // Transition to the login scene
-                TransitionManager.go(scene1, slideUpTransition);
-                isRootShowing = false;
+                if (!isRootShowing){
+                    validateCredential();
+
+                }
+                else {
+                    TransitionManager.go(scene1, slideUpTransition);
+                    isRootShowing = false;
+                    scene1.setEnterAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            validateCredential();
+                        }
+                    });
+                }
+
             }
         });
     }
 
     public void showHomePage(){
-        Intent intent = new Intent(this, HomePage.class);
-
-        startActivity(intent);
+        startActivity(new Intent(LandingPage.this, HomePage.class));
         finish();
 
     }
@@ -183,33 +181,34 @@ public class LandingPage extends AppCompatActivity {
         EditText username, password;
         username = findViewById(R.id.etUsername);
         password = findViewById(R.id.etPassword);
-        DatabaseHelper databaseHelperDB = new DatabaseHelper(this);
+
+
+        if (username == null || password == null) {
+
+            return;
+        }
 
         String un = username.getText().toString();
         String pw = password.getText().toString();
-        String hash = databaseHelperDB.getHashedPassword(un);
-        Log.d("HASHTEST","HASH Value is "+hash);
-        Log.d("HASHTEST","pw Value is "+pw);
 
-        if(!hash.isEmpty()){
-            boolean isValid = Encrypt.validatePassword(pw,hash);
-
-            if (isValid){
-                int userId = databaseHelperDB.getUserId(un,hash);
-                Log.d("HASHTEST","userid Value is "+userId);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt(PREF_USERID_KEY, userId);
-                editor.apply();
-                showHomePage();
-            }
-            else {
-                // Invalid credentials
-                // Display an error message
+        if(un.isEmpty() || pw.isEmpty()){
+            Toast.makeText(this, "Must enter a username and password", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            String hash = databaseHelperDB.getHashedPassword(un);
+            if(hash == null || hash.isEmpty()){
                 Toast.makeText(this, "Not valid", Toast.LENGTH_SHORT).show();
             }
+            else {
+                boolean isValid = Encrypt.validatePassword(pw, hash);
+                if (isValid){
+                    int userId = databaseHelperDB.getUserId(un, hash);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt(PREF_USERID_KEY, userId);
+                    editor.apply();
+                    showHomePage();
+                }
+            }
         }
-
-
-
     }
 }
