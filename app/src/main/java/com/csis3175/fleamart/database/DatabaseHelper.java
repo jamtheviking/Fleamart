@@ -230,7 +230,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor viewUserTransactions(int userId){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT transactions.*, users.username AS buyerName, items.name AS itemName, items.image " +
+        String query = "SELECT transactions.*, users.username AS buyerName, items.name AS itemName, items.image,items.price AS price " +
                 "FROM " + TABLE_TRANSACTION + " AS transactions " +
                 "LEFT JOIN " + TABLE_USERS + " AS users ON transactions.transaction_buyer_id = users.userId " +
                 "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions.itemid = items.itemid " +

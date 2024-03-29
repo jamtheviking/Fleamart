@@ -26,12 +26,13 @@ public class UpdatePage extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     DatabaseHelper db = new DatabaseHelper(UpdatePage.this);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_page);
+
         DatabaseHelper db = new DatabaseHelper(UpdatePage.this);
+
 
         editTextFirstName = findViewById(R.id.editTextFirstName);
         editTextLastName = findViewById(R.id.editTextLastName);
