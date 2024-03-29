@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".model.ItemDisplay"
+    android:background="@color/black">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/bottomBar"
+        android:layout_alignParentTop="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/itemImg"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="fitCenter"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/itemName"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textColor="@color/silver"
+                android:layout_below="@id/itemImg"
+                android:text="Item Name"/>
+
+            <TextView
+                android:id="@+id/itemListDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/silver"
+                android:layout_below="@id/itemImg"
+                android:layout_alignParentEnd="true"
+                />
+
+            <TextView
+                android:id="@+id/itemLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/itemListDay"
+                android:textSize="15sp"
+                android:textColor="@color/silver"
+                android:layout_alignParentEnd="true"/>
+
+            <TextView
+                android:id="@+id/descTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textColor="@color/silver"
+                android:layout_below="@id/itemName"
+                android:layout_marginTop="30dp"
+                android:text="@string/txtSellDesc" />
+
+
+            <TextView
+                android:id="@+id/itemDesc"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:textSize="15sp"
+                android:textColor="@color/silver"
+                android:layout_below="@id/descTitle"
+                android:layout_alignStart="@id/descTitle"
+                 />
+
+            <TextView
+                android:id="@+id/sellerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="@color/silver"
+                android:text="@string/txtSellerTitle"
+                android:layout_below="@id/itemDesc"/>
+            <TextView
+                android:id="@+id/sellerFName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sellerTitle"
+                style="@style/normal_style_silver"
+                />
+            <TextView
+                android:id="@+id/sellerEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sellerFName"
+                style="@style/normal_style_silver"
+                />
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <!-- Bottom bar -->
+    <RelativeLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/green">
+
+        <TextView
+            android:id="@+id/itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"/>
+
+
+        <Button
+            android:id="@+id/btConfirm"
+            android:text="@string/btBuy"
+            style="@style/button_style"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

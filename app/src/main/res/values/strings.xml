@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Fleamart</string>
+    <string name="imgLogo">Fleamart Logo</string>
+    <string name="etUsername">Username</string>
+    <string name="etPassword">Password</string>
+    <string name="btnLogin">Login</string>
+    <string name="btnForgotPassword">Forgot Password?</string>
+    <string name="btnSignUp">Sign Up</string>
+    <string name="btnRegister">Register</string>
+    <string name="tvFirstName">First Name</string>
+    <string name="tvLastName">Last Name</string>
+    <string name="tvEmail">Email Address</string>
+    <string name="tvPassword">Password</string>
+    <string name="tvCell">Cell Number</string>
+    <string name="tvConfirmPassword">Confirm Password</string>
+    <string name="etUsernameSignUp">Username</string>
+    <string name="hintSearch">Search Listings</string>
+    <string name="txtHomeBuy">Find Something</string>
+    <string name="txtHomeSell">Post an item</string>
+    <string name="txtHomeTr">History</string>
+    <string name="txtHomeUpdate">Profile Settings</string>
+    <string name="txtHomeLogout">Logout</string>
+    <string name="txtSellTitle">Post an item</string>
+    <string name="txtSellName">Item Name</string>
+    <string name="txtSellCategory">Category</string>
+    <string name="txtSellLocation">Location</string>
+    <string name="txtSellPrice">Price</string>
+    <string name="txtSellDesc">Description</string>
+    <string name="txtSellTags">Tags</string>
+    <string name="txtRegisterIns">Welcome to Fleamart! We just need to know some information you can get started.</string>
+    <string-array name="itemCategories">
+        <item>Furniture</item>
+        <item>Appliances</item>
+        <item>Home decor</item>
+        <item>Garden and outdoor</item>
+        <item>Electronics</item>
+    </string-array>
+    <string name="btConfirm">Confirm</string>
+    <string name="btCancel">Cancel</string>
+    <string name="btBuy">Buy</string>
+    <string name="txtUpload">Upload Image</string>
+    <string name="btnUpdate">Update profile info</string>
+    <string name="btnSell">Sell it</string>
+    <string name="btnShare">Share it</string>
+    <string name="btnBorrow">Borrow</string>
+    <string name="discountPrompt">Please a discount rate for this item using the slider</string>
+    <string name="btnAddDiscount">Apply Discount</string>
+    <string name="txtConfirmation">Order has been sent to buyer</string>
+    <string name="txtSellerTitle">Seller Information</string>
+    <string name="txtOrderConTitle">Please review your order</string>
+    <string name="btnEditItems">Edit Items</string>
+    <string name="txtEditItem">Edit Item Details</string>
+    <string name="btnTransactions">Transactions</string>
+    <string name="btnSendNotification">Send Notification</string>
+    <string name="tvBuyerNameLabel">Buyer Name</string>
+    <string name="tvItemNameLabel">Item Name</string>
+    <string name="tvItemStatusLabel">Pick-up or Delivery</string>
+    <string name="tvItemPriceLabel">Item Price</string>
+    <string name="tvTransactionStatus">Status</string>
+    <string name="tvTransactionIdLabel">Transaction ID:</string>
+    <string name="str_noti">notification when transaction is completed</string>
+    <string name="notNotification">will display for error testing</string>
+
+
+</resources>
