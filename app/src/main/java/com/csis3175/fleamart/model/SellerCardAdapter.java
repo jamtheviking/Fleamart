@@ -22,14 +22,14 @@ public class SellerCardAdapter extends RecyclerView.Adapter<SellerCardAdapter.Vi
 
     private List<Item> itemList;
     private Context context;
-    private User user;
+
 
     //Default constructor for search
     public SellerCardAdapter(){}
-    public SellerCardAdapter(Context context, List<Item> itemList,User user) {
+    public SellerCardAdapter(Context context, List<Item> itemList) {
         this.itemList = itemList;
         this.context = context;
-        this.user = user;
+
     }
 
     // JO
@@ -68,8 +68,6 @@ public class SellerCardAdapter extends RecyclerView.Adapter<SellerCardAdapter.Vi
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditItemPage.class);
                 intent.putExtra("item", item);
-                intent.putExtra("user", user);
-
                 v.getContext().startActivity(intent);
 
             }

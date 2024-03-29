@@ -47,7 +47,7 @@ public class EditItems extends AppCompatActivity {
         });
 
         rvTransactionsView.setLayoutManager(gridLayoutManager);
-        SellerCardAdapter sellerCardAdapter = new SellerCardAdapter(EditItems.this,getPostedItemsData(),user);
+        SellerCardAdapter sellerCardAdapter = new SellerCardAdapter(EditItems.this,getPostedItemsData());
 
         rvTransactionsView.setAdapter(sellerCardAdapter);
     }
