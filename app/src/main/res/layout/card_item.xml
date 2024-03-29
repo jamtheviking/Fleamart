@@ -18,7 +18,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:layout_toEndOf="@id/img"
+                android:textColor="@color/green"
+                android:layout_alignParentEnd="true"
                 android:layout_alignTop="@id/img"
                 />
             <TextView
@@ -31,6 +32,7 @@
                 android:textStyle="bold"
                 android:gravity="end"
                 android:layout_below="@id/itemName"
-                android:layout_alignEnd="@id/itemName"/>
+                android:layout_alignParentEnd="true"
+                />
 
 </RelativeLayout>
