@@ -22,7 +22,7 @@ import java.util.List;
 public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdapter.ViewHolder> {
 
     private List<Transaction> transactionsList;
-    private List<Item> itemList;
+//    private List<Item> itemList;
     private Context context;
 
 
@@ -63,25 +63,16 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
 
     }
 
-    private Item findItemById(int itemId) {
-        for (Item item : itemList) {
-            if (item.getItemID() == itemId) {
-                return item;
-            }
-        }
-        return null;
-    }
+
 
     @Override
     public int getItemCount() {
         return transactionsList.size();
     }
 
-    public TransacationsAdapter(Context context, List<Transaction> transactionsList, List<Item> itemList){
+    public TransacationsAdapter(Context context, List<Transaction> transactionsList){
         this.context = context;
         this.transactionsList = transactionsList;
-        this.itemList = itemList;
-
     }
 
 //    public void updateTransactionsList(List<Transaction> transactionsList){

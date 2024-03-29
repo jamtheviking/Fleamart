@@ -31,9 +31,6 @@ public class UpdatePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_page);
 
-        DatabaseHelper db = new DatabaseHelper(UpdatePage.this);
-
-
         editTextFirstName = findViewById(R.id.editTextFirstName);
         editTextLastName = findViewById(R.id.editTextLastName);
         editTextEmail = findViewById(R.id.editTextEmail);
@@ -41,6 +38,7 @@ public class UpdatePage extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         int userId = sharedPreferences.getInt("userId",0);
+
 
         if (userId>0){
             String[] userDetails = db.getUserDetails(userId);
@@ -51,7 +49,6 @@ public class UpdatePage extends AppCompatActivity {
         }
 
     }
-
 
 
     public void updateUserInfo(View view) {
@@ -92,5 +89,6 @@ public class UpdatePage extends AppCompatActivity {
         }
 
         return true;
+
     }
 }
