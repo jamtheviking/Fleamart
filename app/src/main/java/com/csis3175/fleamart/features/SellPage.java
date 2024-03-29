@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
@@ -50,6 +51,7 @@ public class SellPage extends AppCompatActivity {
     double newPrice = 0;
     SharedPreferences sharedPreferences;
     DatabaseHelper dbHelper = new DatabaseHelper(SellPage.this);
+    boolean isValid = true;
 
 
     @Override
@@ -90,41 +92,31 @@ public class SellPage extends AppCompatActivity {
         //Go to scene2
         btnConfirm.setOnClickListener(v -> {
 
-            boolean isValid = true;
+            itemName = etItemName.getText().toString().trim();
+            itemDescription = etItemDescription.getText().toString().trim();
+            itemLocation = etItemLocation.getText().toString().trim();
+            itemCategory = etItemCategory.getSelectedItem().toString().trim();
+            itemTags = etItemTags.getText().toString().trim();
 
-            String itemName = etItemName.getText().toString().trim();
-            String itemPriceStr = etItemPrice.getText().toString().trim();
-            String itemDescription = etItemDescription.getText().toString().trim();
-            String itemLocation = etItemLocation.getText().toString().trim();
-            String itemCategory = etItemCategory.getSelectedItem().toString().trim();
-            String itemTags = etItemTags.getText().toString().trim();
-
-            // Validation for itemName - Cannot be empty
-            if (itemName.isEmpty()) {
-                etItemName.setError("Item name is required!");
-                isValid = false;
-            }
-            if (itemDescription.isEmpty()) {
-                etItemDescription.setError("Item description is required!");
-                isValid = false;
-            }
-            if (itemLocation.isEmpty()) {
-                etItemLocation.setError("Item location is required!");
-                isValid = false;
-            }
-            if (itemTags.isEmpty()) {
-                etItemTags.setError("Item tags are required!");
-                isValid = false;
-            }
-
-
-            // Validation for itemPrice - Must be a valid double and greater than 0
-            double itemPrice = 0;
-            try {
-                itemPrice = Double.parseDouble(itemPriceStr);
-                if (itemPrice <= 0) {
-                    etItemPrice.setError("Price must be greater than 0!");
+            EditText[] edits = {etItemName,etItemDescription,etItemLocation,etItemTags};
+            for (EditText e : edits){
+                if(e.getText().toString().isEmpty()){
+                    e.setError("Field cannot be blank");
                     isValid = false;
+                }
+            }
+            
+            try {
+                String itemPriceStr = etItemPrice.getText().toString().trim();
+                if (itemPriceStr.isEmpty()) {
+                    etItemPrice.setError("Price is required!");
+                    isValid = false;
+                } else {
+                    itemPrice = Double.parseDouble(itemPriceStr);
+                    if (itemPrice <= 0) {
+                        etItemPrice.setError("Price must be greater than 0!");
+                        isValid = false;
+                    }
                 }
             } catch (NumberFormatException e) {
                 etItemPrice.setError("Invalid price!");
@@ -132,15 +124,19 @@ public class SellPage extends AppCompatActivity {
             }
 
 
-            // Check if all validations are passed
-            if (isValid){
+            if (isValid) {
                 TransitionManager.go(scene2, slideRightTransition);
-                itemName = etItemName.getText().toString();
-                itemPrice = Double.parseDouble(etItemPrice.getText().toString());
-                itemDescription = etItemDescription.getText().toString();
-                itemLocation = etItemLocation.getText().toString();
-                itemCategory = etItemCategory.getSelectedItem().toString();
-                itemTags = etItemTags.getText().toString();
+                scene3.setEnterAction(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        LinearLayout linearLayout = findViewById(R.id.rootContainer);
+                        addDiscount = findViewById(R.id.btnAddDiscount);
+                        seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,userId, itemLocation, itemCategory,addDiscount);
+                    }
+                });
+
+
             }
 
 
@@ -172,11 +168,6 @@ public class SellPage extends AppCompatActivity {
             }
         });
 
-               //TODO: Input validation
-
-                //TODO: confirm button should move to a different user asking the user if they want to share or sell the item
-                //TODO: Provide user confirmation that item was uploaded
-
 
 
         /**
@@ -203,6 +194,7 @@ public class SellPage extends AppCompatActivity {
         slideRightTransition.setDuration(800);
 
         scene2.setEnterAction(new Runnable() {
+
             @Override
             public void run() {
                 btnSell = findViewById(R.id.btnSell);  //activity_sell2
@@ -215,7 +207,7 @@ public class SellPage extends AppCompatActivity {
 
                     TransitionManager.go(scene3, slideRightTransition);
                 });
-                //finish()
+
                 btnShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -228,15 +220,7 @@ public class SellPage extends AppCompatActivity {
 
             }
         });
-        scene3.setEnterAction(new Runnable() {
 
-            @Override
-            public void run() {
-                LinearLayout linearLayout = findViewById(R.id.rootContainer);
-                addDiscount = findViewById(R.id.btnAddDiscount);
-                seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,userId, itemLocation, itemCategory,addDiscount);
-            }
-        });
 
 
     }
