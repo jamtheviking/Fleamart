@@ -35,12 +35,10 @@ public class EditItems extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId",0);
 
-
-
         databaseHelper = new DatabaseHelper(this);
 
         rvTransactionsView = findViewById(R.id.rvTransactionsView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {

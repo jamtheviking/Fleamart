@@ -122,8 +122,6 @@ public class SellPage extends AppCompatActivity {
                 etItemPrice.setError("Invalid price!");
                 isValid = false;
             }
-
-
             if (isValid) {
                 TransitionManager.go(scene2, slideRightTransition);
                 scene3.setEnterAction(new Runnable() {
@@ -135,7 +133,6 @@ public class SellPage extends AppCompatActivity {
                         seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,userId, itemLocation, itemCategory,addDiscount);
                     }
                 });
-
 
             }
 
