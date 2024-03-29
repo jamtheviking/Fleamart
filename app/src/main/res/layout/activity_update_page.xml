@@ -1,56 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/green"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editTextFirstName"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/profileTitle"
+        style="@style/title_style"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="First Name"
+        android:layout_centerHorizontal="true"
+        android:text="Profile Settings"/>
+
+
+    <TextView
+        android:id="@+id/editTextUsername"
+        style="@style/title_style"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:hint="Username"
         android:inputType="textPersonName"
         android:minHeight="48dp" />
 
+
+    <EditText
+        android:id="@+id/editTextFirstName"
+        style="@style/edit_text_black"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextUsername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:hint="First Name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"   />
+
     <EditText
         android:id="@+id/editTextLastName"
-        android:layout_width="match_parent"
+        style="@style/edit_text_black"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/editTextFirstName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:hint="Last Name"
         android:inputType="textPersonName"
         android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
+        style="@style/edit_text_black"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/editTextLastName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp" />
 
-    <TextView
-        android:id="@+id/editTextUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Username"
-        android:inputType="text"
-        android:minHeight="48dp" />
-
     <EditText
         android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
+        style="@style/edit_text_black"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/editTextEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp" />
 
     <Button
         android:id="@+id/buttonUpdateInfo"
+        style="@style/button_style_gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update Info"
-        android:layout_gravity="center_horizontal"
-        android:onClick="updateUserInfo"/>
+        android:layout_below="@id/editTextPassword"
+        android:layout_centerHorizontal="true"
 
-</LinearLayout>
+
+        android:layout_marginTop="20dp"
+        android:onClick="updateUserInfo"
+        android:text="Update Info" />
+
+
+</RelativeLayout>
