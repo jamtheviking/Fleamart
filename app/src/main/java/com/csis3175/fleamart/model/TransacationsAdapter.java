@@ -24,11 +24,12 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
     private List<Transaction> transactionsList;
     private List<Item> itemList;
     private Context context;
-    private User user;
+
     DatabaseHelper db;
     private Item item;
+    int itemid;
 
-    public TransacationsAdapter(){    }
+
 
     @NonNull
     @Override
@@ -40,7 +41,6 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
     @Override
     public void onBindViewHolder(@NonNull TransacationsAdapter.ViewHolder holder, int position) {
         Transaction transaction = transactionsList.get(position);
-
 
         String buyerName = db.getUsernameByID(transaction.getBuyerId());
         Item item = findItemById(transaction.getItemId());
@@ -56,7 +56,7 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
                 Intent intent = new Intent(view.getContext(), TransactionDetailsPage.class);
                 intent.putExtra("item", item);
                 intent.putExtra("transaction", transaction);
-                intent.putExtra("user", user);
+
 
 
                 view.getContext().startActivity(intent);
@@ -79,10 +79,9 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
         return transactionsList.size();
     }
 
-    public TransacationsAdapter(Context context, List<Transaction> transactionsList, List<Item> itemList, User user, DatabaseHelper db){
+    public TransacationsAdapter(Context context, List<Transaction> transactionsList, List<Item> itemList, DatabaseHelper db){
         this.context = context;
         this.transactionsList = transactionsList;
-        this.user = user;
         this.itemList = itemList;
         this.db = db;
     }
@@ -90,6 +89,7 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
     public void updateTransactionsList(List<Transaction> transactionsList){
         transactionsList.clear();
         transactionsList.addAll(transactionsList);
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

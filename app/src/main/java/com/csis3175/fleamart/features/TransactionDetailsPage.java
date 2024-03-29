@@ -2,7 +2,9 @@ package com.csis3175.fleamart.features;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,7 +21,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
 
     Item item;
     int itemId;
-    private User user;
+
     int userId;
 
     Transaction transaction;
@@ -32,6 +34,8 @@ public class TransactionDetailsPage extends AppCompatActivity {
     TextView tvBuyerName;
     ImageView ivItemImage_Transaction;
     Button btnSendNotification;
+    SharedPreferences sharedPreferences;
+    DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,15 +50,17 @@ public class TransactionDetailsPage extends AppCompatActivity {
         btnSendNotification = findViewById(R.id.btnSendNotification);
         ivItemImage_Transaction = findViewById(R.id.ivItemImage_Transaction);
 
+
+
         Intent intent = getIntent(); //Received from Card Adapter
-        if (intent != null && intent.hasExtra("user")) {
-            user = (User) intent.getSerializableExtra("user");
-            userId = user.getId();
+        if (intent != null) {
+            sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            userId = sharedPreferences.getInt("userId",0);
             item = (Item) intent.getSerializableExtra("item");
             transaction = (Transaction) intent.getSerializableExtra("transaction");
         }
 
-        DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
+
         String buyerName = db.getUsernameByID(transaction.getBuyerId());
         tvTransactionId.setText(String.valueOf(transaction.getTransactionId()));
         tvItemName.setText(item.getItemName());

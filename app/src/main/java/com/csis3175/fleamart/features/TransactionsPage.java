@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
@@ -22,10 +26,10 @@ import java.util.List;
 
 public class TransactionsPage extends AppCompatActivity {
 
-    DatabaseHelper databaseHelper;
-    private User user;
-    private int userId;
+    DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
+    private int userId;
+    SharedPreferences sharedPreferences;
     RecyclerView rvTransactionsView;
 
     @Override
@@ -33,13 +37,9 @@ public class TransactionsPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactions);
 
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("user")) {
-            user = (User) intent.getSerializableExtra("user");
-            userId = user.getId();
-        }
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getInt("userId",0);
 
-        databaseHelper = new DatabaseHelper(this);
 
         rvTransactionsView = findViewById(R.id.rvTransactionsView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
@@ -51,13 +51,14 @@ public class TransactionsPage extends AppCompatActivity {
         });
 
         rvTransactionsView.setLayoutManager(gridLayoutManager);
-        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions(), getPostedItemsData(), user, databaseHelper);
-
+        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions(), getPostedItemsData(), databaseHelper);
         rvTransactionsView.setAdapter(transacationsAdapter);
     }
 
     private List<Transaction> getTransactions(){
         List<Transaction> transactions = new ArrayList<>();
+
+        Log.d("TRANSTEST","user id is "+transactions.size());
 
         Cursor c = databaseHelper.viewUserTransactions(userId);
         while (c.moveToNext()) {
@@ -70,6 +71,8 @@ public class TransactionsPage extends AppCompatActivity {
             String delivery = c.getString(c.getColumnIndexOrThrow("transaction_delivery"));
             transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery));
         }
+        Log.d("TRANSTEST","transaction count is "+transactions.size());
+
 
 
         // Close the cursor
@@ -96,6 +99,7 @@ public class TransactionsPage extends AppCompatActivity {
             String tag = c.getString(c.getColumnIndexOrThrow("tag"));
             postedItems.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category, tag));
         }
+        Log.d("TRANSTEST","posted count is "+postedItems.size());
         // Close the cursor
         c.close();
         return postedItems;
