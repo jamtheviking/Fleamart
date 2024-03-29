@@ -274,19 +274,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    public int updateUser(int oldId,String firstName, String lastName,String email, String password) {
+    public boolean updateUser(int oldId,String firstName, String lastName,String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         // Updating values
         values.put(COLUMN_FIRST_NAME, firstName);
         values.put(COLUMN_LAST_NAME, lastName);
+
         values.put(COLUMN_EMAIL, email);
         values.put(COLUMN_PASSWORD, password);
 
         // updating row
         int updateStatus = db.update(TABLE_USERS, values, COLUMN_ID + " = ?", new String[] { String.valueOf(oldId) });
 
-        return updateStatus;
+        return updateStatus >0;
     }
 
     public boolean updateItemStatus(int itemId, String itemStatus) {

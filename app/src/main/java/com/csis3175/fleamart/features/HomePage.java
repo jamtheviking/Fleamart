@@ -25,7 +25,7 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.home);
         DatabaseHelper db = new DatabaseHelper(HomePage.this);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        userId = sharedPreferences.getInt("userid",0);
+        userId = sharedPreferences.getInt("userId",0);
 
         if (userId>0){
             String[] userDetails = db.getUserDetails(userId);

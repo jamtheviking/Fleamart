@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,10 +26,12 @@ public class UpdatePage extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     DatabaseHelper db = new DatabaseHelper(UpdatePage.this);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_page);
+        DatabaseHelper db = new DatabaseHelper(UpdatePage.this);
 
         editTextFirstName = findViewById(R.id.editTextFirstName);
         editTextLastName = findViewById(R.id.editTextLastName);
@@ -47,6 +50,8 @@ public class UpdatePage extends AppCompatActivity {
         }
 
     }
+
+
 
     public void updateUserInfo(View view) {
 
@@ -86,5 +91,17 @@ public class UpdatePage extends AppCompatActivity {
         }
 
         return true;
+=======
+
+        String firstName = editTextFirstName.getText().toString();
+        String lastName = editTextLastName.getText().toString();
+        String email = editTextEmail.getText().toString();
+
+        String password = Encrypt.hashPassword(editTextPassword.getText().toString());
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        databaseHelper.updateUser(userId,firstName,lastName,email,password);
+        Toast.makeText(this, "User info updated successfully", Toast.LENGTH_SHORT).show();
+        finish();
+>>>>>>> e6579ea (sharedpref accessed in updatePage)
     }
 }
