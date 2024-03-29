@@ -25,7 +25,7 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
     private List<Item> itemList;
     private Context context;
 
-    DatabaseHelper db;
+
     private Item item;
     int itemid;
 
@@ -41,12 +41,13 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
     @Override
     public void onBindViewHolder(@NonNull TransacationsAdapter.ViewHolder holder, int position) {
         Transaction transaction = transactionsList.get(position);
-
-        String buyerName = db.getUsernameByID(transaction.getBuyerId());
-        Item item = findItemById(transaction.getItemId());
-        Glide.with(context).load(item.getImageData()).into(holder.itemImageView);
+        String buyerName = transaction.getBuyerName();
+//        Item item = findItemById(transaction.getItemId());
+        Glide.with(context)
+                .load(transaction.getImageData())
+                .into(holder.itemImageView);
         holder.transactionStatus.setText(transaction.getStatus());
-        holder.itemNameTextView.setText(item.getItemName());
+        holder.itemNameTextView.setText(transaction.getItemName());
         holder.buyerId.setText(buyerName);
 
 
@@ -79,11 +80,11 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
         return transactionsList.size();
     }
 
-    public TransacationsAdapter(Context context, List<Transaction> transactionsList, List<Item> itemList, DatabaseHelper db){
+    public TransacationsAdapter(Context context, List<Transaction> transactionsList, List<Item> itemList){
         this.context = context;
         this.transactionsList = transactionsList;
         this.itemList = itemList;
-        this.db = db;
+
     }
 
     public void updateTransactionsList(List<Transaction> transactionsList){

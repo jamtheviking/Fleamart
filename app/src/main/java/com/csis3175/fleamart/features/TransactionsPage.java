@@ -51,13 +51,13 @@ public class TransactionsPage extends AppCompatActivity {
         });
 
         rvTransactionsView.setLayoutManager(gridLayoutManager);
-        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions(), getPostedItemsData(), databaseHelper);
+        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions(), getPostedItemsData());
+
         rvTransactionsView.setAdapter(transacationsAdapter);
     }
 
-    private List<Transaction> getTransactions(){
-        List<Transaction> transactions = new ArrayList<>();
-
+    private ArrayList<Transaction> getTransactions(){
+        ArrayList<Transaction> transactions = new ArrayList<>();
         Log.d("TRANSTEST","user id is "+transactions.size());
 
         Cursor c = databaseHelper.viewUserTransactions(userId);
@@ -69,9 +69,12 @@ public class TransactionsPage extends AppCompatActivity {
             String date = c.getString(c.getColumnIndexOrThrow("transaction_date"));
             String status = c.getString(c.getColumnIndexOrThrow("transaction_status"));
             String delivery = c.getString(c.getColumnIndexOrThrow("transaction_delivery"));
-            transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery));
+            String buyerName = c.getString(c.getColumnIndexOrThrow("buyerName"));
+            byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
+            String itemName = c.getString(c.getColumnIndexOrThrow("itemName"));
+            transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery,buyerName,itemName,imageData));
         }
-        Log.d("TRANSTEST","transaction count is "+transactions.size());
+
 
 
 
@@ -80,8 +83,8 @@ public class TransactionsPage extends AppCompatActivity {
         return transactions;
     }
 
-    private List<Item> getPostedItemsData(){
-        List<Item> postedItems = new ArrayList<>();
+    private ArrayList<Item> getPostedItemsData(){
+        ArrayList<Item> postedItems = new ArrayList<>();
 
         Cursor c = databaseHelper.viewPostedItemsByUser(userId);
         while (c.moveToNext()) {

@@ -26,7 +26,8 @@ import com.csis3175.fleamart.model.User;
 public class LandingPage extends AppCompatActivity {
     private Scene scene1, scene2;
     private Transition slideUpTransition,slideDownTransition;
-    Button btnForgotPassword,btnRegister;
+    Button btnLogin,btnRegister;
+
     EditText username,password,firstName,
             lastName,confirmPassword,email;
     boolean isRootShowing;
@@ -38,6 +39,8 @@ public class LandingPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        btnLogin = findViewById(R.id.btnLogin);
+
         transitionConfig();
         isRootShowing = true;
 
@@ -51,6 +54,7 @@ public class LandingPage extends AppCompatActivity {
         slideUpTransition = new Slide(Gravity.BOTTOM);
         slideDownTransition = new Slide(Gravity.TOP);
         slideUpTransition.setDuration(500);
+
 
 
         // Force listenerConfig() after transition to fix delayed response
@@ -147,7 +151,8 @@ public class LandingPage extends AppCompatActivity {
     }
 
     public void onClickLogin() {
-        Button btnLogin = findViewById(R.id.btnLogin);
+        btnLogin = findViewById(R.id.btnLogin);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,17 +210,6 @@ public class LandingPage extends AppCompatActivity {
         }
 
 
-//        User user = databaseHelperDB.getUserDetails(un,pw);
-//        boolean isValidUser = databaseHelperDB.isValidUser(un, pw);
 
-//        databaseHelperDB.close();
-
-//        if (isValidUser) {
-//            showHomePage(user);
-//        } else {
-//            // Invalid credentials
-//            // Display an error message
-//            Toast.makeText(this, "Not valid", Toast.LENGTH_SHORT).show();
-//        }
     }
 }

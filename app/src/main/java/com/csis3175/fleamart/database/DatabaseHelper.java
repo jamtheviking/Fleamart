@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.csis3175.fleamart.model.Item;
+import com.csis3175.fleamart.model.TransacationsAdapter;
 import com.csis3175.fleamart.model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -59,6 +60,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -227,10 +230,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor viewUserTransactions(int userId){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_TRANSACTION +
-                " WHERE transaction_seller_id = ? or transaction_seller_id is NULL";
+        String query = "SELECT transactions.*, users.username AS buyerName, items.name AS itemName, items.image " +
+                "FROM " + TABLE_TRANSACTION + " AS transactions " +
+                "LEFT JOIN " + TABLE_USERS + " AS users ON transactions.transaction_buyer_id = users.userId " +
+                "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions.itemid = items.itemid " +
+                "WHERE transaction_seller_id = ? OR transaction_seller_id IS NULL";
 
-//        String query = String.format("SELECT * FROM %s WHERE %s = ? or %s is NULL", TABLE_TRANSACTION, COLUMN_TRANSACTION_SELLER_ID, COLUMN_TRANSACTION_SELLER_ID);
+
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
 
         return cursor;
