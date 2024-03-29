@@ -42,15 +42,11 @@
         <activity
             android:name=".features.SellPage"
             android:exported="false" />
-        <activity
-            android:name=".features.SignUpPage"
-            android:exported="false" />
+
         <activity
             android:name=".features.HomePage"
             android:exported="false" />
-        <activity
-            android:name=".features.LoginPage"
-            android:exported="false" />
+
         <activity
             android:name=".features.LandingPage"
             android:exported="true">
