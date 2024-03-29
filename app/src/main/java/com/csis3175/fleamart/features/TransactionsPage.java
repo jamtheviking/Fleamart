@@ -42,7 +42,7 @@ public class TransactionsPage extends AppCompatActivity {
 
 
         rvTransactionsView = findViewById(R.id.rvTransactionsView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -72,7 +72,8 @@ public class TransactionsPage extends AppCompatActivity {
             String buyerName = c.getString(c.getColumnIndexOrThrow("buyerName"));
             byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
             String itemName = c.getString(c.getColumnIndexOrThrow("itemName"));
-            transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery,buyerName,itemName,imageData));
+            double itemPrice = c.getDouble(c.getColumnIndexOrThrow("price"));
+            transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery,buyerName,itemName,imageData,itemPrice));
         }
 
 

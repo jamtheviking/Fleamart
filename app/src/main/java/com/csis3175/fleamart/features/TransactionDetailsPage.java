@@ -19,7 +19,7 @@ import com.csis3175.fleamart.model.User;
 
 public class TransactionDetailsPage extends AppCompatActivity {
 
-    Item item;
+
     int itemId;
 
     int userId;
@@ -52,23 +52,25 @@ public class TransactionDetailsPage extends AppCompatActivity {
 
 
 
+
         Intent intent = getIntent(); //Received from Card Adapter
         if (intent != null) {
             sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             userId = sharedPreferences.getInt("userId",0);
-            item = (Item) intent.getSerializableExtra("item");
             transaction = (Transaction) intent.getSerializableExtra("transaction");
         }
 
 
         String buyerName = db.getUsernameByID(transaction.getBuyerId());
         tvTransactionId.setText(String.valueOf(transaction.getTransactionId()));
-        tvItemName.setText(item.getItemName());
-        tvItemPrice.setText(String.valueOf(item.getItemPrice()));
+        tvItemName.setText(transaction.getItemName());
+        tvItemPrice.setText(String.valueOf(transaction.getItemPrice()));
         tvPickUpDelivery.setText(transaction.getDelivery());
         tvBuyerName.setText(buyerName);
         tvItemStatus.setText(transaction.getStatus());
-        Glide.with(this).load(item.getImageData()).into(ivItemImage_Transaction);
+        Glide.with(this)
+                .load(transaction.getImageData())
+                .into(ivItemImage_Transaction);
 
     }
 }

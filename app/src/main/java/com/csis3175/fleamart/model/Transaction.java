@@ -15,6 +15,15 @@ public class Transaction implements Serializable {
     private String date;
     private String status;
     private String delivery;
+    private double itemPrice;
+
+    public double getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(double itemPrice) {
+        this.itemPrice = itemPrice;
+    }
 
     public Transaction(){
 
@@ -46,7 +55,7 @@ public class Transaction implements Serializable {
         this.imageData = imageData;
     }
 
-    public Transaction(int transactionId, int itemId, int sellerId, int buyerId, String date, String status, String delivery, String buyerName, String itemName, byte[] imageData){
+    public Transaction(int transactionId, int itemId, int sellerId, int buyerId, String date, String status, String delivery, String buyerName, String itemName, byte[] imageData,double itemPrice){
         this.transactionId = transactionId;
         this.itemId = itemId;
         this.sellerId = sellerId;
@@ -57,6 +66,7 @@ public class Transaction implements Serializable {
         this.buyerName =buyerName;
         this.itemName = itemName;
         this.imageData = imageData;
+        this.itemPrice = itemPrice;
     }
 //    public Transaction(int transactionId, int itemId, int sellerId, int buyerId, String date, String status, String delivery){
 //        this.transactionId = transactionId;

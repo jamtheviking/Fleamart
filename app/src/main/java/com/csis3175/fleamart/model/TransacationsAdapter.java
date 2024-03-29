@@ -57,9 +57,6 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
                 Intent intent = new Intent(view.getContext(), TransactionDetailsPage.class);
                 intent.putExtra("item", item);
                 intent.putExtra("transaction", transaction);
-
-
-
                 view.getContext().startActivity(intent);
             }
         });
@@ -87,11 +84,11 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
 
     }
 
-    public void updateTransactionsList(List<Transaction> transactionsList){
-        transactionsList.clear();
-        transactionsList.addAll(transactionsList);
-
-    }
+//    public void updateTransactionsList(List<Transaction> transactionsList){
+//        transactionsList.clear();
+//        transactionsList.addAll(transactionsList);
+//
+//    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView itemNameTextView;
