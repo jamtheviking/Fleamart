@@ -227,7 +227,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor viewUserTransactions(int userId){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = String.format("SELECT * FROM %s WHERE %s = ? or %s is NULL", TABLE_TRANSACTION, COLUMN_TRANSACTION_SELLER_ID, COLUMN_TRANSACTION_SELLER_ID);
+        String query = "SELECT * FROM " + TABLE_TRANSACTION +
+                " WHERE transaction_seller_id = ? or transaction_seller_id is NULL";
+
+//        String query = String.format("SELECT * FROM %s WHERE %s = ? or %s is NULL", TABLE_TRANSACTION, COLUMN_TRANSACTION_SELLER_ID, COLUMN_TRANSACTION_SELLER_ID);
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
 
         return cursor;
