@@ -52,7 +52,6 @@ public class TransactionsPage extends AppCompatActivity {
 
         rvTransactionsView.setLayoutManager(gridLayoutManager);
         TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions());
-
         rvTransactionsView.setAdapter(transacationsAdapter);
     }
 
@@ -75,6 +74,7 @@ public class TransactionsPage extends AppCompatActivity {
             double itemPrice = c.getDouble(c.getColumnIndexOrThrow("price"));
             transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery,buyerName,itemName,imageData,itemPrice));
         }
+
         // Close the cursor
         c.close();
         return transactions;
@@ -104,4 +104,5 @@ public class TransactionsPage extends AppCompatActivity {
 //        c.close();
 //        return postedItems;
 //    }
+
 }

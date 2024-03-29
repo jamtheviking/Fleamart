@@ -263,6 +263,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return hashedPassword;
 
+    }
 
     }
 
@@ -273,6 +274,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean isValid = cursor.moveToFirst();
         cursor.close();
         return isValid;
+    }
+
+    public boolean doesUsernameExist(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USERS, new String[]{COLUMN_ID}, "username=?", new String[]{username}, null, null, null);
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
     }
 
     public boolean updateUser(int oldId,String firstName, String lastName,String email, String password) {

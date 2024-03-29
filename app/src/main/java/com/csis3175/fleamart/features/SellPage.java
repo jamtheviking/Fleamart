@@ -90,14 +90,60 @@ public class SellPage extends AppCompatActivity {
         //Go to scene2
         btnConfirm.setOnClickListener(v -> {
 
-            //TODO: ADD validation
-            TransitionManager.go(scene2, slideRightTransition);
-            itemName = etItemName.getText().toString();
-            itemPrice = Double.parseDouble(etItemPrice.getText().toString());
-            itemDescription = etItemDescription.getText().toString();
-            itemLocation = etItemLocation.getText().toString();
-            itemCategory = etItemCategory.getSelectedItem().toString();
-            itemTags = etItemTags.getText().toString();
+            boolean isValid = true;
+
+            String itemName = etItemName.getText().toString().trim();
+            String itemPriceStr = etItemPrice.getText().toString().trim();
+            String itemDescription = etItemDescription.getText().toString().trim();
+            String itemLocation = etItemLocation.getText().toString().trim();
+            String itemCategory = etItemCategory.getSelectedItem().toString().trim();
+            String itemTags = etItemTags.getText().toString().trim();
+
+            // Validation for itemName - Cannot be empty
+            if (itemName.isEmpty()) {
+                etItemName.setError("Item name is required!");
+                isValid = false;
+            }
+            if (itemDescription.isEmpty()) {
+                etItemDescription.setError("Item description is required!");
+                isValid = false;
+            }
+            if (itemLocation.isEmpty()) {
+                etItemLocation.setError("Item location is required!");
+                isValid = false;
+            }
+            if (itemTags.isEmpty()) {
+                etItemTags.setError("Item tags are required!");
+                isValid = false;
+            }
+
+
+            // Validation for itemPrice - Must be a valid double and greater than 0
+            double itemPrice = 0;
+            try {
+                itemPrice = Double.parseDouble(itemPriceStr);
+                if (itemPrice <= 0) {
+                    etItemPrice.setError("Price must be greater than 0!");
+                    isValid = false;
+                }
+            } catch (NumberFormatException e) {
+                etItemPrice.setError("Invalid price!");
+                isValid = false;
+            }
+
+
+            // Check if all validations are passed
+            if (isValid){
+                TransitionManager.go(scene2, slideRightTransition);
+                itemName = etItemName.getText().toString();
+                itemPrice = Double.parseDouble(etItemPrice.getText().toString());
+                itemDescription = etItemDescription.getText().toString();
+                itemLocation = etItemLocation.getText().toString();
+                itemCategory = etItemCategory.getSelectedItem().toString();
+                itemTags = etItemTags.getText().toString();
+            }
+
+
         });
 
         //finish

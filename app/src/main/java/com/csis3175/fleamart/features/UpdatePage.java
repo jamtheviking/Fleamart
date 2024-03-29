@@ -17,6 +17,8 @@ import com.csis3175.fleamart.database.*;
 import com.csis3175.fleamart.model.Encrypt;
 import com.csis3175.fleamart.model.User;
 
+import java.util.regex.Pattern;
+
 public class UpdatePage extends AppCompatActivity {
     EditText editTextFirstName,editTextLastName,editTextUsername,editTextEmail,editTextPassword ;
     TextView usernameText;
@@ -49,7 +51,6 @@ public class UpdatePage extends AppCompatActivity {
     }
 
 
-
     public void updateUserInfo(View view) {
 
         editTextFirstName = findViewById(R.id.editTextFirstName);
@@ -57,15 +58,37 @@ public class UpdatePage extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
 
-        String firstName = editTextFirstName.getText().toString();
-        String lastName = editTextLastName.getText().toString();
-        String email = editTextEmail.getText().toString();
+        String firstName = editTextFirstName.getText().toString().trim();
+        String lastName = editTextLastName.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
 
-        String password = Encrypt.hashPassword(editTextPassword.getText().toString());
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        databaseHelper.updateUser(userId,firstName,lastName,email,password);
-        Toast.makeText(this, "User info updated successfully", Toast.LENGTH_SHORT).show();
-        finish();
-        startActivity(new Intent(UpdatePage.this,HomePage.class));
+        if (validateInput(firstName, lastName, email, password)) {
+            password = Encrypt.hashPassword(editTextPassword.getText().toString());
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
+            databaseHelper.updateUser(userId,firstName,lastName,email,password);
+            Toast.makeText(this, "User info updated successfully", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(UpdatePage.this,HomePage.class));
+        } else {
+            Toast.makeText(this, "Failed to update user info", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean validateInput(String firstName, String lastName, String email, String password) {
+        // Validate that none of the fields are empty
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "All fields are required.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Simple email pattern check
+        if (!Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$").matcher(email).matches()) {
+            Toast.makeText(this, "Invalid email address.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+
     }
 }

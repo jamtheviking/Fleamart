@@ -90,7 +90,7 @@ public class LandingPage extends AppCompatActivity {
         });
     }
     public void registerUser(){
-
+        DatabaseHelper check = new DatabaseHelper(this);
         firstName = findViewById(R.id.etFirstNameRegister);
         lastName = findViewById(R.id.etLastNameRegister);
         username = findViewById(R.id.etUsernameRegister);
@@ -102,6 +102,37 @@ public class LandingPage extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
+
+                String fn = firstName.getText().toString().trim();
+                String ln = lastName.getText().toString().trim();
+                String un = username.getText().toString().trim();
+                String em = email.getText().toString().trim();
+                String pw = password.getText().toString().trim();
+                String cpw = confirmPassword.getText().toString().trim();
+
+                // Check if any field is empty
+                if(fn.isEmpty() || ln.isEmpty() || un.isEmpty() || em.isEmpty() || pw.isEmpty() || cpw.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please fill in all fields", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // Check if passwords match
+                if(!pw.equals(cpw)) {
+                    Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // Check if username already exists
+                if(check.doesUsernameExist(un)) {
+                    Toast.makeText(getApplicationContext(), "Username already exists. Please choose another.", Toast.LENGTH_LONG).show();
+                } else {
+                    // Proceed with user registration since username is unique
+                    addUser(fn, ln, un, em, pw);
+                    // Assuming `TransitionManager.go(scene1, slideDownTransition);` is a valid transition you've set up
+                    TransitionManager.go(scene1, slideDownTransition);
+                }
+=======
                 String fn = firstName.getText().toString();
                 String ln = lastName.getText().toString();
                 String un = username.getText().toString();
@@ -109,6 +140,7 @@ public class LandingPage extends AppCompatActivity {
                 String hashedPassword = Encrypt.hashPassword(password.getText().toString());
                 addUser(fn, ln, un, em, hashedPassword);
                 TransitionManager.go(scene1, slideDownTransition);
+>>>>>>> 51f9de5 (implement hash and sharepreferences)
             }
         });
     }

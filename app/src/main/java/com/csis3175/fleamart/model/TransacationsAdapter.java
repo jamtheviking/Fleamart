@@ -73,8 +73,6 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
     public TransacationsAdapter(Context context, List<Transaction> transactionsList){
         this.context = context;
         this.transactionsList = transactionsList;
-
-
     }
 
 //    public void updateTransactionsList(List<Transaction> transactionsList){
