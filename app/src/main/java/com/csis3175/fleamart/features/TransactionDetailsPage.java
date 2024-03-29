@@ -34,7 +34,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
     TextView tvBuyerName;
     ImageView ivItemImage_Transaction;
     Button btnSendNotification;
-    SharedPreferences sharedPreferences;
+
     DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
 
         Intent intent = getIntent(); //Received from Card Adapter
         if (intent != null) {
-            sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            userId = sharedPreferences.getInt("userId",0);
+
             transaction = (Transaction) intent.getSerializableExtra("transaction");
         }
 

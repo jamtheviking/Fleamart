@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -22,7 +24,7 @@ public class EditItems extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     private User user;
     private int userId;
-
+    SharedPreferences sharedPreferences;
     RecyclerView rvTransactionsView;
 
     @Override
@@ -30,11 +32,10 @@ public class EditItems extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactions);
 
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("user")) {
-            user = (User) intent.getSerializableExtra("user");
-            userId = user.getId();
-        }
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getInt("userId",0);
+
+
 
         databaseHelper = new DatabaseHelper(this);
 

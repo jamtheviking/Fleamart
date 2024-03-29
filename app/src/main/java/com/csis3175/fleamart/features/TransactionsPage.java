@@ -51,7 +51,7 @@ public class TransactionsPage extends AppCompatActivity {
         });
 
         rvTransactionsView.setLayoutManager(gridLayoutManager);
-        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions(), getPostedItemsData());
+        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions());
 
         rvTransactionsView.setAdapter(transacationsAdapter);
     }
@@ -75,37 +75,33 @@ public class TransactionsPage extends AppCompatActivity {
             double itemPrice = c.getDouble(c.getColumnIndexOrThrow("price"));
             transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery,buyerName,itemName,imageData,itemPrice));
         }
-
-
-
-
         // Close the cursor
         c.close();
         return transactions;
     }
 
-    private ArrayList<Item> getPostedItemsData(){
-        ArrayList<Item> postedItems = new ArrayList<>();
-
-        Cursor c = databaseHelper.viewPostedItemsByUser(userId);
-        while (c.moveToNext()) {
-            int itemId = c.getInt(c.getColumnIndexOrThrow("itemid"));
-            String name = c.getString(c.getColumnIndexOrThrow("name"));
-            String description = c.getString(c.getColumnIndexOrThrow("description"));
-            double price = c.getDouble(c.getColumnIndexOrThrow("price"));
-            double discount = c.getDouble(c.getColumnIndexOrThrow("discount"));
-            boolean isShareable = c.getInt(c.getColumnIndexOrThrow("isShareable"))==1;
-            String dateString = c.getString(c.getColumnIndexOrThrow("date"));
-            byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
-            int userId = c.getInt(c.getColumnIndexOrThrow("posterid"));
-            String location = c.getString(c.getColumnIndexOrThrow("location"));
-            String category = c.getString(c.getColumnIndexOrThrow("category"));
-            String tag = c.getString(c.getColumnIndexOrThrow("tag"));
-            postedItems.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category, tag));
-        }
-        Log.d("TRANSTEST","posted count is "+postedItems.size());
-        // Close the cursor
-        c.close();
-        return postedItems;
-    }
+//    private ArrayList<Item> getPostedItemsData(){
+//        ArrayList<Item> postedItems = new ArrayList<>();
+//
+//        Cursor c = databaseHelper.viewPostedItemsByUser(userId);
+//        while (c.moveToNext()) {
+//            int itemId = c.getInt(c.getColumnIndexOrThrow("itemid"));
+//            String name = c.getString(c.getColumnIndexOrThrow("name"));
+//            String description = c.getString(c.getColumnIndexOrThrow("description"));
+//            double price = c.getDouble(c.getColumnIndexOrThrow("price"));
+//            double discount = c.getDouble(c.getColumnIndexOrThrow("discount"));
+//            boolean isShareable = c.getInt(c.getColumnIndexOrThrow("isShareable"))==1;
+//            String dateString = c.getString(c.getColumnIndexOrThrow("date"));
+//            byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
+//            int userId = c.getInt(c.getColumnIndexOrThrow("posterid"));
+//            String location = c.getString(c.getColumnIndexOrThrow("location"));
+//            String category = c.getString(c.getColumnIndexOrThrow("category"));
+//            String tag = c.getString(c.getColumnIndexOrThrow("tag"));
+//            postedItems.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category, tag));
+//        }
+//        Log.d("TRANSTEST","posted count is "+postedItems.size());
+//        // Close the cursor
+//        c.close();
+//        return postedItems;
+//    }
 }

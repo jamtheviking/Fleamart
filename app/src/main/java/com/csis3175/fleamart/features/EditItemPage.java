@@ -10,7 +10,9 @@ import androidx.transition.Slide;
 import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -44,7 +46,7 @@ public class EditItemPage extends AppCompatActivity {
 
     Item item;
     int itemId;
-    private User user;
+
 
     EditText etItemNameEdit,etItemPriceEdit,etItemDescriptionEdit,etItemLocationEdit,etItemTagEdit;
     ImageView imageUploadEdit;
@@ -64,6 +66,8 @@ public class EditItemPage extends AppCompatActivity {
     double dValue = 0.0;
     double discountMul = 0.0;
     double newPrice = 0;
+    SharedPreferences sharedPreferences;
+    DatabaseHelper dbHelper = new DatabaseHelper(EditItemPage.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +85,8 @@ public class EditItemPage extends AppCompatActivity {
 
         Intent intent = getIntent(); //Received from Card Adapter
         if (intent != null && intent.hasExtra("user")) {
-            user = (User) intent.getSerializableExtra("user");
-            userId = user.getId();
+            sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            userId = sharedPreferences.getInt("userId",0);
             item = (Item) intent.getSerializableExtra("item");
         }
 
@@ -98,7 +102,7 @@ public class EditItemPage extends AppCompatActivity {
         Glide.with(this).load(item.getImageData()).into(imageUploadEdit);
 
 
-        DatabaseHelper dbHelper = new DatabaseHelper(EditItemPage.this);
+
         ViewGroup viewRoot = findViewById(android.R.id.content);
 
         btnCancelEdit = findViewById(R.id.btCancelEdit);
@@ -158,7 +162,7 @@ public class EditItemPage extends AppCompatActivity {
     }
 
     public void transitionConfigFlow() {
-        DatabaseHelper dbHelper = new DatabaseHelper(EditItemPage.this);
+
         ViewGroup viewRoot = findViewById(android.R.id.content);
         scene2 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell2, this);
         scene3 = Scene.getSceneForLayout(viewRoot, R.layout.activity_sell3, this);
@@ -188,10 +192,9 @@ public class EditItemPage extends AppCompatActivity {
                         currentDate = dateFormat.format(new Date());
                         dValue=0;
                         //TODO default discount to 0
-                        dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,user.getId(),dValue,"available");
-                        Intent intent = new Intent(EditItemPage.this, HomePage.class);
-                        intent.putExtra("user", user);
-                        startActivity(intent);
+                        dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,userId,dValue,"available");
+                        startActivity(new Intent(EditItemPage.this, HomePage.class));
+                        finish();
                     }
                 });
 
@@ -203,7 +206,7 @@ public class EditItemPage extends AppCompatActivity {
             public void run() {
                 LinearLayout linearLayout = findViewById(R.id.rootContainer);
                 btnAddDiscount = findViewById(R.id.btnAddDiscount);
-                seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,user.getId(), itemLocation, itemCategory, btnAddDiscount);
+                seekBarConfig(linearLayout,itemName,itemDescription, itemPrice,false,currentDate,imageBytes,userId, itemLocation, itemCategory, btnAddDiscount);
             }
         });
 
@@ -261,12 +264,11 @@ public class EditItemPage extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseHelper dbHelper = new DatabaseHelper(EditItemPage.this);
+
                 //Todo change DB to include discount and add to insert statement. We will be inserting entered price and discount.
-                dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,user.getId(),dValue,"available");
-                Intent intent = new Intent(EditItemPage.this, HomePage.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
+                dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,userID,dValue,"available");
+                startActivity(new Intent(EditItemPage.this, HomePage.class));
+                finish();
             }
         });
 
