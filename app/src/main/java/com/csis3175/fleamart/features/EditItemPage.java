@@ -113,13 +113,20 @@ public class EditItemPage extends AppCompatActivity {
         slideRightTransition.setDuration(800);
 
         btnConfirmEdit.setOnClickListener(v ->{
-            TransitionManager.go(scene2, slideRightTransition);
-            itemName = etItemNameEdit.getText().toString();
-            itemPrice = Double.parseDouble(etItemPriceEdit.getText().toString());
-            itemDescription = etItemDescriptionEdit.getText().toString();
-            itemLocation = etItemLocationEdit.getText().toString();
-            itemCategory = etItemCategory.getSelectedItem().toString();
-            itemTags = etItemTagEdit.getText().toString();
+
+            String itemName = etItemNameEdit.getText().toString().trim();
+            String itemPriceStr = etItemPriceEdit.getText().toString().trim();
+            String itemDescription = etItemDescriptionEdit.getText().toString().trim();
+            String itemLocation = etItemLocationEdit.getText().toString().trim();
+            String itemCategory = etItemCategory.getSelectedItem().toString().trim();
+            String itemTags = etItemTagEdit.getText().toString().trim();
+
+            if (validateInputs(itemName, itemPriceStr, itemDescription, itemLocation, itemCategory, itemTags)) {
+                TransitionManager.go(scene2, slideRightTransition);
+
+                // Continue with your logic after validation is successful
+                // For example, saving the edited item details
+            }
         });
 
         /**
@@ -287,6 +294,42 @@ public class EditItemPage extends AppCompatActivity {
             byteArrayOutputStream.write(buffer, 0, bytesRead);
         }
         return byteArrayOutputStream.toByteArray();
+    }
+
+    private boolean validateInputs(String itemName, String itemPriceStr, String itemDescription,
+                                   String itemLocation, String itemCategory, String itemTags) {
+        boolean isValid = true;
+        if (itemName.isEmpty()) {
+            etItemNameEdit.setError("Item name is required!");
+            isValid = false;
+        }
+        if (itemDescription.isEmpty()) {
+            etItemDescriptionEdit.setError("Item description is required!");
+            isValid = false;
+        }
+        if (itemLocation.isEmpty()) {
+            etItemLocationEdit.setError("Item location is required!");
+            isValid = false;
+        }
+        if (itemTags.isEmpty()) {
+            etItemTagEdit.setError("Item tags are required!");
+            isValid = false;
+        }
+
+        try {
+            double itemPrice = Double.parseDouble(itemPriceStr);
+            if (itemPrice <= 0) {
+                etItemPriceEdit.setError("Price must be greater than 0!");
+                isValid = false;
+            }
+        } catch (NumberFormatException e) {
+            etItemPriceEdit.setError("Invalid price format!");
+            isValid = false;
+        }
+
+        // Add more validations as needed
+
+        return isValid;
     }
 
 }
