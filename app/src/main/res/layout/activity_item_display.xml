@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".model.ItemDisplay"
-    android:background="@color/black">
+    android:background="@color/black"
+    tools:context=".model.ItemDisplay">
 
 
     <ScrollView
@@ -17,87 +17,85 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            >
+            android:layout_margin="20dp">
 
             <ImageView
                 android:id="@+id/itemImg"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:scaleType="fitCenter"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter" />
 
             <TextView
                 android:id="@+id/itemName"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textColor="@color/silver"
                 android:layout_below="@id/itemImg"
-                android:text="Item Name"/>
+                android:text="Item Name"
+                android:textColor="@color/silver"
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/itemListDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@color/silver"
                 android:layout_below="@id/itemImg"
                 android:layout_alignParentEnd="true"
-                />
+                android:textColor="@color/silver"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/itemLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/itemListDay"
-                android:textSize="15sp"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/silver"
-                android:layout_alignParentEnd="true"/>
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/descTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textColor="@color/silver"
                 android:layout_below="@id/itemName"
                 android:layout_marginTop="30dp"
-                android:text="@string/txtSellDesc" />
+                android:text="@string/txtSellDesc"
+                android:textColor="@color/silver"
+                android:textSize="30sp" />
 
 
             <TextView
                 android:id="@+id/itemDesc"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:textSize="15sp"
-                android:textColor="@color/silver"
+                android:layout_width="320dp"
+                android:layout_height="200dp"
                 android:layout_below="@id/descTitle"
                 android:layout_alignStart="@id/descTitle"
-                 />
+                android:textColor="@color/silver"
+                android:background="@drawable/description_text"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/sellerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:textColor="@color/silver"
+                android:layout_below="@id/itemDesc"
                 android:text="@string/txtSellerTitle"
-                android:layout_below="@id/itemDesc"/>
+                android:textColor="@color/silver"
+                android:textSize="25sp" />
+
             <TextView
                 android:id="@+id/sellerFName"
+                style="@style/normal_style_silver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/sellerTitle"
-                style="@style/normal_style_silver"
-                />
+                android:layout_below="@id/sellerTitle" />
+
             <TextView
                 android:id="@+id/sellerEmail"
+                style="@style/normal_style_silver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/sellerFName"
-                style="@style/normal_style_silver"
-                />
+                android:layout_below="@id/sellerFName" />
 
 
         </RelativeLayout>
@@ -109,27 +107,27 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="@color/green">
+        android:background="@color/green"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/itemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:textColor="@color/white"
             android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
 
 
         <Button
             android:id="@+id/btConfirm"
-            android:text="@string/btBuy"
             style="@style/button_style"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:text="@string/btBuy" />
 
 
     </RelativeLayout>

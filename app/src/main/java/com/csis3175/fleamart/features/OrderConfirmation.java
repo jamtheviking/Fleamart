@@ -123,6 +123,7 @@ public class OrderConfirmation extends AppCompatActivity {
                 //Post Delay
 
                 new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
+                finish();
                 startActivity(new Intent(OrderConfirmation.this, HomePage.class));
 
             }

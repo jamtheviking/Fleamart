@@ -46,8 +46,6 @@ public class EditItemPage extends AppCompatActivity {
 
     Item item;
     int itemId;
-
-
     EditText etItemNameEdit,etItemPriceEdit,etItemDescriptionEdit,etItemLocationEdit,etItemTagEdit;
     ImageView imageUploadEdit;
     Spinner etItemCategory;

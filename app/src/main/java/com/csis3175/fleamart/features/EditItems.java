@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditItems extends AppCompatActivity {
+
 
     DatabaseHelper databaseHelper;
     private User user;
@@ -75,4 +77,6 @@ public class EditItems extends AppCompatActivity {
         c.close();
         return postedItems;
     }
+
+
 }
