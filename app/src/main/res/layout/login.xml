@@ -11,12 +11,12 @@
         android:id="@+id/logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
         android:contentDescription="@string/imgLogo"
+        android:elevation="10dp"
         android:src="@drawable/logo"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="10dp"
         app:layout_constraintTop_toTopOf="@id/guideline"
-        android:elevation="10dp"
 
         />
 
@@ -58,10 +58,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="10dp"
-                android:inputType="text"
                 android:layout_weight="1"
                 android:hint="@string/etUsername"
-                android:importantForAutofill="no" />
+                android:importantForAutofill="no"
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -81,44 +81,19 @@
                 android:layout_marginBottom="15dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/silver"
-                android:text="@string/btnLogin"
-                />
+                android:onClick="onClickLogin2"
+                android:text="@string/btnLogin" />
 
-            <!--            <Button-->
-            <!--                android:id="@+id/btnSignUp"-->
-            <!--                style="@style/button_style"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_marginBottom="15dp"-->
-            <!--                android:layout_weight="1"-->
-            <!--                android:text="@string/btnSignUp" />-->
-
-            <!--            <Button-->
-            <!--                android:id="@+i
-            d/btnForgotPassword"-->
-            <!--                style="@style/button_style"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_weight="1"-->
-
-            <!--                android:text="@string/btnForgotPassword" />-->
-<!--            <TextView-->
-<!--                android:id="@+id/txtForgotPassword"-->
-<!--                android:text="@string/btnForgotPassword"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:textSize="15sp"-->
-<!--                />-->
 
             <Button
                 android:id="@+id/btnSignUp"
                 style="@style/button_style_gray"
-                android:text="@string/btnSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="onClickRegister2"
+                android:text="@string/btnSignUp"
 
                 />
-
-
 
 
         </LinearLayout>
