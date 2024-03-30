@@ -214,7 +214,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
    public Cursor viewAllItems(int userID){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_ITEMS +
-                " WHERE posterid <> ? or posterid is NULL";
+                " WHERE (posterid <> ? or posterid is NULL) AND itemstatus = 'available'";
        return sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
     }
 

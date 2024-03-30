@@ -9,10 +9,7 @@
                 android:layout_height="100dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:layout_centerVertical="true"
-
-
-                />
+                android:layout_centerVertical="true"/>
             <TextView
                 android:id="@+id/itemName"
                 android:layout_width="wrap_content"

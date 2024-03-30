@@ -1,5 +1,6 @@
 package com.csis3175.fleamart.features;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.transition.TransitionManager;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
@@ -81,4 +83,5 @@ public class HomePage extends AppCompatActivity {
 
 
     }
+
 }
