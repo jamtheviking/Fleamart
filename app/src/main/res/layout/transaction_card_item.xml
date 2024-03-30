@@ -1,43 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:background="@drawable/image_cardview"
+    android:layout_height="150dp"
+    android:background="@drawable/custom_cardview_edit"
     android:clipToOutline="true"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/imageView_Transactions"
-        android:layout_width="173dp"
-        android:layout_height="150dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:id="@+id/textBuyer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buyer: "
+        style="@style/normal_style_silver"
+        android:layout_toEndOf="@id/imageView_Transactions"
+        android:layout_alignTop="@id/imageView_Transactions"/>
 
     <TextView
         android:id="@+id/txtBuyerID_Transactions"
-        android:layout_width="133dp"
-        android:layout_height="50dp"
-        android:layout_alignEnd="@id/imageView_Transactions"
-        android:layout_marginEnd="-130dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/textBuyer"
+        android:layout_alignTop="@id/imageView_Transactions"
+        style="@style/normal_style_silver"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item: "
+        style="@style/normal_style_silver"
+        android:layout_below="@id/textBuyer"
+        android:layout_toEndOf="@id/imageView_Transactions"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/txtItemName_Transactions"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/txtBuyerID_Transactions"
-        android:layout_alignEnd="@id/imageView_Transactions"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="-130dp"
-        android:textSize="20sp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textBuyer"
+        style="@style/normal_style_silver"
+        android:layout_toEndOf="@id/textItemName"
+
+         />
+
+    <TextView
+        android:id="@+id/txtItemStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status: "
+        style="@style/normal_style_silver"
+        android:layout_below="@id/textItemName"
+        android:layout_toEndOf="@id/imageView_Transactions"/>
+
 
     <TextView
         android:id="@+id/txtStatus_Transactions"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/txtItemName_Transactions"
-        android:layout_alignEnd="@id/imageView_Transactions"
-        android:layout_marginTop="-2dp"
-        android:layout_marginEnd="-130dp"
-        android:textSize="20sp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/txtItemStatus"
+        android:layout_below="@+id/txtItemName_Transactions"
+        style="@style/normal_style_silver"
+         />
 </RelativeLayout>

@@ -67,9 +67,8 @@ public class HomePage extends AppCompatActivity {
                 editor.clear();
                 editor.apply();
                 Toast.makeText(HomePage.this, "GOODBYE", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(HomePage.this, LandingPage.class));
                 finish();
-
+                startActivity(new Intent(HomePage.this, LandingPage.class));
             }
         });
 

@@ -1,23 +1,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:background="@drawable/image_cardview"
-    android:clipToOutline="true">
+    android:layout_height="150dp"
+    android:background="@drawable/custom_cardview_edit">
 
             <ImageView
                 android:id="@+id/img"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                android:layout_centerVertical="true"
+
+
                 />
             <TextView
                 android:id="@+id/itemName"
-                android:layout_width="130dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:layout_below="@id/img"
+                android:textColor="@color/green"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/img"
                 />
             <TextView
                 android:id="@+id/itemPrice"
@@ -28,9 +31,8 @@
                 android:background="@drawable/item_price"
                 android:textStyle="bold"
                 android:gravity="end"
-                android:layout_below="@id/img"
-                android:layout_alignEnd="@id/img"
-
+                android:layout_below="@id/itemName"
+                android:layout_alignParentEnd="true"
                 />
 
 </RelativeLayout>

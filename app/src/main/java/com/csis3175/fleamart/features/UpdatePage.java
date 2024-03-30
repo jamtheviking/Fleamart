@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.*;
 import com.csis3175.fleamart.model.Encrypt;
-import com.csis3175.fleamart.model.User;
+
 
 import java.util.regex.Pattern;
 
@@ -37,7 +38,8 @@ public class UpdatePage extends AppCompatActivity {
         usernameText = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        int userId = sharedPreferences.getInt("userId",0);
+        userId = sharedPreferences.getInt("userId",0);
+
 
 
         if (userId>0){
@@ -66,19 +68,30 @@ public class UpdatePage extends AppCompatActivity {
         if (validateInput(firstName, lastName, email, password)) {
             password = Encrypt.hashPassword(editTextPassword.getText().toString());
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+            Log.d("UPDATEPAGE", "updateUserInfo before update: "+userId);
+
+            Log.d("UPDATEPAGE", "user is " + userId);
+
             databaseHelper.updateUser(userId,firstName,lastName,email,password);
             Toast.makeText(this, "User info updated successfully", Toast.LENGTH_SHORT).show();
             finish();
             startActivity(new Intent(UpdatePage.this,HomePage.class));
+
+
+
         } else {
             Toast.makeText(this, "Failed to update user info", Toast.LENGTH_SHORT).show();
+
         }
     }
 
     private boolean validateInput(String firstName, String lastName, String email, String password) {
         // Validate that none of the fields are empty
+        Log.d("UPDATEPAGE", "updateUserInfo: "+userId);
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "All fields are required.", Toast.LENGTH_SHORT).show();
+
             return false;
         }
 

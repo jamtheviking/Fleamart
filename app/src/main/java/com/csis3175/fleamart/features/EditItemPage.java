@@ -46,8 +46,6 @@ public class EditItemPage extends AppCompatActivity {
 
     Item item;
     int itemId;
-
-
     EditText etItemNameEdit,etItemPriceEdit,etItemDescriptionEdit,etItemLocationEdit,etItemTagEdit;
     ImageView imageUploadEdit;
     Spinner etItemCategory;
@@ -84,7 +82,7 @@ public class EditItemPage extends AppCompatActivity {
 
 
         Intent intent = getIntent(); //Received from Card Adapter
-        if (intent != null && intent.hasExtra("user")) {
+        if (intent != null) {
             sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             userId = sharedPreferences.getInt("userId",0);
             item = (Item) intent.getSerializableExtra("item");
