@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ public class HomePage extends AppCompatActivity {
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnEditItems = findViewById(R.id.btnEditPostedItems);
         Button btnTransactions = findViewById(R.id.btnTransactions);
+        ImageView notification = findViewById(R.id.notification);
+
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         int userId = sharedPreferences.getInt("userId",0);
@@ -38,6 +41,10 @@ public class HomePage extends AppCompatActivity {
             String[] userDetails = db.getUserDetails(userId);
             TextView tvFullName = findViewById(R.id.tvFullName);
             tvFullName.setText(String.format(userDetails[0]+" "+userDetails[1]));
+        }
+        boolean isFinalized = db.isTransactionFinalized(userId);
+        if (isFinalized) {
+            notification.setVisibility(View.VISIBLE); // Show notification
         }
 
         /* POST ITEM ACTIVITY

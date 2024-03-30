@@ -58,6 +58,7 @@
     <string name="tvItemPriceLabel">Item Price</string>
     <string name="tvTransactionStatus">Status</string>
     <string name="tvTransactionIdLabel">Transaction ID:</string>
+    <string name="str_noti">notification when transaction is completed</string>
 
 
 </resources>

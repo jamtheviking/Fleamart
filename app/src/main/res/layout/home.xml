@@ -123,5 +123,17 @@
 
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/notification"
+        android:layout_width="82dp"
+        android:layout_height="98dp"
+        android:layout_marginEnd="355dp"
+        android:layout_marginBottom="177dp"
+        android:contentDescription="@string/str_noti"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/purchased_notification" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

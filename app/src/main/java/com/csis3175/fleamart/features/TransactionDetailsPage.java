@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
@@ -69,6 +71,25 @@ public class TransactionDetailsPage extends AppCompatActivity {
         Glide.with(this)
                 .load(transaction.getImageData())
                 .into(ivItemImage_Transaction);
+
+        btnSendNotification.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v){
+                DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
+                boolean successItem = db.updateItemStatus(userId, "sold");
+                boolean successTransaction = db.updateTransactionStatus(transaction.getItemId(), "finalized");
+                Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
+                updateIntent.putExtra("user", userId);
+                if (successItem && successTransaction) {
+                    Toast.makeText(TransactionDetailsPage.this, "item status updated successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(TransactionDetailsPage.this, "item status failed", Toast.LENGTH_SHORT).show();
+                }
+                startActivity(updateIntent);
+            }
+
+        });
 
     }
 }

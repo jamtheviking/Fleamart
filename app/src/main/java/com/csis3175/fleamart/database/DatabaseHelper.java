@@ -401,5 +401,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return item;
     }
 
+    public boolean updateTransactionStatus(int transactionId, String newStatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TRANSACTION_STATUS, newStatus);
+
+        int rowsAffected = db.update(TABLE_TRANSACTION, values, COLUMN_TRANSACTION_ID + " = ?",
+                new String[]{String.valueOf(transactionId)});
+
+        return rowsAffected > 0;
+    }
+
+
+    public boolean isTransactionFinalized(int currentUserId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = COLUMN_TRANSACTION_BUYER_ID + " = ? AND " + COLUMN_TRANSACTION_STATUS + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(currentUserId), "finalized"};
+        Cursor cursor = db.query(TABLE_TRANSACTION, null, selection, selectionArgs, null, null, null);
+        boolean isFinalized = cursor != null && cursor.getCount() > 0;
+        if (cursor != null) {
+            cursor.close();
+        }
+        db.close();
+        return isFinalized;
+    }
+
 
 }
