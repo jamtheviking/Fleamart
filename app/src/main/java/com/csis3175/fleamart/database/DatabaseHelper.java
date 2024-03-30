@@ -8,8 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.csis3175.fleamart.model.Item;
-import com.csis3175.fleamart.model.TransacationsAdapter;
-import com.csis3175.fleamart.model.User;
+
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -216,8 +215,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_ITEMS +
                 " WHERE posterid <> ? or posterid is NULL";
-        Cursor c = sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
-        return c;
+       return sqLiteDatabase.rawQuery(query, new String[]{String.valueOf(userID)});
     }
 
     public Cursor viewPostedItemsByUser(int userID){
@@ -265,16 +263,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-
-
-//    public boolean isValidUser(String username, String password) {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        //This query looks for the a user using user name and password. The "?" is used to avoid SQL Injection Attacks and allows parameterization input
-//        Cursor cursor = db.query(TABLE_USERS, null, "username=? AND password=?", new String[]{username, password}, null, null, null);
-//        boolean isValid = cursor.moveToFirst();
-//        cursor.close();
-//        return isValid;
-//    }
 
     public boolean doesUsernameExist(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -408,8 +396,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             item.setUserID(c.getInt(c.getColumnIndexOrThrow("posterid")));
             c.close();
             //TODO add tag
-//            private static final String COLUMN_ITEM_TAG = "tag";
-//            private static final String  COLUMN_USER_ID = "userId";
+
         }
         return item;
     }
