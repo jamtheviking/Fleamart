@@ -5,13 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".features.TransactionDetailsPage"
-    android:paddingVertical="40dp"
-    android:background="@color/green">
+    android:background="@color/green"
+
+    android:paddingVertical="40dp">
+
 
     <ImageView
         android:id="@+id/ivItemImage_Transaction"
         android:layout_width="250dp"
         android:layout_height="250dp"
+
+
         android:layout_marginTop="30dp"
         android:layout_marginBottom="50dp"
         android:layout_centerHorizontal="true"
@@ -63,6 +67,7 @@
         android:layout_alignEnd="@id/tvTransactionIdLabel"
          />
 
+
     <TextView
         android:id="@+id/tvItemName"
         android:layout_width="wrap_content"
@@ -70,6 +75,7 @@
         android:layout_toEndOf="@id/tvItemNameLabel"
         android:layout_alignTop="@+id/tvItemNameLabel"
         android:layout_marginStart="30dp"
+        android:layout_below="@id/ivItemImage_Transaction"
 
         />
 
@@ -95,7 +101,6 @@
         android:id="@+id/tvItemStatusLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
         android:text="@string/tvItemStatusLabel"
         android:layout_marginTop="10dp"
         android:layout_below="@id/tvItemPriceLabel"
@@ -127,6 +132,7 @@
         android:layout_alignEnd="@id/tvTransactionIdLabel" />
 
 
+
     <Button
         android:id="@+id/btnSendNotification"
         android:layout_width="wrap_content"
@@ -135,6 +141,7 @@
         style="@style/button_style_gray"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"/>
+
 
 
 
