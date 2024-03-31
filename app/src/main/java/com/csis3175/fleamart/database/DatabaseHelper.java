@@ -239,6 +239,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return cursor;
     }
+//    public Cursor viewBuyersTransactions(int userId){ // TODO add image for buyer
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        String query = "SELECT transactions.*, users.username AS buyerName, items.name AS itemName, items.price AS price " +
+//                "FROM " + TABLE_TRANSACTION + " AS transactions " +
+//                "LEFT JOIN " + TABLE_USERS + " AS users ON transactions.transaction_seller_id = users.userId " +
+//                "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions.itemid = items.itemid " +
+//                "WHERE transaction_buyer_id = ? OR transaction_buyer_id IS NULL";
+//
+//
+//        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+//
+//        return cursor;
+//    }
+public Cursor viewBuyersTransactions(int userId) {
+    SQLiteDatabase db = this.getReadableDatabase();
+    // Added a condition to filter by transaction_status = 'finalized'
+    String query = "SELECT transactions.*, users.username AS buyerName, items.name AS itemName, items.price AS price " +
+            "FROM " + TABLE_TRANSACTION + " AS transactions " +
+            "LEFT JOIN " + TABLE_USERS + " AS users ON transactions.transaction_seller_id = users.userId " +
+            "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions.itemid = items.itemid " +
+            "WHERE (transaction_buyer_id = ? OR transaction_buyer_id IS NULL) " +
+            "AND transactions.transaction_status = 'finalized'";
+
+    Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+    return cursor;
+}
 
     public String getHashedPassword(String username){
         SQLiteDatabase db = this.getReadableDatabase();

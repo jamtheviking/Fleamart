@@ -59,6 +59,8 @@
     <string name="tvTransactionStatus">Status</string>
     <string name="tvTransactionIdLabel">Transaction ID:</string>
     <string name="str_noti">notification when transaction is completed</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

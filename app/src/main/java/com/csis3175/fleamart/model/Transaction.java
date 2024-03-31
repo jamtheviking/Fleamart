@@ -17,6 +17,18 @@ public class Transaction implements Serializable {
     private String delivery;
     private double itemPrice;
 
+    private boolean isNewTransaction;
+
+
+    public boolean getNewTransaction() {
+        return isNewTransaction;
+    }
+
+    public void setNewTransaction(boolean isNewTransaction) {
+        this.isNewTransaction = isNewTransaction;
+    }
+
+
     public double getItemPrice() {
         return itemPrice;
     }

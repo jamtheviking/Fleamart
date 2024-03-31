@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,20 +13,15 @@ import android.widget.TextView;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
-import com.csis3175.fleamart.model.Item;
-import com.csis3175.fleamart.model.SellerCardAdapter;
 import com.csis3175.fleamart.model.TransacationsAdapter;
 import com.csis3175.fleamart.model.Transaction;
-import com.csis3175.fleamart.model.User;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class TransactionsPage extends AppCompatActivity {
 
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
-
+    TextView buyerOrSeller;
     private int userId;
     SharedPreferences sharedPreferences;
     RecyclerView rvTransactionsView;
@@ -37,8 +31,9 @@ public class TransactionsPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactions);
 
+
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        userId = sharedPreferences.getInt("userId",0);
+        userId = sharedPreferences.getInt("userId", 0);
 
 
         rvTransactionsView = findViewById(R.id.rvTransactionsView);
@@ -51,13 +46,17 @@ public class TransactionsPage extends AppCompatActivity {
         });
 
         rvTransactionsView.setLayoutManager(gridLayoutManager);
-        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getTransactions());
+        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(TransactionsPage.this, getAllUserTransactions());
+
         rvTransactionsView.setAdapter(transacationsAdapter);
+
+
     }
 
-    private ArrayList<Transaction> getTransactions(){
+
+    private ArrayList<Transaction> getTransactions() {
         ArrayList<Transaction> transactions = new ArrayList<>();
-        Log.d("TRANSTEST","user id is "+transactions.size());
+        Log.d("TRANSTEST", "user id is " + transactions.size());
 
         Cursor c = databaseHelper.viewUserTransactions(userId);
         while (c.moveToNext()) {
@@ -72,13 +71,81 @@ public class TransactionsPage extends AppCompatActivity {
             byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
             String itemName = c.getString(c.getColumnIndexOrThrow("itemName"));
             double itemPrice = c.getDouble(c.getColumnIndexOrThrow("price"));
-            transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery,buyerName,itemName,imageData,itemPrice));
+            transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery, buyerName, itemName, imageData, itemPrice));
         }
 
         // Close the cursor
         c.close();
         return transactions;
     }
+
+
+//    private ArrayList<Transaction> getBuyerTransactions() {
+//        ArrayList<Transaction> transactions = new ArrayList<>();
+//        ArrayList<Transaction> buyer_transactions = new ArrayList<>();
+//
+//
+//        Log.d("TRANSTEST", "user id is " + transactions.size());
+//
+//        Cursor c = databaseHelper.viewBuyersTransactions(userId);
+//        while (c.moveToNext()) {
+//            int transactionId = c.getInt(c.getColumnIndexOrThrow("transaction_id"));
+//            int buyerId = c.getInt(c.getColumnIndexOrThrow("transaction_buyer_id"));
+//            int sellerId = c.getInt(c.getColumnIndexOrThrow("transaction_seller_id"));
+//            int itemId = c.getInt(c.getColumnIndexOrThrow("itemid"));
+//            String date = c.getString(c.getColumnIndexOrThrow("transaction_date"));
+//            String status = c.getString(c.getColumnIndexOrThrow("transaction_status"));
+//            String delivery = c.getString(c.getColumnIndexOrThrow("transaction_delivery"));
+//            String buyerName = c.getString(c.getColumnIndexOrThrow("buyerName"));
+//            //byte[] imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
+//            String itemName = c.getString(c.getColumnIndexOrThrow("itemName"));
+//            double itemPrice = c.getDouble(c.getColumnIndexOrThrow("price"));
+//            transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery, buyerName, itemName, null, itemPrice));
+//        }
+//
+//        // Close the cursor
+//        c.close();
+//        return transactions;
+//    }
+private ArrayList<Transaction> getAllUserTransactions() {
+    ArrayList<Transaction> allTransactions = new ArrayList<>();
+
+    // Fetch and add buyer transactions
+    Cursor cBuyer = databaseHelper.viewBuyersTransactions(userId);
+    allTransactions.addAll(processTransactionCursor(cBuyer));
+
+    // Fetch and add seller transactions
+    Cursor cSeller = databaseHelper.viewUserTransactions(userId);
+    allTransactions.addAll(processTransactionCursor(cSeller));
+
+    return allTransactions;
+}
+
+    private ArrayList<Transaction> processTransactionCursor(Cursor c) {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        if (c != null) {
+            while (c.moveToNext()) {
+                int transactionId = c.getInt(c.getColumnIndexOrThrow("transaction_id"));
+                int buyerId = c.getInt(c.getColumnIndexOrThrow("transaction_buyer_id"));
+                int sellerId = c.getInt(c.getColumnIndexOrThrow("transaction_seller_id"));
+                int itemId = c.getInt(c.getColumnIndexOrThrow("itemid"));
+                String date = c.getString(c.getColumnIndexOrThrow("transaction_date"));
+                String status = c.getString(c.getColumnIndexOrThrow("transaction_status"));
+                String delivery = c.getString(c.getColumnIndexOrThrow("transaction_delivery"));
+                String buyerName = c.getString(c.getColumnIndexOrThrow("buyerName"));
+                byte[] imageData = null;
+                if (c.getColumnIndex("image") != -1) {
+                    imageData = c.getBlob(c.getColumnIndexOrThrow("image"));
+                }
+                String itemName = c.getString(c.getColumnIndexOrThrow("itemName"));
+                double itemPrice = c.getDouble(c.getColumnIndexOrThrow("price"));
+                transactions.add(new Transaction(transactionId, itemId, sellerId, buyerId, date, status, delivery, buyerName, itemName, imageData, itemPrice));
+            }
+            c.close();
+        }
+        return transactions;
+    }
+}
 
 //    private ArrayList<Item> getPostedItemsData(){
 //        ArrayList<Item> postedItems = new ArrayList<>();
@@ -104,5 +171,3 @@ public class TransactionsPage extends AppCompatActivity {
 //        c.close();
 //        return postedItems;
 //    }
-
-}

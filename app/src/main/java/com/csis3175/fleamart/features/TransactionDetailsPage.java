@@ -1,6 +1,4 @@
-package com.csis3175.fleamart.features;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.csis3175.fleamart.features;import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
 import com.csis3175.fleamart.model.Item;
+import com.csis3175.fleamart.model.TransacationsAdapter;
 import com.csis3175.fleamart.model.Transaction;
 import com.csis3175.fleamart.model.User;
 
@@ -37,6 +36,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
     ImageView ivItemImage_Transaction;
     Button btnSendNotification;
 
+
     SharedPreferences sharedPreferences;
 
     DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
@@ -44,6 +44,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_details);
+
 
         tvItemName = findViewById(R.id.tvItemName);
         tvTransactionId = findViewById(R.id.tvTransactionId);
@@ -61,6 +62,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
             transaction = (Transaction) intent.getSerializableExtra("transaction");
         }
 
+
         String buyerName = db.getUsernameByID(transaction.getBuyerId());
         tvTransactionId.setText(String.valueOf(transaction.getTransactionId()));
         tvItemName.setText(transaction.getItemName());
@@ -71,6 +73,9 @@ public class TransactionDetailsPage extends AppCompatActivity {
         Glide.with(this)
                 .load(transaction.getImageData())
                 .into(ivItemImage_Transaction);
+
+
+
 
         btnSendNotification.setOnClickListener(new View.OnClickListener()
         {
