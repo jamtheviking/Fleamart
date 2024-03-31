@@ -297,6 +297,7 @@ public Cursor viewBuyersTransactions(int userId) {
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         return exists;
+        //adede temp comment
     }
 
     public boolean updateUser(int oldId,String firstName, String lastName,String email, String password) {
