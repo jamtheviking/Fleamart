@@ -82,7 +82,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
-                boolean successItem = db.updateItemStatus(userId, "sold");
+                boolean successItem = db.updateItemStatus(transaction.getItemId(), "sold");
                 boolean successTransaction = db.updateTransactionStatus(transaction.getItemId(), "finalized");
                 Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
                 updateIntent.putExtra("user", userId);
