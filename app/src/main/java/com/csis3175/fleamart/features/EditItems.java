@@ -5,11 +5,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
@@ -32,14 +30,14 @@ public class EditItems extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transactions);
+        setContentView(R.layout.activity_edit_items);
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId",0);
 
         databaseHelper = new DatabaseHelper(this);
 
-        rvTransactionsView = findViewById(R.id.rvTransactionsView);
+        rvTransactionsView = findViewById(R.id.rvSaleTransactions);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -56,7 +54,7 @@ public class EditItems extends AppCompatActivity {
 
     private List<Item> getPostedItemsData(){
         List<Item> postedItems = new ArrayList<>();
-
+        List<Item> items = new ArrayList<>();
         Cursor c = databaseHelper.viewPostedItemsByUser(userId);
         while (c.moveToNext()) {
             int itemId = c.getInt(c.getColumnIndexOrThrow("itemid"));
@@ -71,11 +69,18 @@ public class EditItems extends AppCompatActivity {
             String location = c.getString(c.getColumnIndexOrThrow("location"));
             String category = c.getString(c.getColumnIndexOrThrow("category"));
             String tag = c.getString(c.getColumnIndexOrThrow("tag"));
-            postedItems.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category, tag));
+            String status = c.getString(c.getColumnIndexOrThrow("itemstatus")); // Assuming status column name
+            postedItems.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category, tag, status));
         }
         // Close the cursor
         c.close();
-        return postedItems;
+
+        for(Item item : postedItems){
+            if(item.getStatus().equals("available")){
+                items.add(item);
+            }
+        }
+        return items;
     }
 
 

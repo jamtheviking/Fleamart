@@ -92,17 +92,20 @@ public class  SearchView extends AppCompatActivity {
         List<Item> allItems = new ArrayList<>(getCardData());
         List<Item> updatedList = new ArrayList<>();
         for(Item item : allItems){
-            if (item.getItemName() != null && item.getItemName().toLowerCase().contains(searchTerm)) {
-                updatedList.add(item);
-            } else if (item.getLocation() != null && item.getLocation().toLowerCase().contains(searchTerm)) {
-                updatedList.add(item);
-            } else if (item.getCategory() != null && item.getCategory().toLowerCase().contains(searchTerm)){
-                updatedList.add(item);
-            } else if (item.getItemDescription() != null && item.getItemDescription().toLowerCase().contains(searchTerm)){
-                updatedList.add(item);
-            } else if (item.getTag() != null && item.getTag().toLowerCase().contains(searchTerm)){
-                updatedList.add(item);
+            if(item.getStatus().equals("available")){
+                if (item.getItemName() != null && item.getItemName().toLowerCase().contains(searchTerm)) {
+                    updatedList.add(item);
+                } else if (item.getLocation() != null && item.getLocation().toLowerCase().contains(searchTerm)) {
+                    updatedList.add(item);
+                } else if (item.getCategory() != null && item.getCategory().toLowerCase().contains(searchTerm)){
+                    updatedList.add(item);
+                } else if (item.getItemDescription() != null && item.getItemDescription().toLowerCase().contains(searchTerm)){
+                    updatedList.add(item);
+                } else if (item.getTag() != null && item.getTag().toLowerCase().contains(searchTerm)){
+                    updatedList.add(item);
+                }
             }
+
         }
         ca.updatedList(updatedList);
         rView.setAdapter(ca);

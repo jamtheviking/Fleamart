@@ -17,7 +17,7 @@ import com.csis3175.fleamart.model.Transaction;
 
 import java.util.ArrayList;
 
-public class viewOrderStatus extends AppCompatActivity {
+public class ViewOrderHistoryActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
     TextView buyerOrSeller;
     private int userId;
@@ -27,7 +27,7 @@ public class viewOrderStatus extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_order_status);
+        setContentView(R.layout.activity_view_order_history);
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId", 0);
@@ -42,7 +42,7 @@ public class viewOrderStatus extends AppCompatActivity {
         });
 
         rvOrderStatus.setLayoutManager(gridLayoutManager);
-        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(viewOrderStatus.this, getAllTransactions());
+        TransacationsAdapter transacationsAdapter = new TransacationsAdapter(ViewOrderHistoryActivity.this, getAllTransactions());
         rvOrderStatus.setAdapter(transacationsAdapter);
     }
 
@@ -51,7 +51,11 @@ public class viewOrderStatus extends AppCompatActivity {
         ArrayList<Transaction> allTransactions = new ArrayList<>();
 
         Cursor c = databaseHelper.viewStatusOrder(userId);
-        allTransactions.addAll(processTransactionCursor(c));
+        for(Transaction transactions : processTransactionCursor(c)){
+            if (transactions.getStatus().equals("finalized") || transactions.getStatus().equals("cancelled")){
+                allTransactions.add(transactions);
+            }
+        }
 
         return allTransactions;
     }

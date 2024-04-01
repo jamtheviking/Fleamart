@@ -35,6 +35,8 @@ public class TransactionDetailsPage extends AppCompatActivity {
     TextView tvBuyerName;
     ImageView ivItemImage_Transaction;
     Button btnSendNotification;
+    Button btnCancelTransaction;
+    boolean fromViewOrderHistory;
 
 
     SharedPreferences sharedPreferences;
@@ -53,22 +55,33 @@ public class TransactionDetailsPage extends AppCompatActivity {
         tvItemStatus = findViewById(R.id.tvItemStatus);
         tvBuyerName = findViewById(R.id.tvBuyerName);
         btnSendNotification = findViewById(R.id.btnSendNotification);
+        btnCancelTransaction = findViewById(R.id.btnCancelTransaction);
         ivItemImage_Transaction = findViewById(R.id.ivItemImage_Transaction);
 
         Intent intent = getIntent(); //Received from Card Adapter
+
+
+
         if (intent != null) {
             sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             userId = sharedPreferences.getInt("userId",0);
             transaction = (Transaction) intent.getSerializableExtra("transaction");
         }
 
+        String name;
+        if (userId == transaction.getSellerId()){
+            //Returns the name of the buyer on the Sales View when the current user is the seller
+            name = "Buyer: " + db.getUsernameByID(transaction.getBuyerId());
+        } else {
+            //Returns the name of the seller on the Orders View when the current user is the buyer
+            name = "Seller: " + db.getUsernameByID(transaction.getSellerId());
+        }
 
-        String buyerName = db.getUsernameByID(transaction.getBuyerId());
         tvTransactionId.setText(String.valueOf(transaction.getTransactionId()));
         tvItemName.setText(transaction.getItemName());
         tvItemPrice.setText(String.valueOf(transaction.getItemPrice()));
         tvPickUpDelivery.setText(transaction.getDelivery());
-        tvBuyerName.setText(buyerName);
+        tvBuyerName.setText(name);
         tvItemStatus.setText(transaction.getStatus());
         Glide.with(this)
                 .load(transaction.getImageData())
@@ -83,13 +96,35 @@ public class TransactionDetailsPage extends AppCompatActivity {
             public void onClick(View v){
                 DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
                 boolean successItem = db.updateItemStatus(transaction.getItemId(), "sold");
-                boolean successTransaction = db.updateTransactionStatus(transaction.getItemId(), "finalized");
+                boolean successTransaction = db.updateTransactionStatus(transaction.getTransactionId(), "finalized");
                 Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
                 updateIntent.putExtra("user", userId);
                 if (successItem && successTransaction) {
                     Toast.makeText(TransactionDetailsPage.this, "item status updated successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(TransactionDetailsPage.this, "item status failed", Toast.LENGTH_SHORT).show();
+                }
+                startActivity(updateIntent);
+            }
+
+        });
+
+        /**
+         * Method to cancel transaction via Button Cancel Transaction
+         */
+        btnCancelTransaction.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v){
+                DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
+                boolean cancelItem = db.updateItemStatus(transaction.getItemId(), "available");
+                boolean cancelTransaction = db.updateTransactionStatus(transaction.getTransactionId(), "cancelled");
+                Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
+                updateIntent.putExtra("user", userId);
+                if (cancelItem && cancelTransaction) {
+                    Toast.makeText(TransactionDetailsPage.this, "Transaction has been cancelled successfully.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(TransactionDetailsPage.this, "Transaction cancellation failed.", Toast.LENGTH_SHORT).show();
                 }
                 startActivity(updateIntent);
             }

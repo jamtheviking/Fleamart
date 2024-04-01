@@ -29,7 +29,7 @@ public class HomePage extends AppCompatActivity {
         Button btnUpdate = findViewById(R.id.btnUpdate);
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnEditItems = findViewById(R.id.btnEditPostedItems);
-        Button btnTransactions = findViewById(R.id.btnTransactions);
+        Button btnTransactions = findViewById(R.id.btnViewOrderHistory);
         Button btnViewOrderStatus = findViewById(R.id.btnStatusOrder);
 
         ImageView notification = findViewById(R.id.notification);
@@ -48,8 +48,6 @@ public class HomePage extends AppCompatActivity {
             notification.setVisibility(View.VISIBLE); // Show notification
         }
 
-        btnViewOrderStatus.setOnClickListener(view -> startActivity(new Intent(HomePage.this, viewOrderStatus.class)));
-
         // notification.setOnClickListener(view -> startActivity(new Intent(HomePage.this, TransactionsPage.class)));
 
         /* POST ITEM ACTIVITY
@@ -62,8 +60,10 @@ public class HomePage extends AppCompatActivity {
 
         /* TRANSACTION HISTORY ACTIVITY
          */
-        btnTransactions.setOnClickListener(view -> startActivity(new Intent(HomePage.this, TransactionsPage.class)));
-
+        //btnTransactions.setOnClickListener(view -> startActivity(new Intent(HomePage.this, TransactionsPage.class)));
+        //btnViewOrderStatus.setOnClickListener(view -> startActivity(new Intent(HomePage.this, ViewOrderHistoryActivity.class)));
+        btnViewOrderStatus.setOnClickListener(view -> startActivity(new Intent(HomePage.this, TransactionsPage.class)));
+        btnTransactions.setOnClickListener(view -> startActivity(new Intent(HomePage.this, ViewOrderHistoryActivity.class)));
         /* BUY ITEM > SEARCH VIEW ACTIVITY
          */
         btnBuy.setOnClickListener(v -> startActivity(new Intent(HomePage.this, SearchView.class)));

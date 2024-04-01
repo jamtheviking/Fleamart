@@ -18,12 +18,11 @@
 
     <TextView
         android:id="@+id/textBuyer"
+        style="@style/normal_style_silver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Buyer: "
-        style="@style/normal_style_silver"
-        android:layout_toEndOf="@id/imageView_Transactions"
-        android:layout_alignTop="@id/imageView_Transactions"/>
+        android:layout_alignTop="@id/imageView_Transactions"
+        android:layout_toEndOf="@id/imageView_Transactions" />
 
     <TextView
         android:id="@+id/txtSeller"

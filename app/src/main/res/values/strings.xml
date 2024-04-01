@@ -62,6 +62,11 @@
     <string name="btnViewOrderStatus">View Order Status</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btnCancelTransaction">Cancel Transaction</string>
+    <string name="btnOrders">Orders</string>
+    <string name="btnSales">Sales</string>
+    <string name="tvOrderHistory">Order History</string>
+    <string name="btnOrderHistory">View Order History</string>
 
 
 </resources>
