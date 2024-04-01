@@ -469,7 +469,7 @@ public Cursor viewBuyersTransactions(int userId) {
     }
     public boolean isDataAvailable() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT COUNT(*) FROM transactions";
+        String query = "SELECT COUNT(*) FROM items";
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);

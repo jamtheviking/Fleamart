@@ -267,7 +267,7 @@ public class LandingPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landing_root);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        if (db.isDataAvailable()) {
+        if (!db.isDataAvailable()) {
             try {
                 populateItems();
                 populateUsers();
@@ -491,21 +491,25 @@ public class LandingPage extends AppCompatActivity {
             }
         }
 
-        db.insertItem("Kitchen Blender", 45.99, "High-performance blender for smoothies and soups.", "Vancouver", "Vancouver", "Appliances", imgList.get(0), false, "2024-03-30", 1, .05, "available");
-        db.insertItem("Living Room Sofa", 399.99, "Comfortable and stylish sofa, perfect for lounging.", "Surrey", "Surrey", "Furniture", imgList.get(1), false, "2024-03-30", 2, .50, "available");
-        db.insertItem("Smartphone Holder", 9.99, "Adjustable holder for smartphones, ideal for hands-free use.", "Burnaby", "Burnaby", "Electronics", imgList.get(2), false, "2024-03-30", 3, .00, "available");
+        db.insertItem("Backpack", 39.99, "Durable backpack with multiple compartments for storage.", "Vancouver", "Vancouver", "Accessories", imgList.get(0), false, "2024-03-30", 3, .05, "available");
+        db.insertItem("Bedside Lamp", 24.99, "Modern bedside lamp with adjustable brightness.", "Vancouver", "Vancouver", "Home Decor", imgList.get(1), false, "2024-03-30", 4, .00, "available");
+        db.insertItem("Bluetooth Speaker", 59.99, "Portable Bluetooth speaker with enhanced bass and long battery life.", "Richmond", "Richmond", "Electronics", imgList.get(2), false, "2024-03-30", 3, .00, "available");
         db.insertItem("Coffee Table Set", 149.99, "Modern coffee table set with matching side tables.", "Richmond", "Richmond", "Furniture", imgList.get(3), false, "2024-03-30", 4, .25, "available");
         db.insertItem("Digital Camera", 199.99, "Compact digital camera with advanced features for photography enthusiasts.", "Vancouver", "Vancouver", "Electronics", imgList.get(4), false, "2024-03-30", 1, .00, "available");
-        db.insertItem("Garden Tools Set", 29.99, "Complete set of garden tools for maintaining your garden.", "Burnaby", "Burnaby", "Tools", imgList.get(5), false, "2024-03-30", 5, .10, "available");
-        db.insertItem("Wireless Earphones", 79.99, "High-quality wireless earphones with noise-cancellation.", "Surrey", "Surrey", "Electronics", imgList.get(6), false, "2024-03-30", 2, .15, "available");
-        db.insertItem("Fitness Tracker", 49.99, "Track your fitness goals with this advanced fitness tracker.", "Richmond", "Richmond", "Fitness", imgList.get(7), false, "2024-03-30", 1, .00, "available");
-        db.insertItem("Backpack", 39.99, "Durable backpack with multiple compartments for storage.", "Vancouver", "Vancouver", "Accessories", imgList.get(8), false, "2024-03-30", 3, .05, "available");
-        db.insertItem("Smart Thermostat", 129.99, "Energy-efficient smart thermostat for home temperature control.", "Burnaby", "Burnaby", "Home Improvement", imgList.get(9), false, "2024-03-30", 5, .20, "available");
-        db.insertItem("Outdoor Chair Set", 179.99, "Set of comfortable outdoor chairs for your patio or garden.", "Surrey", "Surrey", "Furniture", imgList.get(10), false, "2024-03-30", 4, .30, "available");
-        db.insertItem("Bluetooth Speaker", 59.99, "Portable Bluetooth speaker with enhanced bass and long battery life.", "Richmond", "Richmond", "Electronics", imgList.get(11), false, "2024-03-30", 3, .00, "available");
-        db.insertItem("Bedside Lamp", 24.99, "Modern bedside lamp with adjustable brightness.", "Vancouver", "Vancouver", "Home Decor", imgList.get(12), false, "2024-03-30", 4, .00, "available");
-        db.insertItem("Dining Table Set", 299.99, "Elegant dining table set with chairs for family gatherings.", "Burnaby", "Burnaby", "Furniture", imgList.get(13), false, "2024-03-30", 5, .50, "available");
-        db.insertItem("Smart Doorbell", 89.99, "Smart doorbell with video recording and motion detection.", "Surrey", "Surrey", "Home Security", imgList.get(14), false, "2024-03-30", 2, .10, "available");
+        db.insertItem("Dining Table Set", 299.99, "Elegant dining table set with chairs for family gatherings.", "Burnaby", "Burnaby", "Furniture", imgList.get(5), false, "2024-03-30", 5, .50, "available");
+        db.insertItem("Fitness Tracker", 49.99, "Track your fitness goals with this advanced fitness tracker.", "Richmond", "Richmond", "Fitness", imgList.get(6), false, "2024-03-30", 1, .00, "available");
+        db.insertItem("Garden Tools Set", 29.99, "Complete set of garden tools for maintaining your garden.", "Burnaby", "Burnaby", "Tools", imgList.get(7), false, "2024-03-30", 5, .10, "available");
+        db.insertItem("Living Room Sofa", 399.99, "Comfortable and stylish sofa, perfect for lounging.", "Surrey", "Surrey", "Furniture", imgList.get(8), false, "2024-03-30", 2, .50, "available");
+        db.insertItem("Outdoor Chair Set", 179.99, "Set of comfortable outdoor chairs for your patio or garden.", "Surrey", "Surrey", "Furniture", imgList.get(9), false, "2024-03-30", 4, .30, "available");
+        db.insertItem("Portable Grill", 79.99, "Portable grill for outdoor cooking adventures.", "Richmond", "Richmond", "Appliances", imgList.get(10), false, "2024-03-30", 1, .05, "available");
+        db.insertItem("Smart Doorbell", 89.99, "Smart doorbell with video recording and motion detection.", "Surrey", "Surrey", "Home Security", imgList.get(11), false, "2024-03-30", 2, .10, "available");
+        db.insertItem("Smart LED Bulb", 19.99, "Energy-efficient smart LED bulb for home lighting.", "Vancouver", "Vancouver", "Home Improvement", imgList.get(12), false, "2024-03-30", 3, .00, "available");
+        db.insertItem("Smart Thermostat", 129.99, "Energy-efficient smart thermostat for home temperature control.", "Burnaby", "Burnaby", "Home Improvement", imgList.get(13), false, "2024-03-30", 5, .20, "available");
+        db.insertItem("Smart Watch", 199.99, "Smart watch with fitness tracking and notifications.", "Richmond", "Richmond", "Electronics", imgList.get(14), false, "2024-03-30", 1, .00, "available");
+        db.insertItem("Travel Backpack", 49.99, "Durable travel backpack with ergonomic design.", "Vancouver", "Vancouver", "Accessories", imgList.get(15), false, "2024-03-30", 3, .05, "available");
+        db.insertItem("Wireless Earphones", 79.99, "High-quality wireless earphones with noise-cancellation.", "Surrey", "Surrey", "Electronics", imgList.get(16), false, "2024-03-30", 2, .15, "available");
+        db.insertItem("Yoga Mat", 29.99, "Comfortable yoga mat for yoga and fitness workouts.", "Richmond", "Richmond", "Fitness", imgList.get(17), false, "2024-03-30", 1, .00, "available");
+
     }
     public byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
