@@ -1,7 +1,6 @@
 package com.csis3175.fleamart.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,23 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
-import com.csis3175.fleamart.features.TransactionDetailsPage;
 
 import java.util.List;
 
-public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder> {
+public class NotificationsCardAdapter extends RecyclerView.Adapter<NotificationsCardAdapter.ViewHolder> {
 
 
-    private List<Transaction> transactionsList;
+    private List<Notifications> notificationsList;
     private Context context;
 
-    TextView buyer_text;
-    TextView seller_text;
-    private Item item;
-
     int userId;
-
-    int itemid;
 
     private int newItemCount = 0;
     SharedPreferences sharedPreferences;
@@ -39,42 +31,25 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     @NonNull
     @Override
-    public OrderHistoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_card_item, parent, false);
-        return new OrderHistoryAdapter.ViewHolder(view);
+    public NotificationsCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notifications_card_list, parent, false);
+        return new NotificationsCardAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId",0);
-        DatabaseHelper db = new DatabaseHelper(context);
+        //DatabaseHelper db = new DatabaseHelper(context);
 
 
-        Transaction transaction = transactionsList.get(position);
+        Notifications notifications = notificationsList.get(position);
 
+        holder.tvNotificationMessage.setText(notifications.getNotificationMessage());
 
-
-        String name;
-
-        if (userId == transaction.getSellerId()){
-            //Returns the name of the buyer on the Sales View when the current user is the seller
-            name = "Buyer: " + db.getUsernameByID(transaction.getBuyerId());
-        } else {
-            //Returns the name of the seller on the Orders View when the current user is the buyer
-            name = "Seller: " + db.getUsernameByID(transaction.getSellerId());
-        }
-        Glide.with(context)
-                .load(transaction.getImageData())
-                .into(holder.itemImageView);
-        holder.transactionStatus.setText(transaction.getStatus());
-        holder.itemNameTextView.setText(transaction.getItemName());
-        holder.buyerName.setText(name);
-
-        sharedPreferences = holder.itemView.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         /**
-         * This part is commented out in order history
+         * Can implement delete notification upon click
          *
          *
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -96,12 +71,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     @Override
     public int getItemCount() {
-        return transactionsList.size();
+        return notificationsList.size();
     }
 
-    public OrderHistoryAdapter(Context context, List<Transaction> transactionsList){
+    public NotificationsCardAdapter(Context context, List<Notifications> notifications){
         this.context = context;
-        this.transactionsList = transactionsList;
+        this.notificationsList = notifications;
     }
 
 
@@ -127,25 +102,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView itemNameTextView;
-        TextView transactionStatus;
-        TextView buyerName;
-        ImageView itemImageView;
 
-        TextView buyer_text;
-        TextView seller_text;
-        ImageView newItemAlert;
-
+        TextView tvNotificationMessage;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            itemNameTextView = itemView.findViewById(R.id.txtItemName_Transactions);
-            transactionStatus = itemView.findViewById(R.id.txtStatus_Transactions);
-            buyerName = itemView.findViewById(R.id.txtBuyerID_Transactions);
-            itemImageView = itemView.findViewById(R.id.imageView_Transactions);
-            buyer_text = itemView.findViewById(R.id.textBuyer);
-            seller_text = itemView.findViewById(R.id.txtSeller);
-            newItemAlert = itemView.findViewById(R.id.newItem);
+            tvNotificationMessage = itemView.findViewById(R.id.tvNotificationMessage);
         }
     }
 
