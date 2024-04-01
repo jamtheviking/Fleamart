@@ -19,7 +19,8 @@ import com.csis3175.fleamart.features.TransactionDetailsPage;
 
 import java.util.List;
 
-public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdapter.ViewHolder> {
+public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder> {
+
 
     private List<Transaction> transactionsList;
     private Context context;
@@ -35,18 +36,16 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
     private int newItemCount = 0;
     SharedPreferences sharedPreferences;
 
-    
-
 
     @NonNull
     @Override
-    public TransacationsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OrderHistoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_card_item, parent, false);
-        return new TransacationsAdapter.ViewHolder(view);
+        return new OrderHistoryAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TransacationsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId",0);
         DatabaseHelper db = new DatabaseHelper(context);
@@ -75,8 +74,9 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
         sharedPreferences = holder.itemView.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         /**
-         * This is the code where the user clicks a transaction
-         */
+         * This part is commented out in order history
+         *
+         *
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,12 +88,10 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
                 Intent intent = new Intent(view.getContext(), TransactionDetailsPage.class);
                 intent.putExtra("item", item);
                 intent.putExtra("transaction", transaction);
-
-                intent.putExtra("fromViewOrderHistory", true);
                 view.getContext().startActivity(intent);
             }
         });
-
+         */
     }
 
     @Override
@@ -101,7 +99,7 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
         return transactionsList.size();
     }
 
-    public TransacationsAdapter(Context context, List<Transaction> transactionsList){
+    public OrderHistoryAdapter(Context context, List<Transaction> transactionsList){
         this.context = context;
         this.transactionsList = transactionsList;
     }

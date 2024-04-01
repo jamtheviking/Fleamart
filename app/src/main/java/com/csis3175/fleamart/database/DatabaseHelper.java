@@ -232,40 +232,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FROM " + TABLE_TRANSACTION + " AS transactions " +
                 "LEFT JOIN " + TABLE_USERS + " AS users ON transactions.transaction_buyer_id = users.userId " +
                 "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions.itemid = items.itemid " +
-                "WHERE transaction_seller_id = ? OR transaction_seller_id IS NULL";
+                "WHERE transactions." + COLUMN_TRANSACTION_STATUS + " = ? " + // Space added before the second condition
+                "AND (transactions.transaction_seller_id = ? OR transactions.transaction_seller_id IS NULL)"; // Parentheses added for clarity
 
+// Selection arguments array
+        String[] selectionArgs = { "pending", String.valueOf(userId) }; // Reordered arguments
+
+// Executing the query
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        return cursor;
+    }
+
+    public Cursor viewBuyersTransactions(int userId){ // TODO add image for buyer
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT transactions.*, users.username AS buyerName, items.name AS itemName, items.image,items.price AS price " +
+                "FROM " + TABLE_TRANSACTION + " AS transactions " +
+                "LEFT JOIN " + TABLE_USERS + " AS users ON transactions.transaction_buyer_id = users.userId " +
+                "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions.itemid = items.itemid " +
+                "WHERE transactions." + COLUMN_TRANSACTION_STATUS + " = ? " + // Space added before the second condition
+                "AND (transactions.transaction_buyer_id = ? OR transactions.transaction_buyer_id IS NULL)"; // Parentheses added for clarity
+
+// Selection arguments array
+        String[] selectionArgs = { "pending", String.valueOf(userId) }; // Reordered arguments
+
+// Executing the query
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        return cursor;
+   }
+
+    /**
+    public Cursor viewBuyersTransactions(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Added a condition to filter by transaction_status = 'finalized'
+        String query = "SELECT transactions.*, users.username AS buyerName, items.name AS itemName, items.price AS price " +
+                "FROM " + TABLE_TRANSACTION + " AS transactions " +
+                "LEFT JOIN " + TABLE_USERS + " AS users ON transactions.transaction_seller_id = users.userId " +
+                "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions.itemid = items.itemid " +
+                "WHERE (transaction_buyer_id = ? OR transaction_buyer_id IS NULL) " +
+                "AND transactions.transaction_status = 'finalized'";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
 
         return cursor;
     }
-//    public Cursor viewBuyersTransactions(int userId){ // TODO add image for buyer
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        String query = "SELECT transactions.*, users.username AS buyerName, items.name AS itemName, items.price AS price " +
-//                "FROM " + TABLE_TRANSACTION + " AS transactions " +
-//                "LEFT JOIN " + TABLE_USERS + " AS users ON transactions.transaction_seller_id = users.userId " +
-//                "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions.itemid = items.itemid " +
-//                "WHERE transaction_buyer_id = ? OR transaction_buyer_id IS NULL";
-//
-//
-//        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
-//
-//        return cursor;
-//    }
-public Cursor viewBuyersTransactions(int userId) {
-    SQLiteDatabase db = this.getReadableDatabase();
-    // Added a condition to filter by transaction_status = 'finalized'
-    String query = "SELECT transactions.*, users.username AS buyerName, items.name AS itemName, items.price AS price " +
-            "FROM " + TABLE_TRANSACTION + " AS transactions " +
-            "LEFT JOIN " + TABLE_USERS + " AS users ON transactions.transaction_seller_id = users.userId " +
-            "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions.itemid = items.itemid " +
-            "WHERE (transaction_buyer_id = ? OR transaction_buyer_id IS NULL) " +
-            "AND transactions.transaction_status = 'finalized'";
-
-    Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
-
-    return cursor;
-}
+     */
 
     public String getHashedPassword(String username){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -460,10 +472,27 @@ public Cursor viewBuyersTransactions(int userId) {
                 "LEFT JOIN " + TABLE_USERS + " AS sellers ON transactions." + COLUMN_TRANSACTION_SELLER_ID + " = sellers." + COLUMN_ID + " " +
                 "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions." + COLUMN_ITEM_ID + " = items." + COLUMN_ITEM_ID + " " +
                 "WHERE (transactions." + COLUMN_TRANSACTION_BUYER_ID + " = ? OR transactions." + COLUMN_TRANSACTION_SELLER_ID + " = ?) " +
+                "AND transactions." + COLUMN_TRANSACTION_STATUS + " = ? " +
+                "OR transactions." + COLUMN_TRANSACTION_STATUS + " = ? ";
+        //            "AND sellers." + COLUMN_ITEM_STATUS + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(userId), "finalized", "cancelled"});
+
+        return cursor;
+    }
+
+    public Cursor viewTransaction(int userId, String order) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT transactions.*, buyers." + COLUMN_USERNAME + " AS buyerName, items." + COLUMN_ITEM_NAME + " AS itemName, items." + COLUMN_ITEM_IMAGE + ", items." + COLUMN_ITEM_PRICE + " AS price " +
+                "FROM " + TABLE_TRANSACTION + " AS transactions " +
+                "LEFT JOIN " + TABLE_USERS + " AS buyers ON transactions." + COLUMN_TRANSACTION_BUYER_ID + " = buyers." + COLUMN_ID + " " +
+                "LEFT JOIN " + TABLE_USERS + " AS sellers ON transactions." + COLUMN_TRANSACTION_SELLER_ID + " = sellers." + COLUMN_ID + " " +
+                "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions." + COLUMN_ITEM_ID + " = items." + COLUMN_ITEM_ID + " " +
+                "WHERE (transactions." + COLUMN_TRANSACTION_BUYER_ID + " = ? OR transactions." + COLUMN_TRANSACTION_SELLER_ID + " = ?) " +
                 "AND transactions." + COLUMN_TRANSACTION_STATUS + " = ? ";
         //            "AND sellers." + COLUMN_ITEM_STATUS + " = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(userId), "pending"});
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(userId), order});
 
         return cursor;
     }
