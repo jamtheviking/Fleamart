@@ -452,6 +452,20 @@ public Cursor viewBuyersTransactions(int userId) {
         db.close();
         return isFinalized;
     }
+    public Cursor viewStatusOrder(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT transactions.*, buyers." + COLUMN_USERNAME + " AS buyerName, items." + COLUMN_ITEM_NAME + " AS itemName, items." + COLUMN_ITEM_IMAGE + ", items." + COLUMN_ITEM_PRICE + " AS price " +
+                "FROM " + TABLE_TRANSACTION + " AS transactions " +
+                "LEFT JOIN " + TABLE_USERS + " AS buyers ON transactions." + COLUMN_TRANSACTION_BUYER_ID + " = buyers." + COLUMN_ID + " " +
+                "LEFT JOIN " + TABLE_USERS + " AS sellers ON transactions." + COLUMN_TRANSACTION_SELLER_ID + " = sellers." + COLUMN_ID + " " +
+                "LEFT JOIN " + TABLE_ITEMS + " AS items ON transactions." + COLUMN_ITEM_ID + " = items." + COLUMN_ITEM_ID + " " +
+                "WHERE (transactions." + COLUMN_TRANSACTION_BUYER_ID + " = ? OR transactions." + COLUMN_TRANSACTION_SELLER_ID + " = ?) " +
+                "AND transactions." + COLUMN_TRANSACTION_STATUS + " = ? ";
+        //            "AND sellers." + COLUMN_ITEM_STATUS + " = ?";
 
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(userId), "pending"});
+
+        return cursor;
+    }
 
 }

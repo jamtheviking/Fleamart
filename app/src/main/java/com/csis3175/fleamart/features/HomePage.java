@@ -30,6 +30,8 @@ public class HomePage extends AppCompatActivity {
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnEditItems = findViewById(R.id.btnEditPostedItems);
         Button btnTransactions = findViewById(R.id.btnTransactions);
+        Button btnViewOrderStatus = findViewById(R.id.btnStatusOrder);
+
         ImageView notification = findViewById(R.id.notification);
 
 
@@ -46,8 +48,9 @@ public class HomePage extends AppCompatActivity {
             notification.setVisibility(View.VISIBLE); // Show notification
         }
 
+        btnViewOrderStatus.setOnClickListener(view -> startActivity(new Intent(HomePage.this, viewOrderStatus.class)));
 
-       // notification.setOnClickListener(view -> startActivity(new Intent(HomePage.this, TransactionsPage.class)));
+        // notification.setOnClickListener(view -> startActivity(new Intent(HomePage.this, TransactionsPage.class)));
 
         /* POST ITEM ACTIVITY
          */
