@@ -40,7 +40,7 @@ public class NotificationsCardAdapter extends RecyclerView.Adapter<Notifications
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId",0);
-        //DatabaseHelper db = new DatabaseHelper(context);
+        //DatabaseHelper db = new DatabaseHelper(context); commented out for future use
 
 
         Notifications notifications = notificationsList.get(position);
@@ -78,28 +78,6 @@ public class NotificationsCardAdapter extends RecyclerView.Adapter<Notifications
         this.context = context;
         this.notificationsList = notifications;
     }
-
-
-    /**
-     * Not being used at the moment
-     * @param buyertext
-     * @param sellertext
-     * @param status
-     * @param userId
-     */
-    public void checkUserStatus(TextView buyertext, TextView sellertext, String status, int userId) {
-        Transaction transactions = new Transaction();
-        if(userId == transactions.getSellerId() && "Finalize".equals(status)) {
-            // Item is finalized, show seller and hide buyer
-            buyertext.setVisibility(View.VISIBLE);
-            sellertext.setVisibility(View.INVISIBLE);
-        } else {
-            // For other statuses, show buyer and hide seller (or adjust as needed)
-            sellertext.setVisibility(View.INVISIBLE);
-            buyertext.setVisibility(View.VISIBLE);
-        }
-    }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
