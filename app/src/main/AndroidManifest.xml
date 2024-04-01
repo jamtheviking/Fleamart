@@ -46,6 +46,9 @@
         <activity
             android:name=".features.HomePage"
             android:exported="false" />
+        <activity
+            android:name=".features.viewOrderStatus"
+            android:exported="false" />
 
         <activity
             android:name=".features.LandingPage"
