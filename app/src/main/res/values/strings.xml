@@ -51,7 +51,7 @@
     <string name="btnEditItems">Edit Items</string>
     <string name="txtEditItem">Edit Item Details</string>
     <string name="btnTransactions">Transactions</string>
-    <string name="btnSendNotification">Send Notification</string>
+    <string name="btnConfirmTransaction">Confirm Transaction</string>
     <string name="tvBuyerNameLabel">Buyer Name</string>
     <string name="tvItemNameLabel">Item Name</string>
     <string name="tvItemStatusLabel">Pick-up or Delivery</string>
