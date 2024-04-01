@@ -97,6 +97,13 @@ public class TransactionDetailsPage extends AppCompatActivity {
                 DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
                 boolean successItem = db.updateItemStatus(transaction.getItemId(), "sold");
                 boolean successTransaction = db.updateTransactionStatus(transaction.getTransactionId(), "finalized");
+
+                String notificationMessage;
+                notificationMessage = String.format("Transaction ID %s with %s has been %s", transaction.getTransactionId(), transaction.getItemName(), "finalized");
+
+                db.insertNotification(notificationMessage, transaction.getTransactionId(), transaction.getBuyerId(), transaction.getSellerId());
+
+
                 Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
                 updateIntent.putExtra("user", userId);
                 if (successItem && successTransaction) {
@@ -119,6 +126,12 @@ public class TransactionDetailsPage extends AppCompatActivity {
                 DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
                 boolean cancelItem = db.updateItemStatus(transaction.getItemId(), "available");
                 boolean cancelTransaction = db.updateTransactionStatus(transaction.getTransactionId(), "cancelled");
+
+                String notificationMessage;
+                notificationMessage = String.format("Transaction ID %s with %s has been %s", transaction.getTransactionId(), transaction.getItemName(), "cancelled");
+
+                db.insertNotification(notificationMessage, transaction.getTransactionId(), transaction.getBuyerId(), transaction.getSellerId());
+
                 Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
                 updateIntent.putExtra("user", userId);
                 if (cancelItem && cancelTransaction) {

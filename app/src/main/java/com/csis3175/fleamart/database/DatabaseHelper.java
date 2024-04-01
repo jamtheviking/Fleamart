@@ -13,7 +13,7 @@ import com.csis3175.fleamart.model.Item;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fleamartDB";
-    private static final int DATABASE_VERSION = 6; /** Updated column Transaction_id to transaction_id*/
+    private static final int DATABASE_VERSION = 7; /** Added Notifications Table*/
 
     //------ USERS TABLE -------- //
     private static final String TABLE_USERS = "users";
@@ -52,7 +52,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TRANSACTION_DELIVERY = "transaction_delivery";
     private static final String COLUMN_TRANSACTION_STATUS = "transaction_status";
 
-    //------END OF ITEMS TABLE -------- //
+    //------END OF TRANSACTIONS TABLE -------- //
+    //------NOTIFICATIONS TABLE---------------//
+    private static final String TABLE_NOTIFICATION = "notifications";
+    private static final String COLUMN_NOTIFICATION_ID = "notificationId";
+    private static final String COLUMN_NOTIFICATION_MESSAGE = "notificationMessage";
+
 
 
 
@@ -104,9 +109,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY(" + COLUMN_TRANSACTION_SELLER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + ")"
                 + ")";
 
+        String CREATE_NOTIFICATIONS_TABLE = "CREATE TABLE " + TABLE_NOTIFICATION + "("
+                + COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_NOTIFICATION_MESSAGE + " TEXT,"
+                + COLUMN_TRANSACTION_ID + " INTEGER," // Define transaction_id column
+                + COLUMN_TRANSACTION_BUYER_ID + " INTEGER,"
+                + COLUMN_TRANSACTION_SELLER_ID + " INTEGER,"
+                + "FOREIGN KEY (" + COLUMN_TRANSACTION_ID + ") REFERENCES " + TABLE_TRANSACTION + "(" + COLUMN_TRANSACTION_ID + "),"
+                + "FOREIGN KEY(" + COLUMN_TRANSACTION_BUYER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + "),"
+                + "FOREIGN KEY(" + COLUMN_TRANSACTION_SELLER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + ")"
+                + ")";
+
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_ITEMS_TABLE);
         db.execSQL(CREATE_TRANSACTION_TABLE);
+        db.execSQL(CREATE_NOTIFICATIONS_TABLE);
     }
 
     @Override
@@ -207,6 +224,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_TRANSACTION, null, values);
 
     }
+
+
 
     //View All items excluding ones posted by current USER
     //TODO modify query to display items that are available
@@ -480,6 +499,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return cursor;
     }
+
+    public Cursor viewNotifications(int userId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTIFICATION +
+                " WHERE " + COLUMN_TRANSACTION_SELLER_ID + " = ? OR " +
+                COLUMN_TRANSACTION_BUYER_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(userId)});
+        return cursor;
+    }
+
+    public void insertNotification(String notificationMessage, int transaction_id, int transaction_buyer_id, int transaction_seller_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NOTIFICATION_MESSAGE,notificationMessage );
+        values.put(COLUMN_TRANSACTION_ID,transaction_id );
+        values.put(COLUMN_TRANSACTION_BUYER_ID,transaction_buyer_id );
+        values.put(COLUMN_TRANSACTION_SELLER_ID,transaction_seller_id );
+        db.insert(TABLE_NOTIFICATION, null, values);
+    }
+
 
     public Cursor viewTransaction(int userId, String order) {
         SQLiteDatabase db = this.getReadableDatabase();

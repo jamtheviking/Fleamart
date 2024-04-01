@@ -6,19 +6,29 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
+
+import java.io.Console;
 
 public class HomePage extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     DatabaseHelper db = new DatabaseHelper(HomePage.this);
+
+    Button btnNotification;
+    private boolean notificationsVisible = false;
+    FragmentContainerView notifsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +41,20 @@ public class HomePage extends AppCompatActivity {
         Button btnEditItems = findViewById(R.id.btnEditPostedItems);
         Button btnTransactions = findViewById(R.id.btnViewOrderHistory);
         Button btnViewOrderStatus = findViewById(R.id.btnStatusOrder);
-
-        ImageView notification = findViewById(R.id.notification);
+        btnNotification = findViewById(R.id.btnNotification);
+        notifsContainer = findViewById(R.id.fragmentContainterNotifications);
+        notifsContainer.setVisibility(View.INVISIBLE);
 
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        int userId = sharedPreferences.getInt("userId",0);
+        int userId = sharedPreferences.getInt("userId", 0);
 
-        if (userId>0){
+        if (userId > 0) {
             String[] userDetails = db.getUserDetails(userId);
             TextView tvFullName = findViewById(R.id.tvFullName);
-            tvFullName.setText(String.format(userDetails[0]+" "+userDetails[1]));
+            tvFullName.setText(String.format(userDetails[0] + " " + userDetails[1]));
         }
-        boolean isFinalized = db.isTransactionFinalized(userId);
-        if (isFinalized) {
-            notification.setVisibility(View.VISIBLE); // Show notification
-        }
+
 
         // notification.setOnClickListener(view -> startActivity(new Intent(HomePage.this, TransactionsPage.class)));
 
@@ -86,11 +94,36 @@ public class HomePage extends AppCompatActivity {
 
 
     }
-//public void clickNotification(View view) {
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//    NotificationFragment nf = new NotificationFragment();
-//    ft.add(R.id.fragmentViewer,nf);
-//    ft.commit();
-}
 
+    public void btnNotification(View view) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        // Check if the fragment is already visible
+        Fragment notifs = fm.findFragmentById(R.id.fragmentContainterNotifications);
+        if (notifs != null) {
+            if (notificationsVisible) {
+                // If fragment is visible, hide it
+                notifsContainer.setVisibility(View.INVISIBLE);
+                //ft.hide(notifs);
+                notificationsVisible = false;
+                System.out.println("Fragment Hidden");
+            } else {
+                // If fragment is not visible, show it
+                notifsContainer.setVisibility(View.VISIBLE);
+                //ft.show(notifs);
+                notificationsVisible = true;
+                System.out.println("Fragment DISPLAYED");
+            }
+        } else {
+            // Fragment not added yet, add it
+            NotificationActivity na = new NotificationActivity();
+            ft.add(R.id.fragmentContainterNotifications, na);
+            notificationsVisible = true;
+            System.out.println("Fragment DISPLAYED");
+        }
+
+        ft.commit();
+    }
+
+}
