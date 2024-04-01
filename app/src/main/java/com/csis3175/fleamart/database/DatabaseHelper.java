@@ -536,5 +536,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return cursor;
     }
+    public boolean isDataAvailable() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM items";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+
+        return count > 0;
+    }
 
 }

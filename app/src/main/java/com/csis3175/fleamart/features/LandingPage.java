@@ -220,8 +220,12 @@ import android.content.Context;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.*;
 import android.view.ViewGroup;
 
@@ -240,6 +244,12 @@ import com.csis3175.fleamart.database.*;
 import com.csis3175.fleamart.model.Encrypt;
 import com.csis3175.fleamart.model.User;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 public class LandingPage extends AppCompatActivity {
     private static final String PREF_USERID_KEY = "userId";
     Button btnLogin1, btnLogin2, btnRegister;
@@ -257,6 +267,15 @@ public class LandingPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landing_root);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        if (!db.isDataAvailable()) {
+            try {
+                populateItems();
+                populateUsers();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
 
         ViewGroup viewRoot = findViewById(R.id.rootContainer);
         scene1 = Scene.getSceneForLayout(viewRoot, R.layout.activity_landing, this);
@@ -421,7 +440,102 @@ public class LandingPage extends AppCompatActivity {
 
     }
 
+    public void populateUsers(){
+
+        db.insertUser("John","Doe","johndoe123","johndoe@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        db.insertUser("Jane","Smith","janesmith89","janesmith@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        db.insertUser("Michael","Johnson","mikej_123","michael.j@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        db.insertUser("Emily","Brown","ebrown2022","emily.brown@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        db.insertUser("David","Wilson","davidw88","dwilson@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+
+
     }
+
+    public void tryConvertingSingleImage() throws IOException {
+        AssetManager assetManager = getAssets();
+        String fileName = "sofa.jpg"; // Replace with your actual image filename
+
+        try {
+            InputStream inputStream = assetManager.open("pics/" + fileName);
+            byte[] byteArray = convertInputStreamToByteArray(inputStream);
+            Log.d("ImageConversion", "Successfully converted image: " + fileName);
+            // Use the byteArray for further processing (e.g., database insertion)
+
+        } catch (IOException e) {
+            Log.e("ImageConversion", "Error converting image: " + fileName, e);
+        }
+
+
+    }
+    public void populateItems() throws IOException {
+        AssetManager assetManager = getAssets();
+        String[] imageFiles;
+        try {
+            imageFiles = assetManager.list("pics");
+        } catch (IOException e) {
+            Log.e("ImageConversion", "Error listing image files", e);
+            return;
+        }
+        List<byte[]> imgList = new ArrayList<>();
+
+
+        for (String imageFile : imageFiles) {
+            try {
+                InputStream inputStream = assetManager.open("pics/" + imageFile);
+                byte[] byteArray = convertInputStreamToByteArray(inputStream);
+                imgList.add(byteArray);
+
+                Log.d("ImageConversion", "Successfully converted image: " + imageFile);
+            } catch (IOException e) {
+                Log.e("ImageConversion", "Error converting image: " + imageFile, e);
+            }
+        }
+
+        db.insertItem("Backpack", 39.99, "Durable backpack with multiple compartments for storage.", "Vancouver", "Vancouver", "Accessories", imgList.get(0), false, "2024-03-30", 3, .05, "available");
+        db.insertItem("Bedside Lamp", 24.99, "Modern bedside lamp with adjustable brightness.", "Vancouver", "Vancouver", "Home Decor", imgList.get(1), false, "2024-03-30", 4, .00, "available");
+        db.insertItem("Bluetooth Speaker", 59.99, "Portable Bluetooth speaker with enhanced bass and long battery life.", "Richmond", "Richmond", "Electronics", imgList.get(2), false, "2024-03-30", 3, .00, "available");
+        db.insertItem("Coffee Table Set", 149.99, "Modern coffee table set with matching side tables.", "Richmond", "Richmond", "Furniture", imgList.get(3), false, "2024-03-30", 4, .25, "available");
+        db.insertItem("Digital Camera", 199.99, "Compact digital camera with advanced features for photography enthusiasts.", "Vancouver", "Vancouver", "Electronics", imgList.get(4), false, "2024-03-30", 1, .00, "available");
+        db.insertItem("Dining Table Set", 299.99, "Elegant dining table set with chairs for family gatherings.", "Burnaby", "Burnaby", "Furniture", imgList.get(5), false, "2024-03-30", 5, .50, "available");
+        db.insertItem("Fitness Tracker", 49.99, "Track your fitness goals with this advanced fitness tracker.", "Richmond", "Richmond", "Fitness", imgList.get(6), false, "2024-03-30", 1, .00, "available");
+        db.insertItem("Garden Tools Set", 29.99, "Complete set of garden tools for maintaining your garden.", "Burnaby", "Burnaby", "Tools", imgList.get(7), false, "2024-03-30", 5, .10, "available");
+        db.insertItem("Living Room Sofa", 399.99, "Comfortable and stylish sofa, perfect for lounging.", "Surrey", "Surrey", "Furniture", imgList.get(8), false, "2024-03-30", 2, .50, "available");
+        db.insertItem("Outdoor Chair Set", 179.99, "Set of comfortable outdoor chairs for your patio or garden.", "Surrey", "Surrey", "Furniture", imgList.get(9), false, "2024-03-30", 4, .30, "available");
+        db.insertItem("Portable Grill", 79.99, "Portable grill for outdoor cooking adventures.", "Richmond", "Richmond", "Appliances", imgList.get(10), false, "2024-03-30", 1, .05, "available");
+        db.insertItem("Smart Doorbell", 89.99, "Smart doorbell with video recording and motion detection.", "Surrey", "Surrey", "Home Security", imgList.get(11), false, "2024-03-30", 2, .10, "available");
+        db.insertItem("Smart LED Bulb", 19.99, "Energy-efficient smart LED bulb for home lighting.", "Vancouver", "Vancouver", "Home Improvement", imgList.get(12), false, "2024-03-30", 3, .00, "available");
+        db.insertItem("Smart Thermostat", 129.99, "Energy-efficient smart thermostat for home temperature control.", "Burnaby", "Burnaby", "Home Improvement", imgList.get(13), false, "2024-03-30", 5, .20, "available");
+        db.insertItem("Smart Watch", 199.99, "Smart watch with fitness tracking and notifications.", "Richmond", "Richmond", "Electronics", imgList.get(14), false, "2024-03-30", 1, .00, "available");
+        db.insertItem("Travel Backpack", 49.99, "Durable travel backpack with ergonomic design.", "Vancouver", "Vancouver", "Accessories", imgList.get(15), false, "2024-03-30", 3, .05, "available");
+        db.insertItem("Wireless Earphones", 79.99, "High-quality wireless earphones with noise-cancellation.", "Surrey", "Surrey", "Electronics", imgList.get(16), false, "2024-03-30", 2, .15, "available");
+        db.insertItem("Yoga Mat", 29.99, "Comfortable yoga mat for yoga and fitness workouts.", "Richmond", "Richmond", "Fitness", imgList.get(17), false, "2024-03-30", 1, .00, "available");
+
+    }
+    public byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
 
 
