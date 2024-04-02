@@ -414,13 +414,15 @@ public class LandingPage extends AppCompatActivity {
     }
 
     //POPULATE DEMO DATA
-    public void populateUsers() {
+    public void populateUsers(){
 
-        db.insertUser("John", "Doe", "johndoe123", "johndoe@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("Jane", "Smith", "janesmith89", "janesmith@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("Michael", "Johnson", "mikej_123", "michael.j@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("Emily", "Brown", "ebrown2022", "emily.brown@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("David", "Wilson", "davidw88", "dwilson@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        String password = Encrypt.hashPassword("test");
+
+        db.insertUser("John","Doe","johndoe123","johndoe@example.com",password);
+        db.insertUser("Jane","Smith","janesmith89","janesmith@example.com",password);
+        db.insertUser("Michael","Johnson","mikej_123","michael.j@example.com",password);
+        db.insertUser("Emily","Brown","ebrown2022","emily.brown@example.com",password);
+        db.insertUser("David","Wilson","davidw88","dwilson@example.com",password);
 
 
     }

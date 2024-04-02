@@ -10,8 +10,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNotifications"
-        android:layout_width="409dp"
-        android:layout_height="657dp"
+        android:layout_width="412dp"
+        android:layout_height="523dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"

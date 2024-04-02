@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
+import com.csis3175.fleamart.model.Encrypt;
 
 import java.io.Console;
 
