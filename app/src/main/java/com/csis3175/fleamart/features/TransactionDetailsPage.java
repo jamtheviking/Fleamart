@@ -41,9 +41,10 @@ public class TransactionDetailsPage extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
 
-    DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
+    DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_details);
 
@@ -58,6 +59,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
         btnCancelTransaction = findViewById(R.id.btnCancelTransaction);
         ivItemImage_Transaction = findViewById(R.id.ivItemImage_Transaction);
 
+        db = new DatabaseHelper(TransactionDetailsPage.this);
         Intent intent = getIntent(); //Received from Card Adapter
 
 
@@ -94,7 +96,6 @@ public class TransactionDetailsPage extends AppCompatActivity {
         {
             @Override
             public void onClick(View v){
-                DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
                 boolean successItem = db.updateItemStatus(transaction.getItemId(), "sold");
                 boolean successTransaction = db.updateTransactionStatus(transaction.getTransactionId(), "finalized");
 
