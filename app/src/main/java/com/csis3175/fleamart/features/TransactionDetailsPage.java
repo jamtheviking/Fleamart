@@ -40,6 +40,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
         Intent intent = getIntent(); //Received from Card Adapter
         if (intent != null) {
             sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            userId = sharedPreferences.getInt("userId",0);
+            userId = sharedPreferences.getInt("userId", 0);
             transaction = (Transaction) intent.getSerializableExtra("transaction");
         }
 
@@ -75,26 +76,28 @@ public class TransactionDetailsPage extends AppCompatActivity {
                 .into(ivItemImage_Transaction);
 
 
+        if ("finalized".equals(transaction.getStatus()) || transaction.getBuyerId() == userId) {
 
-
-        btnSendNotification.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v){
-                DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
-                boolean successItem = db.updateItemStatus(transaction.getItemId(), "sold");
-                boolean successTransaction = db.updateTransactionStatus(transaction.getItemId(), "finalized");
-                Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
-                updateIntent.putExtra("user", userId);
-                if (successItem && successTransaction) {
-                    Toast.makeText(TransactionDetailsPage.this, "item status updated successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(TransactionDetailsPage.this, "item status failed", Toast.LENGTH_SHORT).show();
+            btnSendNotification.setVisibility(View.INVISIBLE);
+        } else {
+            btnSendNotification.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
+                    boolean successItem = db.updateItemStatus(transaction.getItemId(), "sold");
+                    boolean successTransaction = db.updateTransactionStatus(transaction.getItemId(), "finalized");
+                    Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
+                    updateIntent.putExtra("user", userId);
+                    if (successItem && successTransaction) {
+                        Toast.makeText(TransactionDetailsPage.this, "item status updated successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(TransactionDetailsPage.this, "item status failed", Toast.LENGTH_SHORT).show();
+                    }
+                    startActivity(updateIntent);
                 }
-                startActivity(updateIntent);
-            }
 
-        });
+            });
 
+        }
     }
 }
