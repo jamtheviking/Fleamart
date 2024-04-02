@@ -119,30 +119,28 @@ public class TransactionDetailsPage extends AppCompatActivity {
         /**
          * Method to cancel transaction via Button Cancel Transaction
          */
-        btnCancelTransaction.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v){
-                DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
-                boolean cancelItem = db.updateItemStatus(transaction.getItemId(), "available");
-                boolean cancelTransaction = db.updateTransactionStatus(transaction.getTransactionId(), "cancelled");
+        if ("finalized".equals(transaction.getStatus()) || transaction.getBuyerId() == userId) {
 
-                String notificationMessage;
-                notificationMessage = String.format("Transaction ID %s with %s has been %s", transaction.getTransactionId(), transaction.getItemName(), "cancelled");
-
-                db.insertNotification(notificationMessage, transaction.getTransactionId(), transaction.getBuyerId(), transaction.getSellerId());
-
-                Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
-                updateIntent.putExtra("user", userId);
-                if (cancelItem && cancelTransaction) {
-                    Toast.makeText(TransactionDetailsPage.this, "Transaction has been cancelled successfully.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(TransactionDetailsPage.this, "Transaction cancellation failed.", Toast.LENGTH_SHORT).show();
+            btnSendNotification.setVisibility(View.INVISIBLE);
+        } else {
+            btnSendNotification.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DatabaseHelper db = new DatabaseHelper(TransactionDetailsPage.this);
+                    boolean successItem = db.updateItemStatus(transaction.getItemId(), "sold");
+                    boolean successTransaction = db.updateTransactionStatus(transaction.getItemId(), "finalized");
+                    Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
+                    updateIntent.putExtra("user", userId);
+                    if (successItem && successTransaction) {
+                        Toast.makeText(TransactionDetailsPage.this, "item status updated successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(TransactionDetailsPage.this, "item status failed", Toast.LENGTH_SHORT).show();
+                    }
+                    startActivity(updateIntent);
                 }
-                startActivity(updateIntent);
-            }
 
-        });
+            });
 
+        }
     }
 }
