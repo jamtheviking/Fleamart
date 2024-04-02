@@ -414,6 +414,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     //POPULATE DEMO DATA
+
     public void populateUsers(){
 
         String password = Encrypt.hashPassword("test");
@@ -423,9 +424,9 @@ public class LandingPage extends AppCompatActivity {
         db.insertUser("Michael","Johnson","mikej_123","michael.j@example.com",password);
         db.insertUser("Emily","Brown","ebrown2022","emily.brown@example.com",password);
         db.insertUser("David","Wilson","davidw88","dwilson@example.com",password);
-
-
     }
+
+
 
     public void tryConvertingSingleImage() throws IOException {
         AssetManager assetManager = getAssets();
