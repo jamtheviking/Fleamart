@@ -22,9 +22,7 @@ public class NotificationsCardAdapter extends RecyclerView.Adapter<Notifications
 
     private List<Notifications> notificationsList;
     private Context context;
-
     int userId;
-
     private int newItemCount = 0;
     SharedPreferences sharedPreferences;
 

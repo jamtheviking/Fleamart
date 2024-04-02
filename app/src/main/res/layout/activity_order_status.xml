@@ -5,26 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
+
     tools:context=".features.TransactionsPage">
 
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:paddingTop="5dp"
         android:background="@color/green"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-
             style="@style/title_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="Order Status"
             android:textColor="@color/black"
             android:textSize="25sp" />
+        <Button
+            android:id="@+id/btnSales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnSales"
+            style="@style/button_style_gray"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="60dp"
+            android:text="@string/btnSales"
+            />
+
+        <Button
+            android:id="@+id/btnOrders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnOrders"
+            android:text="@string/btnOrders"
+            style="@style/button_style_gray"
+            android:layout_marginEnd="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+             />
 
     </RelativeLayout>
 
@@ -54,28 +78,6 @@
         app:layout_constraintTop_toBottomOf="@+id/top"
         tools:visibility="invisible" />
 
-    <Button
-        android:id="@+id/btnSales"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="8dp"
-        android:onClick="btnSales"
-        android:text="@string/btnSales"
-        app:layout_constraintEnd_toStartOf="@+id/btnOrders"
-        app:layout_constraintHorizontal_bias="0.069"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top" />
 
-    <Button
-        android:id="@+id/btnOrders"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="80dp"
-        android:onClick="btnOrders"
-        android:text="@string/btnOrders"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

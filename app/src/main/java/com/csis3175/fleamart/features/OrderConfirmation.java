@@ -109,22 +109,18 @@ public class OrderConfirmation extends AppCompatActivity {
                 currentDate = dateFormat.format(new Date());
                 if(isDeliverySelected){
                     deliveryMethod = "delivery";
-
                 }
                 else {
                     deliveryMethod = "Pickup";
                 }
-
                 buyerId = userId;
-
                 db.insertTransaction(buyerId,item.getUserID(),item.getItemID(),currentDate,deliveryMethod,"pending");
                 db.updateItemStatus(item.getItemID(),"pending");
                 msgConfirmation.setText(R.string.txtConfirmation);
                 //Post Delay
-
-                new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
                 finish();
-                startActivity(new Intent(OrderConfirmation.this, HomePage.class));
+                new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
+
 
             }
         });
@@ -132,7 +128,7 @@ public class OrderConfirmation extends AppCompatActivity {
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
                 startActivity(new Intent(OrderConfirmation.this, HomePage.class));
             }
         });

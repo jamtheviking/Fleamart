@@ -61,13 +61,7 @@ public class SellPage extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId",0);
-//        if (userId>0){
-//            String[] userDetails = db.getUserDetails(userId);
-//
-//        }
 
-
-        //TODO need to implement discount feature. After user selects buy, user selects discount for item
         etItemName = findViewById(R.id.etItemName);
         etItemPrice = findViewById(R.id.etItemPrice);
         etItemDescription = findViewById(R.id.etItemDescription);

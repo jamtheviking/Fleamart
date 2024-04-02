@@ -34,7 +34,7 @@ public class TransactionsPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transactions);
+        setContentView(R.layout.activity_order_status);
 
         btnOrders = findViewById(R.id.btnOrders);
         btnSales =  findViewById(R.id.btnSales);
