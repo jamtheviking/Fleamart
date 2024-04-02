@@ -249,7 +249,7 @@ public class LandingPage extends AppCompatActivity {
     DatabaseHelper databaseHelperDB = new DatabaseHelper(LandingPage.this);
     DatabaseHelper db = new DatabaseHelper(this);
     private Scene scene1, scene2, scene3;
-    private Transition slideUpTransition, slideDownTransition, explode;
+    private Transition slideUpTransition, slideDownTransition;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -273,7 +273,7 @@ public class LandingPage extends AppCompatActivity {
         scene3 = Scene.getSceneForLayout(viewRoot, R.layout.sign_up, this);
         slideUpTransition = new Slide(Gravity.BOTTOM);
         slideDownTransition = new Slide(Gravity.TOP);
-        explode = new Explode();
+
         slideUpTransition.setDuration(500);
         scene1.enter();
         //https://youtu.be/reB5OFS4gG8?si=GfMW5k1uzGTDnvKT Transition tutorial
@@ -412,18 +412,16 @@ public class LandingPage extends AppCompatActivity {
         }
 
     }
-
-    //POPULATE DEMO DATA
-    public void populateUsers() {
-
-        db.insertUser("John", "Doe", "johndoe123", "johndoe@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("Jane", "Smith", "janesmith89", "janesmith@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("Michael", "Johnson", "mikej_123", "michael.j@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("Emily", "Brown", "ebrown2022", "emily.brown@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("David", "Wilson", "davidw88", "dwilson@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-
+    public void populateUsers(){
+        String password = Encrypt.hashPassword("test");
+        db.insertUser("John","Doe","johndoe123","johndoe@example.com",password);
+        db.insertUser("Jane","Smith","janesmith89","janesmith@example.com",password);
+        db.insertUser("Michael","Johnson","mikej_123","michael.j@example.com",password);
+        db.insertUser("Emily","Brown","ebrown2022","emily.brown@example.com",password);
+        db.insertUser("David","Wilson","davidw88","dwilson@example.com",password);
 
     }
+
 
     public void tryConvertingSingleImage() throws IOException {
         AssetManager assetManager = getAssets();
