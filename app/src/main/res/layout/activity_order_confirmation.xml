@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_below="@id/orderConPrompt"
+        android:paddingHorizontal="5dp"
         android:background="@color/green">
 
         <ImageView
@@ -52,7 +53,7 @@
             android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:text="5000$"
+
             />
         </RelativeLayout>
 

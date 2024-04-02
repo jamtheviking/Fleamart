@@ -60,7 +60,13 @@ public class OrderConfirmation extends AppCompatActivity {
             //Populate layout
             imageData = item.getImageData();
             itemName.setText(item.getItemName());
-            itemPrice.setText(String.valueOf(item.getItemPrice()));
+            if(item.getIsShareable()){
+                itemPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.share_icon_dark, 0, 0, 0);
+            }else{
+                itemPrice.setText(String.valueOf(item.getItemPrice()));
+            }
+
 
             Glide.with(this)
                     .load(imageData)
@@ -118,8 +124,9 @@ public class OrderConfirmation extends AppCompatActivity {
                 db.updateItemStatus(item.getItemID(),"pending");
                 msgConfirmation.setText(R.string.txtConfirmation);
                 //Post Delay
-                finish();
+
                 new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
+                finish();
 
 
             }

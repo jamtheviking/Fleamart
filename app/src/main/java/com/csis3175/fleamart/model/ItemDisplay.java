@@ -71,7 +71,7 @@ public class ItemDisplay extends AppCompatActivity {
             double discount = item.getDiscount();
             double discountedPrice = price * (1 - discount);
             itemId = item.getItemID();
-            itemPrice.setText(String.format(Locale.getDefault(), df.format(discountedPrice)));
+
             itemDesc.setText(item.getItemDescription());
             byte[] imageData = item.getImageData();
 
@@ -84,6 +84,11 @@ public class ItemDisplay extends AppCompatActivity {
 
             if (isShareable) {
                 btnConfirm.setText(R.string.btnBorrow);
+
+                itemPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.share_icon_dark, 0, 0, 0);
+            } else{
+                itemPrice.setText(String.format(Locale.getDefault(), df.format(discountedPrice)));
             }
 
             Glide.with(this)
