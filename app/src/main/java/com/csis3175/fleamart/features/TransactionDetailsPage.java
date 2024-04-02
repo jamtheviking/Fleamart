@@ -71,6 +71,11 @@ public class TransactionDetailsPage extends AppCompatActivity {
         }
 
         String name;
+
+        if(transaction.getStatus().equals("finalized")){
+            btnSendNotification.setVisibility(View.INVISIBLE);
+            btnCancelTransaction.setVisibility(View.INVISIBLE);
+        }
         if (userId == transaction.getSellerId()){
             //Returns the name of the buyer on the Sales View when the current user is the seller
             name = "Buyer:       " + db.getUsernameByID(transaction.getBuyerId());
