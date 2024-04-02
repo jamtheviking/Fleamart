@@ -103,17 +103,11 @@ public class HomePage extends AppCompatActivity {
     public void btnNotification(View view) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         Fragment notifs = fm.findFragmentById(R.id.fragmentContainterNotifications);
-//        db.viewNotifications(userId);
-//        Cursor c = db.viewNotifications(userId);
-//        if (!c.isNull(c.getColumnIndexOrThrow("notificationId"))) {
-//            notifsContainer.setVisibility(View.INVISIBLE);
-//
-//        } else {
-//            notifsContainer.setVisibility(View.VISIBLE);
-//            NotificationActivity na = new NotificationActivity();
-//            ft.add(R.id.fragmentContainterNotifications, na);
-//        }
+
+
 
         // Check if the fragment is already visible
 
@@ -134,6 +128,7 @@ public class HomePage extends AppCompatActivity {
         } else {
             // Fragment not added yet, add it
             NotificationActivity na = new NotificationActivity();
+
             ft.add(R.id.fragmentContainterNotifications, na);
             notificationsVisible = true;
             System.out.println("Fragment DISPLAYED");

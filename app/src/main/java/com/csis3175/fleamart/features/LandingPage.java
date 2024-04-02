@@ -226,7 +226,6 @@ import android.view.*;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.transition.Explode;
 import androidx.transition.Scene;
 import androidx.transition.Slide;
 import androidx.transition.Transition;
@@ -249,7 +248,7 @@ public class LandingPage extends AppCompatActivity {
     DatabaseHelper databaseHelperDB = new DatabaseHelper(LandingPage.this);
     DatabaseHelper db = new DatabaseHelper(this);
     private Scene scene1, scene2, scene3;
-    private Transition slideUpTransition, slideDownTransition, explode;
+    private Transition slideUpTransition, slideDownTransition;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -273,7 +272,7 @@ public class LandingPage extends AppCompatActivity {
         scene3 = Scene.getSceneForLayout(viewRoot, R.layout.sign_up, this);
         slideUpTransition = new Slide(Gravity.BOTTOM);
         slideDownTransition = new Slide(Gravity.TOP);
-        explode = new Explode();
+
         slideUpTransition.setDuration(500);
         scene1.enter();
         //https://youtu.be/reB5OFS4gG8?si=GfMW5k1uzGTDnvKT Transition tutorial
@@ -414,8 +413,8 @@ public class LandingPage extends AppCompatActivity {
     }
 
     //POPULATE DEMO DATA
-    public void populateUsers(){
 
+    public void populateUsers(){
         String password = Encrypt.hashPassword("test");
 
         db.insertUser("John","Doe","johndoe123","johndoe@example.com",password);
@@ -424,8 +423,8 @@ public class LandingPage extends AppCompatActivity {
         db.insertUser("Emily","Brown","ebrown2022","emily.brown@example.com",password);
         db.insertUser("David","Wilson","davidw88","dwilson@example.com",password);
 
-
     }
+
 
     public void tryConvertingSingleImage() throws IOException {
         AssetManager assetManager = getAssets();

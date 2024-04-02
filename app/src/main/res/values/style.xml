@@ -72,6 +72,16 @@
         <item name="android:textColor">@color/silver</item>
     </style>
 
+    //Recycler Notification
+    <style name="NotificationStyle">
+        <item name="android:background">@drawable/notification_background</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
 
 </resources>
 

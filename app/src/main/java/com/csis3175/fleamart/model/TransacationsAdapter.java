@@ -23,7 +23,6 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
 
     private List<Transaction> transactionsList;
     private Context context;
-
     TextView buyer_text;
     TextView seller_text;
     private Item item;
@@ -34,9 +33,6 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
 
     private int newItemCount = 0;
     SharedPreferences sharedPreferences;
-
-    
-
 
     @NonNull
     @Override
@@ -88,7 +84,6 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
                 Intent intent = new Intent(view.getContext(), TransactionDetailsPage.class);
                 intent.putExtra("item", item);
                 intent.putExtra("transaction", transaction);
-
                 intent.putExtra("fromViewOrderHistory", true);
                 view.getContext().startActivity(intent);
             }

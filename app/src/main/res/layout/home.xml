@@ -157,18 +157,17 @@
             android:contentDescription="@string/str_noti" />
 
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainterNotifications"
-            android:name="com.csis3175.fleamart.features.NotificationActivity"
-            android:layout_width="308dp"
-            android:layout_height="467dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="140dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainterNotifications"
+        android:name="com.csis3175.fleamart.features.NotificationActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

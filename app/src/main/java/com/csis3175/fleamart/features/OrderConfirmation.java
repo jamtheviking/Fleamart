@@ -8,23 +8,20 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.bumptech.glide.Glide;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.*;
 import com.csis3175.fleamart.model.Item;
-import com.csis3175.fleamart.model.ItemDisplay;
-import com.csis3175.fleamart.model.User;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class OrderConfirmation extends AppCompatActivity {
     public  Button btConfirm,btCancel;
-    public boolean isDeliverySelected = false;
+    boolean isDeliverySelected;
+    boolean isOptionChosen = false;
+
     int buyerId =0;
     String currentDate,deliveryMethod;
     Item item;
@@ -83,26 +80,22 @@ public class OrderConfirmation extends AppCompatActivity {
         toggleDeliver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isDeliverySelected) {
-                    isDeliverySelected = true;
-                    toggleDeliver.setImageResource(R.drawable.delivery);
-                    togglePickup.setImageResource(R.drawable.pickup_false);
-                }
-                Log.d("Toggle", "toggle value is "+isDeliverySelected);
+                isDeliverySelected = true;
+                toggleDeliver.setImageResource(R.drawable.delivery);
+                togglePickup.setImageResource(R.drawable.pickup_false);
+                isOptionChosen = true; // Flag an option as chosen
+                Log.d("Toggle", "toggle value is " + isDeliverySelected);
             }
         });
 
         togglePickup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isDeliverySelected) {
-                    isDeliverySelected = false;
-                    toggleDeliver.setImageResource(R.drawable.delivery_false);
-                    togglePickup.setImageResource(R.drawable.pickup);
-                } else {
-                    togglePickup.setImageResource(R.drawable.pickup);
-                }
-                Log.d("Toggle", "toggle value is "+isDeliverySelected);
+                isDeliverySelected = false;
+                toggleDeliver.setImageResource(R.drawable.delivery_false);
+                togglePickup.setImageResource(R.drawable.pickup);
+                isOptionChosen = true; // Flag an option as chosen
+                Log.d("Toggle", "toggle value is " + isDeliverySelected);
             }
         });
 
@@ -111,23 +104,27 @@ public class OrderConfirmation extends AppCompatActivity {
         btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 currentDate = dateFormat.format(new Date());
-                if(isDeliverySelected){
-                    deliveryMethod = "delivery";
-                }
-                else {
-                    deliveryMethod = "Pickup";
-                }
-                buyerId = userId;
-                db.insertTransaction(buyerId,item.getUserID(),item.getItemID(),currentDate,deliveryMethod,"pending");
-                db.updateItemStatus(item.getItemID(),"pending");
-                msgConfirmation.setText(R.string.txtConfirmation);
-                //Post Delay
 
-                new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
-                finish();
+                if (isOptionChosen) {
+                    if (isDeliverySelected) {
+                        deliveryMethod = "delivery";
+                    } else {
+                        deliveryMethod = "Pickup";
+                    }
 
+                    buyerId = userId;
+                    db.insertTransaction(buyerId, item.getUserID(), item.getItemID(), currentDate, deliveryMethod, "pending");
+                    db.updateItemStatus(item.getItemID(), "pending");
+                    msgConfirmation.setText(R.string.txtConfirmation);
+                    //Post Delay
+                    finish();
+                    new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
+                } else {
+                    Toast.makeText(OrderConfirmation.this, "Please select an option", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
