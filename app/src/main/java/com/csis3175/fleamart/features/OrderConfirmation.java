@@ -60,7 +60,13 @@ public class OrderConfirmation extends AppCompatActivity {
             //Populate layout
             imageData = item.getImageData();
             itemName.setText(item.getItemName());
-            itemPrice.setText(String.valueOf(item.getItemPrice()));
+            if(item.getIsShareable()){
+                itemPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.share_icon_dark, 0, 0, 0);
+            }else{
+                itemPrice.setText(String.valueOf(item.getItemPrice()));
+            }
+
 
             Glide.with(this)
                     .load(imageData)
@@ -109,14 +115,11 @@ public class OrderConfirmation extends AppCompatActivity {
                 currentDate = dateFormat.format(new Date());
                 if(isDeliverySelected){
                     deliveryMethod = "delivery";
-
                 }
                 else {
                     deliveryMethod = "Pickup";
                 }
-
                 buyerId = userId;
-
                 db.insertTransaction(buyerId,item.getUserID(),item.getItemID(),currentDate,deliveryMethod,"pending");
                 db.updateItemStatus(item.getItemID(),"pending");
                 msgConfirmation.setText(R.string.txtConfirmation);
@@ -124,7 +127,7 @@ public class OrderConfirmation extends AppCompatActivity {
 
                 new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
                 finish();
-                startActivity(new Intent(OrderConfirmation.this, HomePage.class));
+
 
             }
         });
@@ -132,7 +135,7 @@ public class OrderConfirmation extends AppCompatActivity {
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
                 startActivity(new Intent(OrderConfirmation.this, HomePage.class));
             }
         });

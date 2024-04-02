@@ -196,7 +196,7 @@ public class EditItemPage extends AppCompatActivity {
                     public void onClick(View v) {
                         currentDate = dateFormat.format(new Date());
                         dValue=0;
-                        //TODO default discount to 0
+
                         dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,userId,dValue,"available");
                         startActivity(new Intent(EditItemPage.this, HomePage.class));
                         finish();
@@ -270,7 +270,7 @@ public class EditItemPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //Todo change DB to include discount and add to insert statement. We will be inserting entered price and discount.
+
                 dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,userID,dValue,"available");
                 startActivity(new Intent(EditItemPage.this, HomePage.class));
                 finish();

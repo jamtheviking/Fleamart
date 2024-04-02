@@ -228,7 +228,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //View All items excluding ones posted by current USER
-    //TODO modify query to display items that are available
+
 
    public Cursor viewAllItems(int userID){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -453,7 +453,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             item.setTag(c.getString(c.getColumnIndexOrThrow("tag")));
             item.setUserID(c.getInt(c.getColumnIndexOrThrow("posterid")));
             c.close();
-            //TODO add tag
+
 
         }
         return item;

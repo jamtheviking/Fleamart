@@ -3,9 +3,11 @@ package com.csis3175.fleamart.features;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +28,10 @@ public class HomePage extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     DatabaseHelper db = new DatabaseHelper(HomePage.this);
 
-    Button btnNotification;
+    ImageButton btnNotification;
     private boolean notificationsVisible = false;
     FragmentContainerView notifsContainer;
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +45,13 @@ public class HomePage extends AppCompatActivity {
         Button btnTransactions = findViewById(R.id.btnViewOrderHistory);
         Button btnViewOrderStatus = findViewById(R.id.btnStatusOrder);
         btnNotification = findViewById(R.id.btnNotification);
+//        btnNotification.setVisibility(View.INVISIBLE); //default to not visible
         notifsContainer = findViewById(R.id.fragmentContainterNotifications);
         notifsContainer.setVisibility(View.INVISIBLE);
 
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        int userId = sharedPreferences.getInt("userId", 0);
+        userId = sharedPreferences.getInt("userId", 0);
 
         if (userId > 0) {
             String[] userDetails = db.getUserDetails(userId);
@@ -98,9 +102,20 @@ public class HomePage extends AppCompatActivity {
     public void btnNotification(View view) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        Fragment notifs = fm.findFragmentById(R.id.fragmentContainterNotifications);
+//        db.viewNotifications(userId);
+//        Cursor c = db.viewNotifications(userId);
+//        if (!c.isNull(c.getColumnIndexOrThrow("notificationId"))) {
+//            notifsContainer.setVisibility(View.INVISIBLE);
+//
+//        } else {
+//            notifsContainer.setVisibility(View.VISIBLE);
+//            NotificationActivity na = new NotificationActivity();
+//            ft.add(R.id.fragmentContainterNotifications, na);
+//        }
 
         // Check if the fragment is already visible
-        Fragment notifs = fm.findFragmentById(R.id.fragmentContainterNotifications);
+
         if (notifs != null) {
             if (notificationsVisible) {
                 // If fragment is visible, hide it

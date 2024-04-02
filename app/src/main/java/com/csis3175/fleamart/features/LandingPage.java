@@ -217,33 +217,23 @@ package com.csis3175.fleamart.features;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.*;
 import android.view.ViewGroup;
-
-
 import android.widget.*;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.transition.Explode;
 import androidx.transition.Scene;
 import androidx.transition.Slide;
 import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
-
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.*;
 import com.csis3175.fleamart.model.Encrypt;
-import com.csis3175.fleamart.model.User;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -257,10 +247,10 @@ public class LandingPage extends AppCompatActivity {
             lastName, confirmPassword, email;
     boolean isRootShowing = true;
     DatabaseHelper databaseHelperDB = new DatabaseHelper(LandingPage.this);
-    private Scene scene1, scene2, scene3;
-    private Transition slideUpTransition, slideDownTransition,explode;
-    private SharedPreferences sharedPreferences;
     DatabaseHelper db = new DatabaseHelper(this);
+    private Scene scene1, scene2, scene3;
+    private Transition slideUpTransition, slideDownTransition, explode;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,7 +290,7 @@ public class LandingPage extends AppCompatActivity {
         scene2.setEnterAction(new Runnable() {
             @Override
             public void run() {
-                isRootShowing =false;
+                isRootShowing = false;
                 btnLogin2 = findViewById(R.id.btnLogin);
                 btnRegister = findViewById(R.id.btnRegister);
 
@@ -318,37 +308,23 @@ public class LandingPage extends AppCompatActivity {
                 email = findViewById(R.id.etEmailRegister);
                 password = findViewById(R.id.etPasswordRegister);
                 confirmPassword = findViewById(R.id.etConfirmPasswordRegister);
-
             }
         });
-
-
     }
 
     public void onClickLogin1(View view) {
         TransitionManager.go(scene2, slideDownTransition);
-
-
     }
 
-    public void onClickRegister(View view) {
-        scene3.enter();
+    public void onClickRegister(View view) {scene3.enter();}
 
-    }
-
-    public void onClickLogin2(View view) {
-        validateCredential();
-
-    }
+    public void onClickLogin2(View view) {validateCredential();}
 
     public void onClickRegister2(View view) {
         scene3.enter();
     }
 
-    public void onClickRegister3(View view) {
-        registerUser();
-
-    }
+    public void onClickRegister3(View view) {registerUser();}
 
     public void validateCredential() {
         EditText username, password;
@@ -376,8 +352,9 @@ public class LandingPage extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt(PREF_USERID_KEY, userId);
                     editor.apply();
-                    startActivity(new Intent(LandingPage.this, HomePage.class));
                     finish();
+                    startActivity(new Intent(LandingPage.this, HomePage.class));
+
                 }
             }
         }
@@ -393,10 +370,10 @@ public class LandingPage extends AppCompatActivity {
         String cpw = confirmPassword.getText().toString().trim();
         String hashPw;
 
-        EditText[] fields = {firstName,lastName,username,email,password,confirmPassword};
+        EditText[] fields = {firstName, lastName, username, email, password, confirmPassword};
         //VALIDATE FIELD ENTRY
-        for(EditText field:fields){
-            if(field.getText().toString().isEmpty()){
+        for (EditText field : fields) {
+            if (field.getText().toString().isEmpty()) {
                 field.setError("Please fill in all fields");
             }
         }
@@ -415,38 +392,35 @@ public class LandingPage extends AppCompatActivity {
             // Assuming `TransitionManager.go(scene1, slideDownTransition);` is a valid transition you've set up
             Toast.makeText(getApplicationContext(), "Account has been registered", Toast.LENGTH_LONG).show();
             TransitionManager.go(scene2, slideDownTransition);
-
         }
 
-            }
+    }
+
     private void addUser(String firstName, String lastName, String username, String email, String hashedPassword) {
         ///Needs Try Catch
         db.insertUser(firstName, lastName, username, email, hashedPassword);
-        }
+    }
 
     @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
-        // Add your custom action here
-        // For example, show a confirmation dialog or navigate to a specific activity
-        // Remove the super call to prevent default back navigation
-        // super.onBackPressed(); // Remove or comment out this line
-        if (!isRootShowing){
+
+        if (!isRootShowing) {
             TransitionManager.go(scene1, slideDownTransition);
-        }
-        else {
+        } else {
             finish();
         }
 
     }
 
-    public void populateUsers(){
+    //POPULATE DEMO DATA
+    public void populateUsers() {
 
-        db.insertUser("John","Doe","johndoe123","johndoe@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("Jane","Smith","janesmith89","janesmith@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("Michael","Johnson","mikej_123","michael.j@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("Emily","Brown","ebrown2022","emily.brown@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-        db.insertUser("David","Wilson","davidw88","dwilson@example.com","9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        db.insertUser("John", "Doe", "johndoe123", "johndoe@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        db.insertUser("Jane", "Smith", "janesmith89", "janesmith@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        db.insertUser("Michael", "Johnson", "mikej_123", "michael.j@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        db.insertUser("Emily", "Brown", "ebrown2022", "emily.brown@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+        db.insertUser("David", "Wilson", "davidw88", "dwilson@example.com", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
 
 
     }
@@ -464,9 +438,8 @@ public class LandingPage extends AppCompatActivity {
         } catch (IOException e) {
             Log.e("ImageConversion", "Error converting image: " + fileName, e);
         }
-
-
     }
+
     public void populateItems() throws IOException {
         AssetManager assetManager = getAssets();
         String[] imageFiles;
@@ -511,6 +484,7 @@ public class LandingPage extends AppCompatActivity {
         db.insertItem("Yoga Mat", 29.99, "Comfortable yoga mat for yoga and fitness workouts.", "Richmond", "Richmond", "Fitness", imgList.get(17), false, "2024-03-30", 1, .00, "available");
 
     }
+
     public byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
@@ -521,20 +495,6 @@ public class LandingPage extends AppCompatActivity {
         }
         return byteBuffer.toByteArray();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
