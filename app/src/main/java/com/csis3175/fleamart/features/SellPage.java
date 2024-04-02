@@ -217,7 +217,7 @@ public class SellPage extends AppCompatActivity {
     }
     public void seekBarConfig(LinearLayout linearLayout,String itemName, String itemDescription, double itemPrice,
                               boolean isShareable,String date, byte[] imageData, int userID, String location, String category, Button b) {
-//        https://tutorialwing.com/create-an-android-seekbar-programmatically-in-android/
+        //https://tutorialwing.com/create-an-android-seekbar-programmatically-in-android/
 
         SeekBar seekBar = new SeekBar(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
