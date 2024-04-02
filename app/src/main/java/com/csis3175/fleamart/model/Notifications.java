@@ -6,6 +6,7 @@ public class Notifications implements Serializable {
 
     private int notificationId;
     private String notificationMessage;
+    private boolean isSeen;
     private int buyerId;
     private int sellerId;
     private int transaction_id;
@@ -28,6 +29,11 @@ public class Notifications implements Serializable {
 
     public void setNotificationMessage(String notificationMessage) {
         this.notificationMessage = notificationMessage;
+    }
+
+    public boolean getNotificationStatus() { return isSeen; }
+    public void setNotificationStatus(boolean isSeen){
+        this.isSeen = isSeen;
     }
 
     public int getTransaction_id(){
@@ -53,9 +59,10 @@ public class Notifications implements Serializable {
         this.sellerId = sellerId;
     }
 
-    public Notifications(int notificationId, String notificationMessage,int transaction_id, int buyerId, int sellerId) {
+    public Notifications(int notificationId, String notificationMessage,boolean isSeen, int transaction_id, int buyerId, int sellerId) {
         this.notificationId = notificationId;
         this.notificationMessage = notificationMessage;
+        this.isSeen = isSeen;
         this.transaction_id = transaction_id;
         this.buyerId = buyerId;
         this.sellerId = sellerId;

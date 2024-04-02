@@ -13,7 +13,7 @@ import com.csis3175.fleamart.model.Item;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fleamartDB";
-    private static final int DATABASE_VERSION = 7; /** Added Notifications Table*/
+    private static final int DATABASE_VERSION = 8; /** Added isSeen column in Notifications Table*/
 
     //------ USERS TABLE -------- //
     private static final String TABLE_USERS = "users";
@@ -57,6 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NOTIFICATION = "notifications";
     private static final String COLUMN_NOTIFICATION_ID = "notificationId";
     private static final String COLUMN_NOTIFICATION_MESSAGE = "notificationMessage";
+    private static final String COLUMN_NOTIFICATION_STATUS = "isSeen";
 
 
 
@@ -112,7 +113,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_NOTIFICATIONS_TABLE = "CREATE TABLE " + TABLE_NOTIFICATION + "("
                 + COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_NOTIFICATION_MESSAGE + " TEXT,"
-                + COLUMN_TRANSACTION_ID + " INTEGER," // Define transaction_id column
+                + COLUMN_NOTIFICATION_STATUS + " BOOLEAN,"
+                + COLUMN_TRANSACTION_ID + " INTEGER,"
                 + COLUMN_TRANSACTION_BUYER_ID + " INTEGER,"
                 + COLUMN_TRANSACTION_SELLER_ID + " INTEGER,"
                 + "FOREIGN KEY (" + COLUMN_TRANSACTION_ID + ") REFERENCES " + TABLE_TRANSACTION + "(" + COLUMN_TRANSACTION_ID + "),"
@@ -510,15 +512,61 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void insertNotification(String notificationMessage, int transaction_id, int transaction_buyer_id, int transaction_seller_id) {
+    public Cursor viewNewNotifications(int userId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTIFICATION +
+                " WHERE " + COLUMN_TRANSACTION_BUYER_ID + " = ?" +
+                " AND " + COLUMN_NOTIFICATION_STATUS + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), "0"});
+        return cursor;
+    }
+
+
+    public int getNewNotificationsCount(int userId) {
+        int count = 0;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_NOTIFICATION +
+                " WHERE " + COLUMN_TRANSACTION_BUYER_ID + " = ?" +
+                " AND " + COLUMN_NOTIFICATION_STATUS + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), "0"});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                count = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+
+        return count;
+    }
+
+
+    public void insertNotification(String notificationMessage, boolean status, int transaction_id, int transaction_buyer_id, int transaction_seller_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTIFICATION_MESSAGE,notificationMessage );
         values.put(COLUMN_TRANSACTION_ID,transaction_id );
+        values.put(COLUMN_NOTIFICATION_STATUS, status);
         values.put(COLUMN_TRANSACTION_BUYER_ID,transaction_buyer_id );
         values.put(COLUMN_TRANSACTION_SELLER_ID,transaction_seller_id );
         db.insert(TABLE_NOTIFICATION, null, values);
     }
+
+    public boolean updateNotificationStatus(int notificationId, boolean status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NOTIFICATION_STATUS, status ? 1 : 0); // Convert boolean to integer (1 for true, 0 for false)
+
+        int rowsAffected = db.update(TABLE_NOTIFICATION, values, COLUMN_NOTIFICATION_ID + " = ?",
+                new String[]{String.valueOf(notificationId)});
+
+        return rowsAffected > 0;
+    }
+
+
+
 
 
     public Cursor viewTransaction(int userId, String order) {
