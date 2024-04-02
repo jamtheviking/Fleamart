@@ -101,28 +101,6 @@ public class TransacationsAdapter extends RecyclerView.Adapter<TransacationsAdap
         this.transactionsList = transactionsList;
     }
 
-
-    /**
-     * Not being used at the moment
-     * @param buyertext
-     * @param sellertext
-     * @param status
-     * @param userId
-     */
-    public void checkUserStatus(TextView buyertext, TextView sellertext, String status, int userId) {
-        Transaction transactions = new Transaction();
-        if(userId == transactions.getSellerId() && "Finalize".equals(status)) {
-            // Item is finalized, show seller and hide buyer
-            buyertext.setVisibility(View.VISIBLE);
-            sellertext.setVisibility(View.INVISIBLE);
-        } else {
-            // For other statuses, show buyer and hide seller (or adjust as needed)
-            sellertext.setVisibility(View.INVISIBLE);
-            buyertext.setVisibility(View.VISIBLE);
-        }
-    }
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView itemNameTextView;
         TextView transactionStatus;

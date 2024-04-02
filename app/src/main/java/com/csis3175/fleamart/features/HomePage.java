@@ -21,8 +21,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
 import com.csis3175.fleamart.model.Encrypt;
+import com.csis3175.fleamart.model.Notifications;
 
 import java.io.Console;
+import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
@@ -46,13 +48,15 @@ public class HomePage extends AppCompatActivity {
         Button btnTransactions = findViewById(R.id.btnViewOrderHistory);
         Button btnViewOrderStatus = findViewById(R.id.btnStatusOrder);
         btnNotification = findViewById(R.id.btnNotification);
-//        btnNotification.setVisibility(View.INVISIBLE); //default to not visible
         notifsContainer = findViewById(R.id.fragmentContainterNotifications);
         notifsContainer.setVisibility(View.INVISIBLE);
 
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId", 0);
+
+
+        updateNotificationVisibility();
 
         if (userId > 0) {
             String[] userDetails = db.getUserDetails(userId);
@@ -100,6 +104,27 @@ public class HomePage extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateNotificationVisibility();
+    }
+
+    private void updateNotificationVisibility() {
+        int newNotifications = db.getNewNotificationsCount(userId);
+
+        if (newNotifications > 0) {
+            btnNotification.setVisibility(View.VISIBLE);
+        } else {
+            btnNotification.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * This is the method to open and close Notifications
+     * Notifications screen is a Fragment
+     * @param view
+     */
     public void btnNotification(View view) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -110,18 +135,15 @@ public class HomePage extends AppCompatActivity {
 
 
         // Check if the fragment is already visible
-
         if (notifs != null) {
             if (notificationsVisible) {
                 // If fragment is visible, hide it
                 notifsContainer.setVisibility(View.INVISIBLE);
-                //ft.hide(notifs);
                 notificationsVisible = false;
                 System.out.println("Fragment Hidden");
             } else {
                 // If fragment is not visible, show it
                 notifsContainer.setVisibility(View.VISIBLE);
-                //ft.show(notifs);
                 notificationsVisible = true;
                 System.out.println("Fragment DISPLAYED");
             }
