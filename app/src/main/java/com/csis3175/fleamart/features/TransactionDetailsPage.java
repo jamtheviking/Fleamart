@@ -71,12 +71,18 @@ public class TransactionDetailsPage extends AppCompatActivity {
         }
 
         String name;
+
+        if(transaction.getStatus().equals("finalized")){
+            btnSendNotification.setVisibility(View.INVISIBLE);
+            btnCancelTransaction.setVisibility(View.INVISIBLE);
+        }
         if (userId == transaction.getSellerId()){
             //Returns the name of the buyer on the Sales View when the current user is the seller
             name = "Buyer:       " + db.getUsernameByID(transaction.getBuyerId());
         } else {
             //Returns the name of the seller on the Orders View when the current user is the buyer
             name = "Seller:      " + db.getUsernameByID(transaction.getSellerId());
+            btnSendNotification.setVisibility(View.INVISIBLE);
         }
 
         tvTransactionId.setText(String.valueOf(transaction.getTransactionId()));
