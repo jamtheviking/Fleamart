@@ -44,6 +44,8 @@ public class ItemDisplay extends AppCompatActivity {
         TextView itemPrice = findViewById(R.id.itemPrice);
         TextView itemDesc = findViewById(R.id.itemDesc);
         TextView itemLocation = findViewById(R.id.itemLocation);
+        TextView sellerName = findViewById(R.id.sellerFName);
+        TextView sellerEmail = findViewById(R.id.sellerEmail);
         ImageView itemImg = findViewById(R.id.itemImg);
         TextView itemListDay = findViewById(R.id.itemListDay);
         Button btnConfirm = findViewById(R.id.btConfirm);
@@ -72,10 +74,13 @@ public class ItemDisplay extends AppCompatActivity {
             itemPrice.setText(String.format(Locale.getDefault(), df.format(discountedPrice)));
             itemDesc.setText(item.getItemDescription());
             byte[] imageData = item.getImageData();
-            //TODO add an identifier to a card that is shareable
+
             boolean isShareable = item.getIsShareable();
             Date dateObj = convertToListedDate(item.getDate());
             itemListDay.setText(calculateListedDays(dateObj));
+            String[] sellerDetails = db.getUserDetails(item.getUserID());
+            sellerName.setText(sellerDetails[0]);
+            sellerEmail.setText(sellerDetails[2]);
 
             if (isShareable) {
                 btnConfirm.setText(R.string.btnBorrow);

@@ -2,6 +2,7 @@ package com.csis3175.fleamart.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,15 +62,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         double itemPrice = item.getItemPrice();
         double discount = item.getDiscount();
         double discountedPrice = itemPrice * (1 - discount);
+        boolean isShareable = item.getIsShareable();
 
         holder.itemNameTextView.setText(item.getItemName());
-        holder.itemPriceTextView.setText(df.format(discountedPrice));
-
-//        holder.itemImageView.setImageDrawable(product.getImageDrawable());
-
-
+        if(isShareable){
+            holder.itemPriceTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    R.drawable.share_icon, 0, 0, 0);
+        }else{
+            holder.itemPriceTextView.setText(df.format(discountedPrice));
+        }
         Glide.with(context)
-                .load(item.getImageData()) // Load image from the imagePath string
+                .load(item.getImageData())
                 .into(holder.itemImageView);
 
 
