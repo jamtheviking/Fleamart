@@ -103,8 +103,10 @@ public class HomePage extends AppCompatActivity {
     public void btnNotification(View view) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         Fragment notifs = fm.findFragmentById(R.id.fragmentContainterNotifications);
+
 
 
         // Check if the fragment is already visible

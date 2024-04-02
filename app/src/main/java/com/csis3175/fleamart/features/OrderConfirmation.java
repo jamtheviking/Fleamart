@@ -125,6 +125,7 @@ public class OrderConfirmation extends AppCompatActivity {
                 } else {
                     Toast.makeText(OrderConfirmation.this, "Please select an option", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 

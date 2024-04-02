@@ -226,7 +226,6 @@ import android.view.*;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.transition.Explode;
 import androidx.transition.Scene;
 import androidx.transition.Slide;
 import androidx.transition.Transition;
@@ -413,11 +412,9 @@ public class LandingPage extends AppCompatActivity {
 
     }
 
-
     //POPULATE DEMO DATA
 
     public void populateUsers(){
-
         String password = Encrypt.hashPassword("test");
 
         db.insertUser("John","Doe","johndoe123","johndoe@example.com",password);
@@ -426,14 +423,7 @@ public class LandingPage extends AppCompatActivity {
         db.insertUser("Emily","Brown","ebrown2022","emily.brown@example.com",password);
         db.insertUser("David","Wilson","davidw88","dwilson@example.com",password);
 
-
-        db.insertUser("John","Doe","johndoe123","johndoe@example.com",password);
-        db.insertUser("Jane","Smith","janesmith89","janesmith@example.com",password);
-        db.insertUser("Michael","Johnson","mikej_123","michael.j@example.com",password);
-        db.insertUser("Emily","Brown","ebrown2022","emily.brown@example.com",password);
-        db.insertUser("David","Wilson","davidw88","dwilson@example.com",password);
     }
-
 
 
     public void tryConvertingSingleImage() throws IOException {
