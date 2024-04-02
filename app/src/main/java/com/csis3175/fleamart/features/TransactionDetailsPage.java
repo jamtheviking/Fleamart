@@ -77,6 +77,7 @@ public class TransactionDetailsPage extends AppCompatActivity {
         } else {
             //Returns the name of the seller on the Orders View when the current user is the buyer
             name = "Seller:      " + db.getUsernameByID(transaction.getSellerId());
+            btnSendNotification.setVisibility(View.INVISIBLE);
         }
 
         tvTransactionId.setText(String.valueOf(transaction.getTransactionId()));
