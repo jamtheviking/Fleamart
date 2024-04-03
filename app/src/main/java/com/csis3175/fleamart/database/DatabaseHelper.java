@@ -388,6 +388,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     userDetails[1] = cursor.getString(cursor.getColumnIndex(COLUMN_LAST_NAME));
                     userDetails[2] = cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
                     userDetails[3] = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+                    userDetails[4] = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CELL));
 
                     // Add other user details as needed
                 } else {

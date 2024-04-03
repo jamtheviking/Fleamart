@@ -126,7 +126,8 @@ public class  SearchView extends AppCompatActivity {
             String location = c.getString(c.getColumnIndexOrThrow("location"));
             String category = c.getString(c.getColumnIndexOrThrow("category"));
             String tag = c.getString(c.getColumnIndexOrThrow("tag"));
-            items.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category, tag));
+            String itemstatus = c.getString(c.getColumnIndexOrThrow("itemstatus"));
+            items.add(new Item(itemId,name, description, price, isShareable,discount,dateString,imageData,userId,location,category, tag, itemstatus));
             }
         // Close the cursor
         c.close();
