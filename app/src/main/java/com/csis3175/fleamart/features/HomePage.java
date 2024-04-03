@@ -1,5 +1,6 @@
 package com.csis3175.fleamart.features;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.transition.TransitionManager;
 
 import com.csis3175.fleamart.R;
 import com.csis3175.fleamart.database.DatabaseHelper;
@@ -157,6 +159,13 @@ public class HomePage extends AppCompatActivity {
         }
 
         ft.commit();
+    }
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+
+        Toast.makeText(this, "Press LOGOUT to exit", Toast.LENGTH_SHORT).show();
+
     }
 
 }
