@@ -34,6 +34,17 @@
         <item>Home decor</item>
         <item>Garden and outdoor</item>
         <item>Electronics</item>
+        <item>Kitchenware</item>
+        <item>Bedding and linens</item>
+        <item>Bathroom accessories</item>
+        <item>Cleaning supplies</item>
+        <item>Storage and organization</item>
+        <item>Lighting fixtures</item>
+        <item>Window treatments</item>
+        <item>Home improvement tools</item>
+        <item>Pet supplies</item>
+        <item>Home entertainment</item>
+        <item>Home office furniture</item>
     </string-array>
     <string name="btConfirm">Confirm</string>
     <string name="btCancel">Cancel</string>

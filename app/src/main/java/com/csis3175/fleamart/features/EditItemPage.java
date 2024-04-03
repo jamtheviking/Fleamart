@@ -56,7 +56,7 @@ public class EditItemPage extends AppCompatActivity {
     Button btnCancelEdit, btnConfirmEdit, btnSell, btnShare, btnAddDiscount;
 
     private Scene scene3, scene2;
-    String itemName,itemDescription,itemLocation,itemCategory,itemTags,currentDate;
+    String itemName,itemDescription,itemPriceStr,itemLocation,itemCategory,itemTags,currentDate;
 
     double itemPrice;
     int userId;
@@ -116,12 +116,12 @@ public class EditItemPage extends AppCompatActivity {
 
         btnConfirmEdit.setOnClickListener(v ->{
 
-            String itemName = etItemNameEdit.getText().toString().trim();
-            String itemPriceStr = etItemPriceEdit.getText().toString().trim();
-            String itemDescription = etItemDescriptionEdit.getText().toString().trim();
-            String itemLocation = etItemLocationEdit.getText().toString().trim();
-            String itemCategory = etItemCategory.getSelectedItem().toString().trim();
-            String itemTags = etItemTagEdit.getText().toString().trim();
+            itemName = etItemNameEdit.getText().toString().trim();
+            itemPriceStr = etItemPriceEdit.getText().toString().trim();
+            itemDescription = etItemDescriptionEdit.getText().toString().trim();
+            itemLocation = etItemLocationEdit.getText().toString().trim();
+            itemCategory = etItemCategory.getSelectedItem().toString().trim();
+            itemTags = etItemTagEdit.getText().toString().trim();
 
             if (validateInputs(itemName, itemPriceStr, itemDescription, itemLocation, itemCategory, itemTags)) {
                 TransitionManager.go(scene2, slideRightTransition);
