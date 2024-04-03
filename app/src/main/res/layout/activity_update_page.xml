@@ -76,16 +76,25 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp" />
+    <EditText
+        android:id="@+id/editCell"
+        style="@style/edit_text_black"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:hint="Cell"
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/buttonUpdateInfo"
         style="@style/button_style_gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
+        android:layout_below="@id/editCell"
         android:layout_centerHorizontal="true"
-
-
         android:layout_marginTop="20dp"
         android:onClick="updateUserInfo"
         android:text="Update Info" />

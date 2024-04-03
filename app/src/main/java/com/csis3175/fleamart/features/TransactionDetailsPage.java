@@ -110,14 +110,14 @@ public class TransactionDetailsPage extends AppCompatActivity {
                 db.insertNotification(notificationMessage, false, transaction.getTransactionId(), transaction.getBuyerId(), transaction.getSellerId());
 
 
-                Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
-                updateIntent.putExtra("user", userId);
+
                 if (successItem && successTransaction) {
                     Toast.makeText(TransactionDetailsPage.this, "item status updated successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(TransactionDetailsPage.this, "item status failed", Toast.LENGTH_SHORT).show();
                 }
-                startActivity(updateIntent);
+                finish();
+                startActivity(new Intent(TransactionDetailsPage.this, HomePage.class));
             }
 
         });
@@ -138,14 +138,14 @@ public class TransactionDetailsPage extends AppCompatActivity {
 
                 db.insertNotification(notificationMessage, false, transaction.getTransactionId(), transaction.getBuyerId(), transaction.getSellerId());
 
-                Intent updateIntent = new Intent(TransactionDetailsPage.this, HomePage.class);
-                updateIntent.putExtra("user", userId);
+
                 if (cancelItem && cancelTransaction) {
                     Toast.makeText(TransactionDetailsPage.this, "Transaction has been cancelled successfully.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(TransactionDetailsPage.this, "Transaction cancellation failed.", Toast.LENGTH_SHORT).show();
                 }
-                startActivity(updateIntent);
+                finish();
+                startActivity(new Intent(TransactionDetailsPage.this, HomePage.class));
             }
 
         });

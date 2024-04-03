@@ -13,7 +13,7 @@ import com.csis3175.fleamart.model.Item;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fleamartDB";
-    private static final int DATABASE_VERSION = 8; /** Added isSeen column in Notifications Table*/
+    private static final int DATABASE_VERSION = 9; /** Added isSeen column in Notifications Table / */
 
     //------ USERS TABLE -------- //
     private static final String TABLE_USERS = "users";
@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_FIRST_NAME = "firstName";
     private static final String COLUMN_LAST_NAME = "lastName";
     private static final String COLUMN_EMAIL = "email";
-//    private static final String COLUMN_CELL = "cell";
+    private static final String COLUMN_CELL = "cell";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     //------ END OF USERS TABLE -------- //
@@ -75,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_FIRST_NAME + " TEXT,"
                 + COLUMN_LAST_NAME + " TEXT,"
                 + COLUMN_EMAIL + " TEXT, "
-//                + COLUMN_CELL + " INTEGER, "
+                + COLUMN_CELL + " TEXT, "
                 + COLUMN_USERNAME + " TEXT,"
                 + COLUMN_PASSWORD + " TEXT"
                 + ")";
@@ -140,14 +140,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void insertUser(String firstName, String lastName, String username, String email, String hashedPassword) {
+    public void insertUser(String firstName, String lastName, String username,String cell, String email, String hashedPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_FIRST_NAME, firstName);
         values.put(COLUMN_LAST_NAME, lastName);
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_EMAIL, email);
-//        values.put(COLUMN_CELL, cell);
+        values.put(COLUMN_CELL, cell);
         values.put(COLUMN_PASSWORD, hashedPassword);
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
@@ -332,13 +332,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    public boolean updateUser(int oldId,String firstName, String lastName,String email, String password) {
+    public boolean updateUser(int oldId,String firstName, String lastName,String email, String password,String cell) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         // Updating values
         values.put(COLUMN_FIRST_NAME, firstName);
         values.put(COLUMN_LAST_NAME, lastName);
-
+        values.put(COLUMN_CELL, cell);
         values.put(COLUMN_EMAIL, email);
         values.put(COLUMN_PASSWORD, password);
 
@@ -368,10 +368,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")//This suppresses warning that the column index might return -1
     public String[] getUserDetails(int userid) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] userDetails = new String[4];
+        String[] userDetails = new String[5];
         Cursor cursor = db.query(
                 TABLE_USERS,
-                new String[]{COLUMN_ID, COLUMN_FIRST_NAME, COLUMN_LAST_NAME, COLUMN_EMAIL,COLUMN_USERNAME},
+                new String[]{COLUMN_ID, COLUMN_FIRST_NAME, COLUMN_LAST_NAME, COLUMN_EMAIL,COLUMN_USERNAME,COLUMN_CELL},
                 "userid=?",
                 new String[]{String.valueOf(userid)},
                 null,

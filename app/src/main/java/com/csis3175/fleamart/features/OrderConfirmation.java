@@ -121,7 +121,8 @@ public class OrderConfirmation extends AppCompatActivity {
                     msgConfirmation.setText(R.string.txtConfirmation);
                     //Post Delay
                     finish();
-                    new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 6000);
+                    //new Handler().postDelayed(() -> startActivity(new Intent(OrderConfirmation.this, HomePage.class)), 500);
+                    startActivity(new Intent(OrderConfirmation.this, HomePage.class));
                 } else {
                     Toast.makeText(OrderConfirmation.this, "Please select an option", Toast.LENGTH_SHORT).show();
                 }
