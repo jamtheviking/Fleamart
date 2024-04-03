@@ -50,6 +50,7 @@ public class UpdatePage extends AppCompatActivity {
             editTextEmail.setText(userDetails[2]);
             usernameText.setText(userDetails[3]);
             etCell.setText(userDetails[4]);
+            
         }
 
     }
@@ -60,14 +61,16 @@ public class UpdatePage extends AppCompatActivity {
         editTextFirstName = findViewById(R.id.editTextFirstName);
         editTextLastName = findViewById(R.id.editTextLastName);
         editTextEmail = findViewById(R.id.editTextEmail);
+        etCell = findViewById(R.id.editCell);
         editTextPassword = findViewById(R.id.editTextPassword);
 
         String firstName = editTextFirstName.getText().toString().trim();
         String lastName = editTextLastName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
+        String cell = etCell.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
-        if (validateInput(firstName, lastName, email, password)) {
+        if (validateInput(firstName, lastName, email, password,cell)) {
             password = Encrypt.hashPassword(editTextPassword.getText().toString());
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
@@ -75,7 +78,7 @@ public class UpdatePage extends AppCompatActivity {
 
             Log.d("UPDATEPAGE", "user is " + userId);
 
-            databaseHelper.updateUser(userId,firstName,lastName,email,password);
+            databaseHelper.updateUser(userId,firstName,lastName,email,password,cell);
             Toast.makeText(this, "User info updated successfully", Toast.LENGTH_SHORT).show();
             finish();
             startActivity(new Intent(UpdatePage.this,HomePage.class));
@@ -88,10 +91,10 @@ public class UpdatePage extends AppCompatActivity {
         }
     }
 
-    private boolean validateInput(String firstName, String lastName, String email, String password) {
+    private boolean validateInput(String firstName, String lastName, String email, String password,String cell) {
         // Validate that none of the fields are empty
         Log.d("UPDATEPAGE", "updateUserInfo: "+userId);
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()||cell.isEmpty()) {
             Toast.makeText(this, "All fields are required.", Toast.LENGTH_SHORT).show();
 
             return false;

@@ -332,13 +332,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    public boolean updateUser(int oldId,String firstName, String lastName,String email, String password) {
+    public boolean updateUser(int oldId,String firstName, String lastName,String email, String password,String cell) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         // Updating values
         values.put(COLUMN_FIRST_NAME, firstName);
         values.put(COLUMN_LAST_NAME, lastName);
-
+        values.put(COLUMN_CELL, cell);
         values.put(COLUMN_EMAIL, email);
         values.put(COLUMN_PASSWORD, password);
 
