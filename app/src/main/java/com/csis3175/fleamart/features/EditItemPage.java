@@ -198,8 +198,9 @@ public class EditItemPage extends AppCompatActivity {
                         dValue=0;
 
                         dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, true,currentDate,userId,dValue,"available");
-                        startActivity(new Intent(EditItemPage.this, HomePage.class));
                         finish();
+                        startActivity(new Intent(EditItemPage.this, HomePage.class));
+
                     }
                 });
 
@@ -272,8 +273,9 @@ public class EditItemPage extends AppCompatActivity {
 
 
                 dbHelper.updateItem(itemId, itemName, itemPrice, itemDescription, itemLocation, itemCategory, itemTags, imageBytes, false,currentDate,userID,dValue,"available");
-                startActivity(new Intent(EditItemPage.this, HomePage.class));
                 finish();
+                startActivity(new Intent(EditItemPage.this, HomePage.class));
+
             }
         });
 
