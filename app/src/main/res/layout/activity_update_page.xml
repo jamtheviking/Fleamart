@@ -76,6 +76,7 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp" />
+
     <EditText
         android:id="@+id/editCell"
         style="@style/edit_text_black"
@@ -85,7 +86,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:hint="Cell"
-        android:inputType="textPassword"
+        android:inputType="textPhonetic"
         android:minHeight="48dp" />
 
     <Button
