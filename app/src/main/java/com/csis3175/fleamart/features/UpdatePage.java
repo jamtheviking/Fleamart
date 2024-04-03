@@ -21,7 +21,7 @@ import com.csis3175.fleamart.model.Encrypt;
 import java.util.regex.Pattern;
 
 public class UpdatePage extends AppCompatActivity {
-    EditText editTextFirstName,editTextLastName,editTextEmail,editTextPassword ;
+    EditText editTextFirstName,editTextLastName,editTextEmail,etCell,editTextPassword ;
     TextView usernameText;
     int userId;
     SharedPreferences sharedPreferences;
@@ -36,6 +36,7 @@ public class UpdatePage extends AppCompatActivity {
         editTextLastName = findViewById(R.id.editTextLastName);
         editTextEmail = findViewById(R.id.editTextEmail);
         usernameText = findViewById(R.id.editTextUsername);
+        etCell = findViewById(R.id.editCell);
         editTextPassword = findViewById(R.id.editTextPassword);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId",0);
@@ -48,6 +49,7 @@ public class UpdatePage extends AppCompatActivity {
             editTextLastName.setText(userDetails[1]);
             editTextEmail.setText(userDetails[2]);
             usernameText.setText(userDetails[3]);
+            etCell.setText(userDetails[4]);
         }
 
     }
