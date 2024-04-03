@@ -51,7 +51,7 @@
     <string name="btnEditItems">Edit Items</string>
     <string name="txtEditItem">Edit Item Details</string>
     <string name="btnTransactions">Transactions</string>
-    <string name="btnConfirmTransaction">Confirm Transaction</string>
+    <string name="btnConfirmTransaction">Confirm</string>
     <string name="tvBuyerNameLabel">Buyer Name</string>
     <string name="tvItemNameLabel">Item Name</string>
     <string name="tvItemStatusLabel">Pick-up or Delivery</string>
@@ -62,7 +62,7 @@
     <string name="btnViewOrderStatus">View Order Status</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="btnCancelTransaction">Cancel Transaction</string>
+    <string name="btnCancelTransaction">Cancel</string>
     <string name="btnOrders">Orders</string>
     <string name="btnSales">Sales</string>
     <string name="tvOrderHistory">Order History</string>
